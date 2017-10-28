@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://qiuruolin.github.io/img/目录2.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/result.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/babel.png">
-<meta property="og:updated_time" content="2017-10-28T03:19:43.000Z">
+<meta property="og:updated_time" content="2017-10-28T03:22:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用webpack搭建vue项目——入门">
 <meta name="twitter:description" content="vue以数据为驱动，是近年来比较火的一个轻量级的前后端分离的框架，前段时间学习了vue的一些基本知识，明白了vue中指令等的使用，个人觉得较难的一部分当属于使用vue进行组件化开发，在vue.js专业中文开发者社区上有不少大牛们使用vue重构的一些例子，比如豆瓣，饿了么等，大家可以clone下来自己重构一下，建议初学者在豆瓣和饿了么两个中先选择豆瓣的例子，豆瓣的例子会相对简单直观一些。我在刚学习">
@@ -191,7 +191,7 @@
 <hr>
 <h1 id="webpack构建vue项目流程"><a href="#webpack构建vue项目流程" class="headerlink" title="webpack构建vue项目流程"></a>webpack构建vue项目流程</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><a id="more"></a>
 <ul>
-<li>首先需要你已下载安装<strong>node.js</strong> <a href="http://nodejs.cn/download/" target="_blank" rel="external">还没有下载安装？戳这里进入Node.js中文网进行下载安装</a><br>在你习惯使用的工作目录下新建文件夹，在这里我新建了一个名为<strong>webpack-vue-blog</strong>的文件夹（ps:项目名称中最好不要含有空格，建议使用-或_代替），打开你的终端，进入到webpack-vue-blog的工作目录，使用<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm init //初始化并自动创建package.json文件，npm是node.js的命令</div></pre></td></tr></table></figure>
+<li>首先需要你已下载安装<strong>node.js</strong> <a href="http://nodejs.cn/download/" target="_blank" rel="external">还没有下载安装？戳这里进入Node.js中文网进行下载安装</a><br>在你习惯使用的工作目录下新建文件夹，在这里我新建了一个名为<strong>webpack-vue-blog</strong>的文件夹（ps:项目名称中不可以含有空格，这在初始化时会报错的～大家注意一下，建议使用-或_代替），打开你的终端，进入到webpack-vue-blog的工作目录，使用<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm init //初始化并自动创建package.json文件，npm是node.js的命令</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>接下来是一些项目的相关信息，一路按enter键就可以了，之后你可以在package.json文件中看到项目的相关信息<br><img src="/img/description.png" alt="描述"></p>
