@@ -6,12 +6,12 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://qiuruolin.github.io">
-  <title>webpack，一个广泛应用的模块打包器（二）——由浅入深学习指南 | 邱邱邱邱的个人博客</title>
+  <title>webpack，一个广泛应用的模块打包器（二）——资源管理模块 | 邱邱邱邱的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="继上一篇博文webpack，一个广泛应用的模块打包器（一）——概念篇完成之后，时隔一段时间没有学习webpack了，主要是最近有点小忙耽搁了。此篇博文主要是作为webpack的学习指南，理解和掌握webpack提供的各种工具和特性，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  安装首先需要你下载安装node.js 还没有下载安装？戳这">
 <meta name="keywords" content="webpack 学习指南">
 <meta property="og:type" content="article">
-<meta property="og:title" content="webpack，一个广泛应用的模块打包器（二）——由浅入深学习指南">
+<meta property="og:title" content="webpack，一个广泛应用的模块打包器（二）——资源管理模块">
 <meta property="og:url" content="https://qiuruolin.github.io/2017/11/20/webpack-guide/index.html">
 <meta property="og:site_name" content="邱邱邱邱的个人博客">
 <meta property="og:description" content="继上一篇博文webpack，一个广泛应用的模块打包器（一）——概念篇完成之后，时隔一段时间没有学习webpack了，主要是最近有点小忙耽搁了。此篇博文主要是作为webpack的学习指南，理解和掌握webpack提供的各种工具和特性，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  安装首先需要你下载安装node.js 还没有下载安装？戳这">
@@ -26,9 +26,9 @@
 <meta property="og:image" content="https://qiuruolin.github.io/img/data_xml.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/data_result.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/package-watch.png">
-<meta property="og:updated_time" content="2018-01-16T05:13:41.000Z">
+<meta property="og:updated_time" content="2018-01-16T05:18:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="webpack，一个广泛应用的模块打包器（二）——由浅入深学习指南">
+<meta name="twitter:title" content="webpack，一个广泛应用的模块打包器（二）——资源管理模块">
 <meta name="twitter:description" content="继上一篇博文webpack，一个广泛应用的模块打包器（一）——概念篇完成之后，时隔一段时间没有学习webpack了，主要是最近有点小忙耽搁了。此篇博文主要是作为webpack的学习指南，理解和掌握webpack提供的各种工具和特性，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  安装首先需要你下载安装node.js 还没有下载安装？戳这">
 <meta name="twitter:image" content="https://qiuruolin.github.io/img/main_html.png">
   
@@ -173,7 +173,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      webpack，一个广泛应用的模块打包器（二）——由浅入深学习指南
+      webpack，一个广泛应用的模块打包器（二）——资源管理模块
     </h1>
   
 
@@ -239,6 +239,7 @@
 <p>安装成功后，我们需要在<strong>webpack.config.js</strong>文件中告诉开发服务器，去哪里加载文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">devServer: &#123;</div><div class="line">   contentBase: <span class="string">'./dist'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p> 以上配置告知 webpack-dev-server，在 localhost:8080 下建立服务，将 dist 目录下的文件，作为可访问文件。<br> 接着，让我们在<strong>package.json</strong>文件中添加一个 script 脚本，可以直接运行开发服务器：<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"start"</span>: <span class="string">"webpack-dev-server --open"</span></div></pre></td></tr></table></figure></p>
 <p> 现在，我们在命令行中运行<strong>$ npm start</strong>，就会看到浏览器自动加载页面。如果现在修改和保存任意源文件，web 服务器就会自动重新加载编译后的代码。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>webpack的学习时间跨度很长，webpack要学习的东西很多，继续加油吧～</p>
 
       
 
