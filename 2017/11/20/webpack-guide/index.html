@@ -6,15 +6,31 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://qiuruolin.github.io">
-  <title>Archives: 2017/10 | 邱邱邱邱的个人博客</title>
+  <title>webpack，一个广泛应用的模块打包器（二）——由浅入深学习指南 | 邱邱邱邱的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="邱邱邱邱的个人博客">
-<meta property="og:url" content="https://qiuruolin.github.io/archives/2017/10/index.html">
+  <meta name="description" content="继上一篇博文webpack，一个广泛应用的模块打包器（一）——概念篇完成之后，时隔一段时间没有学习webpack了，主要是最近有点小忙耽搁了。此篇博文主要是作为webpack的学习指南，理解和掌握webpack提供的各种工具和特性，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  安装首先需要你下载安装node.js 还没有下载安装？戳这">
+<meta name="keywords" content="webpack 学习指南">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack，一个广泛应用的模块打包器（二）——由浅入深学习指南">
+<meta property="og:url" content="https://qiuruolin.github.io/2017/11/20/webpack-guide/index.html">
 <meta property="og:site_name" content="邱邱邱邱的个人博客">
+<meta property="og:description" content="继上一篇博文webpack，一个广泛应用的模块打包器（一）——概念篇完成之后，时隔一段时间没有学习webpack了，主要是最近有点小忙耽搁了。此篇博文主要是作为webpack的学习指南，理解和掌握webpack提供的各种工具和特性，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  安装首先需要你下载安装node.js 还没有下载安装？戳这">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://qiuruolin.github.io/img/main_html.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/main_result.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/main_red.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/main_head.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/file-loader.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/main-logo-re.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/font-loader.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/data_xml.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/data_result.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/package-watch.png">
+<meta property="og:updated_time" content="2018-01-16T05:13:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="邱邱邱邱的个人博客">
+<meta name="twitter:title" content="webpack，一个广泛应用的模块打包器（二）——由浅入深学习指南">
+<meta name="twitter:description" content="继上一篇博文webpack，一个广泛应用的模块打包器（一）——概念篇完成之后，时隔一段时间没有学习webpack了，主要是最近有点小忙耽搁了。此篇博文主要是作为webpack的学习指南，理解和掌握webpack提供的各种工具和特性，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  安装首先需要你下载安装node.js 还没有下载安装？戳这">
+<meta name="twitter:image" content="https://qiuruolin.github.io/img/main_html.png">
   
     <link rel="alternative" href="/atom.xml" title="邱邱邱邱的个人博客" type="application/atom+xml">
   
@@ -150,98 +166,245 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-webpack-guide" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/31/iconfont/" class="archive-article-date">
-  	<time datetime="2017-10-30T16:06:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-31</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/31/iconfont/">使用iconfont创建项目图标</a>
+    <h1 class="article-title" itemprop="name">
+      webpack，一个广泛应用的模块打包器（二）——由浅入深学习指南
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/11/20/webpack-guide/" class="archive-article-date">
+  	<time datetime="2017-11-19T16:07:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>继上一篇博文<a href="http://qiuruolin.cn/2017/11/03/webpack/" target="_blank" rel="external">webpack，一个广泛应用的模块打包器（一）——概念篇</a>完成之后，时隔一段时间没有学习webpack了，主要是最近有点小忙耽搁了。此篇博文主要是作为webpack的学习指南，理解和掌握webpack提供的各种工具和特性，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～</p>
+</blockquote>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>首先需要你下载安装<strong>node.js</strong> <a href="http://nodejs.cn/download/" target="_blank" rel="external">还没有下载安装？戳这里进入Node.js中文网进行下载安装</a>，在使用webpack的过程中我们需要大量的使用node中的<strong>npm</strong>包管理工具，npm主要的使用场景有：</p>
+<ul>
+<li>用户可以在npm服务器上下载别人编写的第三方包到本地使用;</li>
+<li>用户可以在npm服务器上下载并安装别人编写的命令行程序到本地使用;</li>
+<li>还可以将自己编写的包或命令行程序上传到npm服务器供他人使用。</li>
+</ul>
+<a id="more"></a>
+<p>这里建议大家可以下载安装一下cnpm淘宝npm镜像，因为npm安装插件是从国外服务器下载，受网络影响大，可能出现异常，使用cnpm的话可以在一定程度上提高我们模块的下载安装速度<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</div></pre></td></tr></table></figure></p>
+<h3 id="全局安装"><a href="#全局安装" class="headerlink" title="全局安装"></a>全局安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install --global webpack</div></pre></td></tr></table></figure>
+<p>全局安装将使webpack在全局环境下可用，但不推荐全局安装 webpack。这会将你项目中的 webpack 锁定到指定版本，并且在使用不同的 webpack 版本的项目中，可能会导致构建失败。</p>
+<h3 id="本地安装"><a href="#本地安装" class="headerlink" title="本地安装"></a>本地安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install --save-dev webpack</div></pre></td></tr></table></figure>
+<p>对于大多数项目，我们建议本地安装。这可以使我们在引入破坏式变更的依赖时，更容易分别升级项目。通常，webpack 通过运行一个或多个 npm scripts，会在本地 node_modules 目录中查找安装的 webpack。</p>
+<h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><p>为了后续更好的进行知识点的演示，我们先进行简单的项目准备。我在常用的工作目录下新建了一个名为<strong>webpack-blog</strong>的文件夹。命令行进入<strong>webpack-blog</strong>的工作目录执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//初始化并创建package.json文件</div><div class="line">$ npm init </div><div class="line">//在项目中安装webpack依赖包</div><div class="line">$ cnpm install --save-dev webpack</div></pre></td></tr></table></figure></p>
+<p>在根目录下创建名为<strong>webpack.config.js</strong>的文件以及我们的入口文件<strong>/src/main.js</strong>文件，<strong>webpack.config.js</strong>是我们这次主要的文件，是webpack的配置文件。<br>构建好工作目录后，我们来根据上一节简述过的webpack核心知识来简单使用一下webpack。<br>首先，我们在src目录下的<strong>main.js</strong>文件中编写简单的js代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log(<span class="string">"Welcome to your first webpack test!"</span>);</div></pre></td></tr></table></figure></p>
+<p>接着，我们来到<strong>webpack.config.js</strong>文件，并设置webpack打包所需的入口起点以及输出文件配置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var path = require(<span class="string">'path'</span>);</div><div class="line">var webpack = require(<span class="string">'webpack'</span>);</div><div class="line"></div><div class="line">module.exports = &#123;</div><div class="line">    entry: <span class="string">'./src/main.js'</span>,</div><div class="line">    output: &#123;</div><div class="line">        path: path.resolve(__dirname, <span class="string">'dist'</span>),</div><div class="line">        filename: <span class="string">'webpack.bundle.js'</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>简单介绍一下上述代码，<strong>entry</strong>是模块打包的入口起点，它指示webpack根据<strong>src</strong>目录下的<strong>main.js</strong>文件来构建工程的依赖图；<strong>require()</strong>是node.js中常用的一个导入模块的操作，<strong>path.resolve()</strong>是获取绝对路径的方法，<strong>__dirname</strong> 用于获取当前文件所在目录的完整目录名。此代码用于查找<strong>dist</strong>文件夹，如果目录下没有<strong>dist</strong>文件夹则新建，并将通过打包创建后的<strong>webpack.bundle.js</strong>文件放入<strong>dist</strong>文件夹中。</p>
+<p>接着，我们执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ webpack</div></pre></td></tr></table></figure></p>
+<p>命令，对工程进行打包构建，执行成功后，我们可以在根目录下看到新建的dist文件夹下有一个新建的<strong>webpack.bundle.js</strong>文件，有点绕～</p>
+<p>最后，我们在<strong>src</strong>目录下新建一个名为<strong>index.html</strong>的文件，并以<strong>script</strong>标签的形式引入生成的<strong>webpack.bundle.js</strong>文件，在浏览器中打开index.html，你会发现页面上空空如也，什么都没有～别着急，打开浏览器的控制台，你可以看到在控制台中输出了<strong>“Welcome to your first webpack test!”</strong>，我们对webpack的第一次简单应用就成功啦。</p>
+<p>当然这只是一个超简单的例子，接下来我们将对这个例子进行扩充，进而展示webpack强大的功能。</p>
+<h2 id="管理资源"><a href="#管理资源" class="headerlink" title="管理资源"></a>管理资源</h2><h3 id="加载CSS"><a href="#加载CSS" class="headerlink" title="加载CSS"></a>加载CSS</h3><p>为了从 JavaScript 模块中 import 一个 CSS 文件，你需要在 module 配置中 安装并添加 style-loader 和 css-loader：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cnpm install --save-dev style-loader css-loader</div></pre></td></tr></table></figure></p>
+<p>安装成功后可以在package.json文件中的<strong>devDependencies</strong>项中看到新安装的<strong>style-loader</strong>和<strong>css-loader</strong>模块。<br>接着，我们在<strong>webpack.config.js</strong>文件中配置模块的使用规则：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">module: &#123;</div><div class="line">    rules: [</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">test</span>: /\.css$/,</div><div class="line">            use: [<span class="string">'style-loader'</span>, <span class="string">'css-loader'</span>]</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>简单介绍以上代码，<strong>test</strong>用于识别出应该被对应的loader进行转换的文件，以上代码表示loader需要识别<strong>.css</strong>为后缀的文件，<strong>use</strong>属性转换这些文件，从而使其能够被添加到依赖图中（并且最终添加到 bundle 中）。</p>
+<p>下一步，我们尝试一下在项目<strong>src</strong>目录下添加<strong>style.css</strong>文件，并将其导入我们的入口文件<strong>main.js</strong>中<br>我们修改<strong>main,js</strong>文件中的内容，以便于在页面中更直观地看到效果。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var element = document.createElement(<span class="string">'div'</span>);</div><div class="line">element.setAttribute(<span class="string">"class"</span>, <span class="string">"hello"</span>);</div><div class="line">element.innerHTML = <span class="string">"Welcome to your first webpack test!"</span>;</div><div class="line">document.body.appendChild(element);</div></pre></td></tr></table></figure></p>
+<p>此时经过<strong>$ webpack</strong>命令打包后，在浏览器打开<strong>index.html</strong>文件可以看到，页面结构为<br><img src="/img/main_html.png" alt="main_html"><br>页面效果为：<br><img src="/img/main_result.png" alt="main_result"></p>
+<p>接下来我们在创建的<strong>style.css</strong>文件中写入简单的样式来验证webpack加载CSS的功能<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.hello&#123;</div><div class="line">    color: red;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在<strong>main.js</strong>文件中引入<strong>style.css</strong>文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import <span class="string">'./style.css'</span>;</div></pre></td></tr></table></figure></p>
+<p>再次使用<strong>$ webpack</strong>命令打包后，我们在浏览器中打开<strong>index.html</strong>文件，我们可以看到Welcome to your first webpack test!输出为红色。<br><img src="/img/main_red.png" alt="main_red"></p>
+<p>查看页面的head标签，可以发现页面已经包含了我们在<strong>main.js</strong>文件中导入的<strong>style.css</strong>文件。<br><img src="/img/main_head.png" alt="main_head"></p>
+<h3 id="加载图片"><a href="#加载图片" class="headerlink" title="加载图片"></a>加载图片</h3><p>使用 file-loader，我们可以轻松地将页面中需要的背景图片或者图标混合到 CSS 中，首先还是要安装模块依赖包：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cnpm install --save-dev file-loader</div></pre></td></tr></table></figure></p>
+<p>同样的，我们需要在<strong>webpack.config.js</strong>文件中配置应用规则：<br><img src="/img/file-loader.png" alt="file-loader"></p>
+<p>此段规则表明程序可以加载以<strong>.png .svg .jpg .gif</strong>为后缀名的文件。<br>我们可以直接在<strong>style.css</strong>文件中添加<strong>background</strong>样式来引入图片，为了让背景图片完整地显示出来，我们为<strong>hello</strong>这个div设置了300px的高度<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">.hello&#123;</div><div class="line">	height: 300px;</div><div class="line">    color: red;</div><div class="line">    background: url(<span class="string">'./logo.png'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>重新执行<strong>$ webpack</strong>命令，我们可以看到页面效果为：<br><img src="/img/main-logo-re.png" alt="main-logo-re"></p>
+<p>图片稀缺，就拿了一张之前工程中现有的vue框架的logo来用～<br>如果你检查img元素，你将看到实际的文件名已更改为像 82b9c7a5a3f405032b1db71a25f67021.png 一样。这意味着 webpack 在 src 文件夹中找到我们的文件，并成功处理过它了！</p>
+<h3 id="加载字体"><a href="#加载字体" class="headerlink" title="加载字体"></a>加载字体</h3><p> 加载字体与加载图片相同，也使用的是<strong>file-loader</strong>来加载字体文件，加载字体使用的正则规则如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">test</span>: /\.(woff|woff2|eot|ttf|otf)$/</div></pre></td></tr></table></figure></p>
+<p>与加载图片文件相同，加载字体需要在<strong>css</strong>文件中引入字体文件，可以通过一个 @font-face 声明引入。用法如下：<br><img src="/img/font-loader.png" alt="font-loader"></p>
+<h3 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h3><p>在我们实际运用中，不仅仅要加载图片及字体文件，还可能需要加载有用的资源还有数据，如 JSON 文件，CSV、TSV 和 XML。JSON 支持实际上是内置的，也就是说 import Data from ‘./data.json’ 默认将正常运行。而要导入 CSV、TSV 和 XML类型的数据，就需要我们安装<strong>csv-loader</strong>和<strong>xml-loader</strong>模块来进行加载数据。<br>首先，我们还是需要在项目中安装相关模块：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cnpm install --save-dev csv-loader xml-loader</div></pre></td></tr></table></figure></p>
+<p>接着，我们同样需要在<strong>webpack.config.js</strong>文件中配置相关的应用规则，规则如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> &#123;</div><div class="line">    <span class="built_in">test</span>: /\.(csv|tsv)$/,</div><div class="line">    use: [<span class="string">'csv-loader'</span>]</div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">    <span class="built_in">test</span>: /\.xml$/,</div><div class="line">    use: [<span class="string">'xml-loader'</span>]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接下来，我们在<strong>src</strong>目录下添加名为<strong>data.xml</strong>的数据文件，<strong>data.xml</strong>内容如下：<br><img src="/img/data_xml.png" alt="data_xml"></p>
+<p>我们在<strong>main.js</strong>文件中解析<strong>data.xml</strong>文件中的数据，主要增加以下两行代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">import Data from <span class="string">'./data.xml'</span>;</div><div class="line">console.log(Data);</div></pre></td></tr></table></figure></p>
+<p>再次执行<strong>$ webpack</strong>命令后，再次在浏览器上打开<strong>index.html</strong>文件，我们可以在控制台输出了<strong>data.xml</strong>文件解析后的数据：<br><img src="/img/data_result.png" alt="data_result"></p>
+<h2 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h2><h3 id="Source-Map"><a href="#Source-Map" class="headerlink" title="Source Map"></a>Source Map</h3><p>当 webpack 打包源代码时，可能会很难追踪到错误和警告在源代码中的原始位置。例如，如果将三个源文件（a.js, b.js 和 c.js）打包到一个 bundle（bundle.js）中，而其中一个源文件包含一个错误，那么堆栈跟踪就会简单地指向到 bundle.js。这并通常没有太多帮助，因为你可能需要准确地知道错误来自于哪个源文件。<br>为了更容易地追踪错误和警告，JavaScript 提供了 source map 功能，将编译后的代码映射回原始源代码。如果一个错误来自于 b.js，source map 就会明确的告诉你。<br>我们只需要在<strong>webpack.config.js</strong>文件中写入以下代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">devtool: <span class="string">'inline-source-map'</span></div></pre></td></tr></table></figure></p>
+<p>就可以追踪源文件中错误和警告的功能。</p>
+<h3 id="使用观察模式"><a href="#使用观察模式" class="headerlink" title="使用观察模式"></a>使用观察模式</h3><p>根据此博文一步一步构建下来的萌友会发现，每次修改源文件后，都要重新使用<strong>$ webpack</strong>命令对文件重新进行打包构建，这在一定程度上增加了我们的重复工作。使用观察模式，你可以指示 webpack “watch” 依赖图中的所有文件以进行更改。如果其中一个文件被更新，代码将被重新编译，所以你不必手动运行整个构建。<br>你需要在<strong>package.json</strong>文件中引入执行命令：<br><img src="/img/package-watch.png" alt="package-watch"></p>
+<p>接着，你可以在命令行中执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm run watch</div></pre></td></tr></table></figure></p>
+<p>执行成功后，你会看到 webpack 编译代码，然而却不会退出命令行。这是因为 script 脚本还在观察文件，此时修改<strong>main.js</strong>文件的内容，你会发现不需要重新手动构建程序，代码已经被重新编译了。</p>
+<h3 id="使用webpack-dev-server"><a href="#使用webpack-dev-server" class="headerlink" title="使用webpack-dev-server"></a>使用<strong>webpack-dev-server</strong></h3><p>webpack-dev-server 提供了一个简单的 web 服务器，能够实时重新加载。<br>首先，我们需要下载安装模块<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cnpm install --save-dev webpack-dev-server</div></pre></td></tr></table></figure></p>
+<p>安装成功后，我们需要在<strong>webpack.config.js</strong>文件中告诉开发服务器，去哪里加载文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">devServer: &#123;</div><div class="line">   contentBase: <span class="string">'./dist'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p> 以上配置告知 webpack-dev-server，在 localhost:8080 下建立服务，将 dist 目录下的文件，作为可访问文件。<br> 接着，让我们在<strong>package.json</strong>文件中添加一个 script 脚本，可以直接运行开发服务器：<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"start"</span>: <span class="string">"webpack-dev-server --open"</span></div></pre></td></tr></table></figure></p>
+<p> 现在，我们在命令行中运行<strong>$ npm start</strong>，就会看到浏览器自动加载页面。如果现在修改和保存任意源文件，web 服务器就会自动重新加载编译后的代码。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你的支持<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">iconfont 项目图标icon</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack 学习指南</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://qiuruolin.github.io/2017/11/20/webpack-guide/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/25/webpack-vue/" class="archive-article-date">
-  	<time datetime="2017-10-25T03:11:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-25</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/11/03/webpack/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">webpack，一个广泛应用的模块打包器（一）——概念篇</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/25/webpack-vue/">使用webpack搭建vue项目——入门</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">webpack vue</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'qiuruolin'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  
+
+  
 
 
           </div>
@@ -264,8 +427,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

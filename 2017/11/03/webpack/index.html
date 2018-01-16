@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://qiuruolin.github.io">
   <title>webpack，一个广泛应用的模块打包器（一）——概念篇 | 邱邱邱邱的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="鉴于我在学习的过程使用webpack的频率较高，所以想着要记录一下webpack的一些核心的知识点，此博文涉及的知识点可能不深，但涵盖了webpack的主要内容，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  准备篇为了后续更好的进行知识点的演示，我们先进行简单的项目准备。我在常用的工作目录下新建了一个名为webpack-blog的文件">
+  <meta name="description" content="鉴于我在学习的过程使用webpack的频率较高，所以想着要记录一下webpack的一些核心的知识点，此博文涉及的知识点可能不深，但涵盖了webpack的主要内容，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  概念篇核心概念webpack 是一个现代JavaScript应用程序的模块打包器。当webpack 处理应用程序时，它会递归地构">
 <meta name="keywords" content="webpack">
 <meta property="og:type" content="article">
 <meta property="og:title" content="webpack，一个广泛应用的模块打包器（一）——概念篇">
 <meta property="og:url" content="https://qiuruolin.github.io/2017/11/03/webpack/index.html">
 <meta property="og:site_name" content="邱邱邱邱的个人博客">
-<meta property="og:description" content="鉴于我在学习的过程使用webpack的频率较高，所以想着要记录一下webpack的一些核心的知识点，此博文涉及的知识点可能不深，但涵盖了webpack的主要内容，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  准备篇为了后续更好的进行知识点的演示，我们先进行简单的项目准备。我在常用的工作目录下新建了一个名为webpack-blog的文件">
+<meta property="og:description" content="鉴于我在学习的过程使用webpack的频率较高，所以想着要记录一下webpack的一些核心的知识点，此博文涉及的知识点可能不深，但涵盖了webpack的主要内容，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  概念篇核心概念webpack 是一个现代JavaScript应用程序的模块打包器。当webpack 处理应用程序时，它会递归地构">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-11-04T02:01:51.000Z">
+<meta property="og:updated_time" content="2017-11-21T03:14:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="webpack，一个广泛应用的模块打包器（一）——概念篇">
-<meta name="twitter:description" content="鉴于我在学习的过程使用webpack的频率较高，所以想着要记录一下webpack的一些核心的知识点，此博文涉及的知识点可能不深，但涵盖了webpack的主要内容，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  准备篇为了后续更好的进行知识点的演示，我们先进行简单的项目准备。我在常用的工作目录下新建了一个名为webpack-blog的文件">
+<meta name="twitter:description" content="鉴于我在学习的过程使用webpack的频率较高，所以想着要记录一下webpack的一些核心的知识点，此博文涉及的知识点可能不深，但涵盖了webpack的主要内容，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  概念篇核心概念webpack 是一个现代JavaScript应用程序的模块打包器。当webpack 处理应用程序时，它会递归地构">
   
     <link rel="alternative" href="/atom.xml" title="邱邱邱邱的个人博客" type="application/atom+xml">
   
@@ -178,11 +178,8 @@
         <blockquote>
 <p>鉴于我在学习的过程使用webpack的频率较高，所以想着要记录一下webpack的一些核心的知识点，此博文涉及的知识点可能不深，但涵盖了webpack的主要内容，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～</p>
 </blockquote>
-<h2 id="准备篇"><a href="#准备篇" class="headerlink" title="准备篇"></a>准备篇</h2><p>为了后续更好的进行知识点的演示，我们先进行简单的项目准备。我在常用的工作目录下新建了一个名为<strong>webpack-blog</strong>的文件夹。命令行进入<strong>webpack-blog</strong>的工作目录执行</p>
-<a id="more"></a>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//初始化并创建package.json文件</div><div class="line">$ npm init </div><div class="line">//cnpm是淘宝npm镜像，使用cnpm的话可以在一定程度上提高我们模块的下载安装速度</div><div class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org //安装cnpm淘宝npm镜像</div><div class="line">//在项目中安装webpack依赖包</div><div class="line">$ cnpm install --save-dev webpack</div></pre></td></tr></table></figure>
-<p>在根目录下创建名为<strong>webpack.config.js</strong>的文件，<strong>webpack.config.js</strong>是我们这次主要的文件，是webpack的配置文件。</p>
 <h2 id="概念篇"><a href="#概念篇" class="headerlink" title="概念篇"></a>概念篇</h2><h3 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h3><p>webpack 是一个现代JavaScript应用程序的模块打包器。当webpack 处理应用程序时，它会递归地构建一个依赖关系图，其中包含应用程序需要的每个模块，然后将所有这些模块打包成少量的bundle - 通常只有一个，由浏览器加载。在开始之前，我们需要先理解四个核心概念：入口(entry)、输出(output)、loader、插件(plugins)。</p>
+<a id="more"></a>
 <h3 id="入口-Entry"><a href="#入口-Entry" class="headerlink" title="入口(Entry)"></a>入口(Entry)</h3><p>webpack创建应用程序所依赖的关系图时，图的起点就是我们的入口起点。入口起点告诉webpack从哪里开始，可以认为是app的第一个启动文件。</p>
 <ul>
 <li><p>单入口语法，用法：entry: string|Array<string></string></p>
@@ -248,7 +245,7 @@
 <li>只更新变更内容，以节省宝贵的开发时间。</li>
 <li>调整样式更加快速 - 几乎相当于在浏览器调试器中更改样式。</li>
 </ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>webpack概念篇就差不多结束啦，其中包含webpack中核心的几个概念以及各自的用法，接下来我将继续记录webpack配置篇的相关知识点，希望能对大家有所帮助～</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>webpack概念篇就差不多结束啦，其中包含webpack中核心的几个概念以及各自的用法，接下来我将继续记录webpack特性篇的相关知识点，希望能对大家有所帮助～</p>
 
       
 
@@ -363,6 +360,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2017/11/20/webpack-guide/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          webpack，一个广泛应用的模块打包器（二）——由浅入深学习指南
+        
+      </div>
+    </a>
+  
   
     <a href="/2017/11/01/babel/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">babel，一个广泛使用的转码器</div>
@@ -424,7 +430,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 萌萌哒的邱邱邱邱
+    		&copy; 2018 萌萌哒的邱邱邱邱
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -507,6 +513,10 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">babel</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">iconfont 项目图标icon</a>
               </li>
              
@@ -515,11 +525,15 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack 配置篇config</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">webpack vue</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">babel</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack 学习指南</a>
               </li>
             
             <div class="clearfix"></div>
