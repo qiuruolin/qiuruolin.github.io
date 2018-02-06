@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+    
+    
+    
+  <url>
+    <loc>https://qiuruolin.github.io/2018/01/31/js-creational-pattern/</loc>
+    <lastmod>2018-02-06T06:17:55.000Z</lastmod>
+    <data>
+        <display>
+        <title>JavaScript设计模式之创建型设计模式</title>
+        <pubTime>2018-01-31T13:33:22.000Z</pubTime>
+        
+        <tag>简单工厂模式 工厂方法模式 抽象工厂模式 建造者模式 原型模式 单例模式</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://qiuruolin.github.io/2018/01/30/js-herit/</loc>
+    <lastmod>2018-01-31T02:40:12.000Z</lastmod>
+    <data>
+        <display>
+        <title>JavaScript之继承</title>
+        <pubTime>2018-01-30T11:27:14.000Z</pubTime>
+        
+        <tag>js 继承</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://qiuruolin.github.io/2017/11/20/webpack-guide/</loc>
+    <lastmod>2018-01-16T05:18:25.000Z</lastmod>
+    <data>
+        <display>
+        <title>webpack，一个广泛应用的模块打包器（二）——资源管理模块</title>
+        <pubTime>2017-11-19T16:07:24.000Z</pubTime>
+        
+        <tag>webpack 学习指南</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://qiuruolin.github.io/2017/11/03/webpack/</loc>
+    <lastmod>2018-01-16T05:17:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>webpack，一个广泛应用的模块打包器（一）——概念篇</title>
+        <pubTime>2017-11-03T13:12:38.000Z</pubTime>
+        
+        <tag>webpack</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://qiuruolin.github.io/2017/11/01/babel/</loc>
+    <lastmod>2017-11-02T08:30:10.000Z</lastmod>
+    <data>
+        <display>
+        <title>babel，一个广泛使用的转码器</title>
+        <pubTime>2017-11-01T15:57:24.000Z</pubTime>
+        
+        <tag>babel</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://qiuruolin.github.io/2017/10/31/iconfont/</loc>
+    <lastmod>2017-10-31T02:59:26.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用iconfont创建项目图标</title>
+        <pubTime>2017-10-30T16:06:39.000Z</pubTime>
+        
+        <tag>iconfont 项目图标icon</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://qiuruolin.github.io/2017/10/25/webpack-vue/</loc>
+    <lastmod>2017-10-28T03:22:52.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用webpack搭建vue项目——入门</title>
+        <pubTime>2017-10-25T03:11:50.000Z</pubTime>
+        
+        <tag>webpack vue</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+</urlset>
