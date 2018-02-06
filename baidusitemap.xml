@@ -3,21 +3,20 @@
 
 
     
-    
   <url>
-    <loc>https://qiuruolin.github.io/2018/01/30/js-herit/</loc>
-    <lastmod>2018-02-06T12:42:28.000Z</lastmod>
+    <loc>https://qiuruolin.github.io/2017/11/01/babel/</loc>
+    <lastmod>2018-02-06T15:31:37.000Z</lastmod>
     <data>
         <display>
-        <title>JavaScript之继承</title>
-        <pubTime>2018-01-30T11:27:14.000Z</pubTime>
+        <title>babel，一个广泛使用的转码器</title>
+        <pubTime>2017-11-01T15:57:24.000Z</pubTime>
         
-        <tag>JavaScript之继承</tag>
+        <tag>babel</tag>
          
          
            
              
-              <breadCrumb title="JavaScript" url="https://qiuruolin.github.io/categories/JavaScript/"/>
+              <breadCrumb title="转码工具" url="https://qiuruolin.github.io/categories/%E8%BD%AC%E7%A0%81%E5%B7%A5%E5%85%B7/"/>
           
         </display>
     </data>
@@ -26,13 +25,13 @@
     
   <url>
     <loc>https://qiuruolin.github.io/2017/10/25/webpack-vue/</loc>
-    <lastmod>2018-02-06T12:42:05.000Z</lastmod>
+    <lastmod>2018-02-06T15:31:32.000Z</lastmod>
     <data>
         <display>
         <title>使用webpack搭建vue项目——入门</title>
         <pubTime>2017-10-25T03:11:50.000Z</pubTime>
         
-        <tag>Vue</tag>
+        <tag>vue</tag>
          
          
            
@@ -45,68 +44,8 @@
 
     
   <url>
-    <loc>https://qiuruolin.github.io/2017/11/20/webpack-guide/</loc>
-    <lastmod>2018-02-06T12:41:48.000Z</lastmod>
-    <data>
-        <display>
-        <title>webpack，一个广泛应用的模块打包器（二）——资源管理模块</title>
-        <pubTime>2017-11-19T16:07:24.000Z</pubTime>
-        
-        <tag>webpack</tag>
-         
-         
-           
-             
-              <breadCrumb title="打包工具" url="https://qiuruolin.github.io/categories/%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://qiuruolin.github.io/2018/01/31/js-creational-pattern/</loc>
-    <lastmod>2018-02-06T12:41:22.000Z</lastmod>
-    <data>
-        <display>
-        <title>JavaScript设计模式之创建型设计模式</title>
-        <pubTime>2018-01-31T13:33:22.000Z</pubTime>
-        
-        <tag>JavaScript之设计模式</tag>
-         
-         
-           
-             
-              <breadCrumb title="JavaScript" url="https://qiuruolin.github.io/categories/JavaScript/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://qiuruolin.github.io/2017/11/03/webpack/</loc>
-    <lastmod>2018-02-06T12:40:59.000Z</lastmod>
-    <data>
-        <display>
-        <title>webpack，一个广泛应用的模块打包器（一）——概念篇</title>
-        <pubTime>2017-11-03T13:12:38.000Z</pubTime>
-        
-        <tag>webpack</tag>
-         
-         
-           
-             
-              <breadCrumb title="打包工具" url="https://qiuruolin.github.io/categories/%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://qiuruolin.github.io/2017/10/31/iconfont/</loc>
-    <lastmod>2018-02-06T12:39:04.000Z</lastmod>
+    <lastmod>2018-02-06T15:31:27.000Z</lastmod>
     <data>
         <display>
         <title>使用iconfont创建项目图标</title>
@@ -125,24 +64,85 @@
 
     
   <url>
-    <loc>https://qiuruolin.github.io/2017/11/01/babel/</loc>
-    <lastmod>2018-02-06T12:38:10.000Z</lastmod>
+    <loc>https://qiuruolin.github.io/2017/11/03/webpack/</loc>
+    <lastmod>2018-02-06T15:31:23.000Z</lastmod>
     <data>
         <display>
-        <title>babel，一个广泛使用的转码器</title>
-        <pubTime>2017-11-01T15:57:24.000Z</pubTime>
+        <title>webpack，一个广泛应用的模块打包器（一）——概念篇</title>
+        <pubTime>2017-11-03T13:12:38.000Z</pubTime>
         
-        <tag>babel</tag>
+        <tag>webpack</tag>
          
          
            
              
-              <breadCrumb title="转码工具" url="https://qiuruolin.github.io/categories/%E8%BD%AC%E7%A0%81%E5%B7%A5%E5%85%B7/"/>
+              <breadCrumb title="打包工具" url="https://qiuruolin.github.io/categories/%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/"/>
           
         </display>
     </data>
     </url>
 
+    
+  <url>
+    <loc>https://qiuruolin.github.io/2017/11/20/webpack-guide/</loc>
+    <lastmod>2018-02-06T15:31:17.000Z</lastmod>
+    <data>
+        <display>
+        <title>webpack，一个广泛应用的模块打包器（二）——资源管理模块</title>
+        <pubTime>2017-11-19T16:07:24.000Z</pubTime>
+        
+        <tag>webpack</tag>
+         
+         
+           
+             
+              <breadCrumb title="打包工具" url="https://qiuruolin.github.io/categories/%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://qiuruolin.github.io/2018/01/30/js-herit/</loc>
+    <lastmod>2018-02-06T15:31:13.000Z</lastmod>
+    <data>
+        <display>
+        <title>JavaScript之继承</title>
+        <pubTime>2018-01-30T11:27:14.000Z</pubTime>
+        
+        <tag>JavaScript之继承</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="https://qiuruolin.github.io/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://qiuruolin.github.io/2018/01/31/js-creational-pattern/</loc>
+    <lastmod>2018-02-06T15:31:01.000Z</lastmod>
+    <data>
+        <display>
+        <title>JavaScript设计模式之创建型设计模式</title>
+        <pubTime>2018-01-31T13:33:22.000Z</pubTime>
+        
+        <tag>JavaScript之设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="https://qiuruolin.github.io/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
     
 </urlset>

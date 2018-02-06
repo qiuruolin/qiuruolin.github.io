@@ -119,7 +119,7 @@
 <meta property="og:image" content="https://qiuruolin.github.io/img/data_xml.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/data_result.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/package-watch.png">
-<meta property="og:updated_time" content="2018-02-06T12:41:48.000Z">
+<meta property="og:updated_time" content="2018-02-06T15:31:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="webpack，一个广泛应用的模块打包器（二）——资源管理模块">
 <meta name="twitter:description" content="继上一篇博文webpack，一个广泛应用的模块打包器（一）——概念篇完成之后，时隔一段时间没有学习webpack了，主要是最近有点小忙耽搁了。此篇博文主要是作为webpack的学习指南，理解和掌握webpack提供的各种工具和特性，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～  安装首先需要你下载安装node.js 还没有下载安装？戳这">
@@ -275,43 +275,9 @@
       
 
       
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
-            
-            搜索
-          </a>
-        </li>
-      
     </ul>
   
 
-  
-    <div class="site-search">
-      
-  <div class="popup search-popup local-search-popup">
-  <div class="local-search-header clearfix">
-    <span class="search-icon">
-      <i class="fa fa-search"></i>
-    </span>
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
-    <div class="local-search-input-wrapper">
-      <input autocomplete="off"
-             placeholder="搜索..." spellcheck="false"
-             type="text" id="local-search-input">
-    </div>
-  </div>
-  <div id="local-search-result"></div>
-</div>
-
-
-
-    </div>
   
 </nav>
 
@@ -448,57 +414,57 @@
 
       
         <blockquote>
-<p>继上一篇博文<a href="http://qiuruolin.cn/2017/11/03/webpack/" target="_blank" rel="external">webpack，一个广泛应用的模块打包器（一）——概念篇</a>完成之后，时隔一段时间没有学习webpack了，主要是最近有点小忙耽搁了。此篇博文主要是作为webpack的学习指南，理解和掌握webpack提供的各种工具和特性，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～</p>
+<p>继上一篇博文<a href="http://qiuruolin.cn/2017/11/03/webpack/" target="_blank" rel="noopener">webpack，一个广泛应用的模块打包器（一）——概念篇</a>完成之后，时隔一段时间没有学习webpack了，主要是最近有点小忙耽搁了。此篇博文主要是作为webpack的学习指南，理解和掌握webpack提供的各种工具和特性，主要目的是想将此次的学习过程记录下来，以便进行后续的深入学习，如果在理解上有偏差的话，还请大家不吝赐教～</p>
 </blockquote>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>首先需要你下载安装<strong>node.js</strong> <a href="http://nodejs.cn/download/" target="_blank" rel="external">还没有下载安装？戳这里进入Node.js中文网进行下载安装</a>，在使用webpack的过程中我们需要大量的使用node中的<strong>npm</strong>包管理工具，npm主要的使用场景有：</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>首先需要你下载安装<strong>node.js</strong> <a href="http://nodejs.cn/download/" target="_blank" rel="noopener">还没有下载安装？戳这里进入Node.js中文网进行下载安装</a>，在使用webpack的过程中我们需要大量的使用node中的<strong>npm</strong>包管理工具，npm主要的使用场景有：</p>
 <ul>
 <li>用户可以在npm服务器上下载别人编写的第三方包到本地使用;</li>
 <li>用户可以在npm服务器上下载并安装别人编写的命令行程序到本地使用;</li>
 <li>还可以将自己编写的包或命令行程序上传到npm服务器供他人使用。</li>
 </ul>
 <a id="more"></a>
-<p>这里建议大家可以下载安装一下cnpm淘宝npm镜像，因为npm安装插件是从国外服务器下载，受网络影响大，可能出现异常，使用cnpm的话可以在一定程度上提高我们模块的下载安装速度<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</div></pre></td></tr></table></figure></p>
-<h3 id="全局安装"><a href="#全局安装" class="headerlink" title="全局安装"></a>全局安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install --global webpack</div></pre></td></tr></table></figure>
+<p>这里建议大家可以下载安装一下cnpm淘宝npm镜像，因为npm安装插件是从国外服务器下载，受网络影响大，可能出现异常，使用cnpm的话可以在一定程度上提高我们模块的下载安装速度<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></p>
+<h3 id="全局安装"><a href="#全局安装" class="headerlink" title="全局安装"></a>全局安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --global webpack</span><br></pre></td></tr></table></figure>
 <p>全局安装将使webpack在全局环境下可用，但不推荐全局安装 webpack。这会将你项目中的 webpack 锁定到指定版本，并且在使用不同的 webpack 版本的项目中，可能会导致构建失败。</p>
-<h3 id="本地安装"><a href="#本地安装" class="headerlink" title="本地安装"></a>本地安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install --save-dev webpack</div></pre></td></tr></table></figure>
+<h3 id="本地安装"><a href="#本地安装" class="headerlink" title="本地安装"></a>本地安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack</span><br></pre></td></tr></table></figure>
 <p>对于大多数项目，我们建议本地安装。这可以使我们在引入破坏式变更的依赖时，更容易分别升级项目。通常，webpack 通过运行一个或多个 npm scripts，会在本地 node_modules 目录中查找安装的 webpack。</p>
-<h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><p>为了后续更好的进行知识点的演示，我们先进行简单的项目准备。我在常用的工作目录下新建了一个名为<strong>webpack-blog</strong>的文件夹。命令行进入<strong>webpack-blog</strong>的工作目录执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//初始化并创建package.json文件</div><div class="line">$ npm init </div><div class="line">//在项目中安装webpack依赖包</div><div class="line">$ cnpm install --save-dev webpack</div></pre></td></tr></table></figure></p>
-<p>在根目录下创建名为<strong>webpack.config.js</strong>的文件以及我们的入口文件<strong>/src/main.js</strong>文件，<strong>webpack.config.js</strong>是我们这次主要的文件，是webpack的配置文件。<br>构建好工作目录后，我们来根据上一节简述过的webpack核心知识来简单使用一下webpack。<br>首先，我们在src目录下的<strong>main.js</strong>文件中编写简单的js代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log(<span class="string">"Welcome to your first webpack test!"</span>);</div></pre></td></tr></table></figure></p>
-<p>接着，我们来到<strong>webpack.config.js</strong>文件，并设置webpack打包所需的入口起点以及输出文件配置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var path = require(<span class="string">'path'</span>);</div><div class="line">var webpack = require(<span class="string">'webpack'</span>);</div><div class="line"></div><div class="line">module.exports = &#123;</div><div class="line">    entry: <span class="string">'./src/main.js'</span>,</div><div class="line">    output: &#123;</div><div class="line">        path: path.resolve(__dirname, <span class="string">'dist'</span>),</div><div class="line">        filename: <span class="string">'webpack.bundle.js'</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><p>为了后续更好的进行知识点的演示，我们先进行简单的项目准备。我在常用的工作目录下新建了一个名为<strong>webpack-blog</strong>的文件夹。命令行进入<strong>webpack-blog</strong>的工作目录执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//初始化并创建package.json文件</span><br><span class="line">$ npm init </span><br><span class="line">//在项目中安装webpack依赖包</span><br><span class="line">$ cnpm install --save-dev webpack</span><br></pre></td></tr></table></figure></p>
+<p>在根目录下创建名为<strong>webpack.config.js</strong>的文件以及我们的入口文件<strong>/src/main.js</strong>文件，<strong>webpack.config.js</strong>是我们这次主要的文件，是webpack的配置文件。<br>构建好工作目录后，我们来根据上一节简述过的webpack核心知识来简单使用一下webpack。<br>首先，我们在src目录下的<strong>main.js</strong>文件中编写简单的js代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">console.log(<span class="string">"Welcome to your first webpack test!"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>接着，我们来到<strong>webpack.config.js</strong>文件，并设置webpack打包所需的入口起点以及输出文件配置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var path = require(<span class="string">'path'</span>);</span><br><span class="line">var webpack = require(<span class="string">'webpack'</span>);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    entry: <span class="string">'./src/main.js'</span>,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, <span class="string">'dist'</span>),</span><br><span class="line">        filename: <span class="string">'webpack.bundle.js'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>简单介绍一下上述代码，<strong>entry</strong>是模块打包的入口起点，它指示webpack根据<strong>src</strong>目录下的<strong>main.js</strong>文件来构建工程的依赖图；<strong>require()</strong>是node.js中常用的一个导入模块的操作，<strong>path.resolve()</strong>是获取绝对路径的方法，<strong>__dirname</strong> 用于获取当前文件所在目录的完整目录名。此代码用于查找<strong>dist</strong>文件夹，如果目录下没有<strong>dist</strong>文件夹则新建，并将通过打包创建后的<strong>webpack.bundle.js</strong>文件放入<strong>dist</strong>文件夹中。</p>
-<p>接着，我们执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ webpack</div></pre></td></tr></table></figure></p>
+<p>接着，我们执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ webpack</span><br></pre></td></tr></table></figure></p>
 <p>命令，对工程进行打包构建，执行成功后，我们可以在根目录下看到新建的dist文件夹下有一个新建的<strong>webpack.bundle.js</strong>文件，有点绕～</p>
 <p>最后，我们在<strong>src</strong>目录下新建一个名为<strong>index.html</strong>的文件，并以<strong>script</strong>标签的形式引入生成的<strong>webpack.bundle.js</strong>文件，在浏览器中打开index.html，你会发现页面上空空如也，什么都没有～别着急，打开浏览器的控制台，你可以看到在控制台中输出了<strong>“Welcome to your first webpack test!”</strong>，我们对webpack的第一次简单应用就成功啦。</p>
 <p>当然这只是一个超简单的例子，接下来我们将对这个例子进行扩充，进而展示webpack强大的功能。</p>
-<h2 id="管理资源"><a href="#管理资源" class="headerlink" title="管理资源"></a>管理资源</h2><h3 id="加载CSS"><a href="#加载CSS" class="headerlink" title="加载CSS"></a>加载CSS</h3><p>为了从 JavaScript 模块中 import 一个 CSS 文件，你需要在 module 配置中 安装并添加 style-loader 和 css-loader：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cnpm install --save-dev style-loader css-loader</div></pre></td></tr></table></figure></p>
-<p>安装成功后可以在package.json文件中的<strong>devDependencies</strong>项中看到新安装的<strong>style-loader</strong>和<strong>css-loader</strong>模块。<br>接着，我们在<strong>webpack.config.js</strong>文件中配置模块的使用规则：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">module: &#123;</div><div class="line">    rules: [</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">test</span>: /\.css$/,</div><div class="line">            use: [<span class="string">'style-loader'</span>, <span class="string">'css-loader'</span>]</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="管理资源"><a href="#管理资源" class="headerlink" title="管理资源"></a>管理资源</h2><h3 id="加载CSS"><a href="#加载CSS" class="headerlink" title="加载CSS"></a>加载CSS</h3><p>为了从 JavaScript 模块中 import 一个 CSS 文件，你需要在 module 配置中 安装并添加 style-loader 和 css-loader：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cnpm install --save-dev style-loader css-loader</span><br></pre></td></tr></table></figure></p>
+<p>安装成功后可以在package.json文件中的<strong>devDependencies</strong>项中看到新安装的<strong>style-loader</strong>和<strong>css-loader</strong>模块。<br>接着，我们在<strong>webpack.config.js</strong>文件中配置模块的使用规则：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">test</span>: /\.css$/,</span><br><span class="line">            use: [<span class="string">'style-loader'</span>, <span class="string">'css-loader'</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>简单介绍以上代码，<strong>test</strong>用于识别出应该被对应的loader进行转换的文件，以上代码表示loader需要识别<strong>.css</strong>为后缀的文件，<strong>use</strong>属性转换这些文件，从而使其能够被添加到依赖图中（并且最终添加到 bundle 中）。</p>
-<p>下一步，我们尝试一下在项目<strong>src</strong>目录下添加<strong>style.css</strong>文件，并将其导入我们的入口文件<strong>main.js</strong>中<br>我们修改<strong>main,js</strong>文件中的内容，以便于在页面中更直观地看到效果。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var element = document.createElement(<span class="string">'div'</span>);</div><div class="line">element.setAttribute(<span class="string">"class"</span>, <span class="string">"hello"</span>);</div><div class="line">element.innerHTML = <span class="string">"Welcome to your first webpack test!"</span>;</div><div class="line">document.body.appendChild(element);</div></pre></td></tr></table></figure></p>
+<p>下一步，我们尝试一下在项目<strong>src</strong>目录下添加<strong>style.css</strong>文件，并将其导入我们的入口文件<strong>main.js</strong>中<br>我们修改<strong>main,js</strong>文件中的内容，以便于在页面中更直观地看到效果。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var element = document.createElement(<span class="string">'div'</span>);</span><br><span class="line">element.setAttribute(<span class="string">"class"</span>, <span class="string">"hello"</span>);</span><br><span class="line">element.innerHTML = <span class="string">"Welcome to your first webpack test!"</span>;</span><br><span class="line">document.body.appendChild(element);</span><br></pre></td></tr></table></figure></p>
 <p>此时经过<strong>$ webpack</strong>命令打包后，在浏览器打开<strong>index.html</strong>文件可以看到，页面结构为<br><img src="/img/main_html.png" alt="main_html"><br>页面效果为：<br><img src="/img/main_result.png" alt="main_result"></p>
-<p>接下来我们在创建的<strong>style.css</strong>文件中写入简单的样式来验证webpack加载CSS的功能<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.hello&#123;</div><div class="line">    color: red;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>在<strong>main.js</strong>文件中引入<strong>style.css</strong>文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import <span class="string">'./style.css'</span>;</div></pre></td></tr></table></figure></p>
+<p>接下来我们在创建的<strong>style.css</strong>文件中写入简单的样式来验证webpack加载CSS的功能<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.hello&#123;</span><br><span class="line">    color: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在<strong>main.js</strong>文件中引入<strong>style.css</strong>文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import <span class="string">'./style.css'</span>;</span><br></pre></td></tr></table></figure></p>
 <p>再次使用<strong>$ webpack</strong>命令打包后，我们在浏览器中打开<strong>index.html</strong>文件，我们可以看到Welcome to your first webpack test!输出为红色。<br><img src="/img/main_red.png" alt="main_red"></p>
 <p>查看页面的head标签，可以发现页面已经包含了我们在<strong>main.js</strong>文件中导入的<strong>style.css</strong>文件。<br><img src="/img/main_head.png" alt="main_head"></p>
-<h3 id="加载图片"><a href="#加载图片" class="headerlink" title="加载图片"></a>加载图片</h3><p>使用 file-loader，我们可以轻松地将页面中需要的背景图片或者图标混合到 CSS 中，首先还是要安装模块依赖包：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cnpm install --save-dev file-loader</div></pre></td></tr></table></figure></p>
+<h3 id="加载图片"><a href="#加载图片" class="headerlink" title="加载图片"></a>加载图片</h3><p>使用 file-loader，我们可以轻松地将页面中需要的背景图片或者图标混合到 CSS 中，首先还是要安装模块依赖包：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cnpm install --save-dev file-loader</span><br></pre></td></tr></table></figure></p>
 <p>同样的，我们需要在<strong>webpack.config.js</strong>文件中配置应用规则：<br><img src="/img/file-loader.png" alt="file-loader"></p>
-<p>此段规则表明程序可以加载以<strong>.png .svg .jpg .gif</strong>为后缀名的文件。<br>我们可以直接在<strong>style.css</strong>文件中添加<strong>background</strong>样式来引入图片，为了让背景图片完整地显示出来，我们为<strong>hello</strong>这个div设置了300px的高度<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">.hello&#123;</div><div class="line">	height: 300px;</div><div class="line">    color: red;</div><div class="line">    background: url(<span class="string">'./logo.png'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>此段规则表明程序可以加载以<strong>.png .svg .jpg .gif</strong>为后缀名的文件。<br>我们可以直接在<strong>style.css</strong>文件中添加<strong>background</strong>样式来引入图片，为了让背景图片完整地显示出来，我们为<strong>hello</strong>这个div设置了300px的高度<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.hello&#123;</span><br><span class="line">	height: 300px;</span><br><span class="line">    color: red;</span><br><span class="line">    background: url(<span class="string">'./logo.png'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>重新执行<strong>$ webpack</strong>命令，我们可以看到页面效果为：<br><img src="/img/main-logo-re.png" alt="main-logo-re"></p>
 <p>图片稀缺，就拿了一张之前工程中现有的vue框架的logo来用～<br>如果你检查img元素，你将看到实际的文件名已更改为像 82b9c7a5a3f405032b1db71a25f67021.png 一样。这意味着 webpack 在 src 文件夹中找到我们的文件，并成功处理过它了！</p>
-<h3 id="加载字体"><a href="#加载字体" class="headerlink" title="加载字体"></a>加载字体</h3><p> 加载字体与加载图片相同，也使用的是<strong>file-loader</strong>来加载字体文件，加载字体使用的正则规则如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">test</span>: /\.(woff|woff2|eot|ttf|otf)$/</div></pre></td></tr></table></figure></p>
+<h3 id="加载字体"><a href="#加载字体" class="headerlink" title="加载字体"></a>加载字体</h3><p> 加载字体与加载图片相同，也使用的是<strong>file-loader</strong>来加载字体文件，加载字体使用的正则规则如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>: /\.(woff|woff2|eot|ttf|otf)$/</span><br></pre></td></tr></table></figure></p>
 <p>与加载图片文件相同，加载字体需要在<strong>css</strong>文件中引入字体文件，可以通过一个 @font-face 声明引入。用法如下：<br><img src="/img/font-loader.png" alt="font-loader"></p>
-<h3 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h3><p>在我们实际运用中，不仅仅要加载图片及字体文件，还可能需要加载有用的资源还有数据，如 JSON 文件，CSV、TSV 和 XML。JSON 支持实际上是内置的，也就是说 import Data from ‘./data.json’ 默认将正常运行。而要导入 CSV、TSV 和 XML类型的数据，就需要我们安装<strong>csv-loader</strong>和<strong>xml-loader</strong>模块来进行加载数据。<br>首先，我们还是需要在项目中安装相关模块：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cnpm install --save-dev csv-loader xml-loader</div></pre></td></tr></table></figure></p>
-<p>接着，我们同样需要在<strong>webpack.config.js</strong>文件中配置相关的应用规则，规则如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> &#123;</div><div class="line">    <span class="built_in">test</span>: /\.(csv|tsv)$/,</div><div class="line">    use: [<span class="string">'csv-loader'</span>]</div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">    <span class="built_in">test</span>: /\.xml$/,</div><div class="line">    use: [<span class="string">'xml-loader'</span>]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h3><p>在我们实际运用中，不仅仅要加载图片及字体文件，还可能需要加载有用的资源还有数据，如 JSON 文件，CSV、TSV 和 XML。JSON 支持实际上是内置的，也就是说 import Data from ‘./data.json’ 默认将正常运行。而要导入 CSV、TSV 和 XML类型的数据，就需要我们安装<strong>csv-loader</strong>和<strong>xml-loader</strong>模块来进行加载数据。<br>首先，我们还是需要在项目中安装相关模块：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cnpm install --save-dev csv-loader xml-loader</span><br></pre></td></tr></table></figure></p>
+<p>接着，我们同样需要在<strong>webpack.config.js</strong>文件中配置相关的应用规则，规则如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &#123;</span><br><span class="line">    <span class="built_in">test</span>: /\.(csv|tsv)$/,</span><br><span class="line">    use: [<span class="string">'csv-loader'</span>]</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">test</span>: /\.xml$/,</span><br><span class="line">    use: [<span class="string">'xml-loader'</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>接下来，我们在<strong>src</strong>目录下添加名为<strong>data.xml</strong>的数据文件，<strong>data.xml</strong>内容如下：<br><img src="/img/data_xml.png" alt="data_xml"></p>
-<p>我们在<strong>main.js</strong>文件中解析<strong>data.xml</strong>文件中的数据，主要增加以下两行代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">import Data from <span class="string">'./data.xml'</span>;</div><div class="line">console.log(Data);</div></pre></td></tr></table></figure></p>
+<p>我们在<strong>main.js</strong>文件中解析<strong>data.xml</strong>文件中的数据，主要增加以下两行代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import Data from <span class="string">'./data.xml'</span>;</span><br><span class="line">console.log(Data);</span><br></pre></td></tr></table></figure></p>
 <p>再次执行<strong>$ webpack</strong>命令后，再次在浏览器上打开<strong>index.html</strong>文件，我们可以在控制台输出了<strong>data.xml</strong>文件解析后的数据：<br><img src="/img/data_result.png" alt="data_result"></p>
-<h2 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h2><h3 id="Source-Map"><a href="#Source-Map" class="headerlink" title="Source Map"></a>Source Map</h3><p>当 webpack 打包源代码时，可能会很难追踪到错误和警告在源代码中的原始位置。例如，如果将三个源文件（a.js, b.js 和 c.js）打包到一个 bundle（bundle.js）中，而其中一个源文件包含一个错误，那么堆栈跟踪就会简单地指向到 bundle.js。这并通常没有太多帮助，因为你可能需要准确地知道错误来自于哪个源文件。<br>为了更容易地追踪错误和警告，JavaScript 提供了 source map 功能，将编译后的代码映射回原始源代码。如果一个错误来自于 b.js，source map 就会明确的告诉你。<br>我们只需要在<strong>webpack.config.js</strong>文件中写入以下代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">devtool: <span class="string">'inline-source-map'</span></div></pre></td></tr></table></figure></p>
+<h2 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h2><h3 id="Source-Map"><a href="#Source-Map" class="headerlink" title="Source Map"></a>Source Map</h3><p>当 webpack 打包源代码时，可能会很难追踪到错误和警告在源代码中的原始位置。例如，如果将三个源文件（a.js, b.js 和 c.js）打包到一个 bundle（bundle.js）中，而其中一个源文件包含一个错误，那么堆栈跟踪就会简单地指向到 bundle.js。这并通常没有太多帮助，因为你可能需要准确地知道错误来自于哪个源文件。<br>为了更容易地追踪错误和警告，JavaScript 提供了 source map 功能，将编译后的代码映射回原始源代码。如果一个错误来自于 b.js，source map 就会明确的告诉你。<br>我们只需要在<strong>webpack.config.js</strong>文件中写入以下代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">devtool: <span class="string">'inline-source-map'</span></span><br></pre></td></tr></table></figure></p>
 <p>就可以追踪源文件中错误和警告的功能。</p>
 <h3 id="使用观察模式"><a href="#使用观察模式" class="headerlink" title="使用观察模式"></a>使用观察模式</h3><p>根据此博文一步一步构建下来的萌友会发现，每次修改源文件后，都要重新使用<strong>$ webpack</strong>命令对文件重新进行打包构建，这在一定程度上增加了我们的重复工作。使用观察模式，你可以指示 webpack “watch” 依赖图中的所有文件以进行更改。如果其中一个文件被更新，代码将被重新编译，所以你不必手动运行整个构建。<br>你需要在<strong>package.json</strong>文件中引入执行命令：<br><img src="/img/package-watch.png" alt="package-watch"></p>
-<p>接着，你可以在命令行中执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm run watch</div></pre></td></tr></table></figure></p>
+<p>接着，你可以在命令行中执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm run watch</span><br></pre></td></tr></table></figure></p>
 <p>执行成功后，你会看到 webpack 编译代码，然而却不会退出命令行。这是因为 script 脚本还在观察文件，此时修改<strong>main.js</strong>文件的内容，你会发现不需要重新手动构建程序，代码已经被重新编译了。</p>
-<h3 id="使用webpack-dev-server"><a href="#使用webpack-dev-server" class="headerlink" title="使用webpack-dev-server"></a>使用<strong>webpack-dev-server</strong></h3><p>webpack-dev-server 提供了一个简单的 web 服务器，能够实时重新加载。<br>首先，我们需要下载安装模块<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cnpm install --save-dev webpack-dev-server</div></pre></td></tr></table></figure></p>
-<p>安装成功后，我们需要在<strong>webpack.config.js</strong>文件中告诉开发服务器，去哪里加载文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">devServer: &#123;</div><div class="line">   contentBase: <span class="string">'./dist'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p> 以上配置告知 webpack-dev-server，在 localhost:8080 下建立服务，将 dist 目录下的文件，作为可访问文件。<br> 接着，让我们在<strong>package.json</strong>文件中添加一个 script 脚本，可以直接运行开发服务器：<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"start"</span>: <span class="string">"webpack-dev-server --open"</span></div></pre></td></tr></table></figure></p>
+<h3 id="使用webpack-dev-server"><a href="#使用webpack-dev-server" class="headerlink" title="使用webpack-dev-server"></a>使用<strong>webpack-dev-server</strong></h3><p>webpack-dev-server 提供了一个简单的 web 服务器，能够实时重新加载。<br>首先，我们需要下载安装模块<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cnpm install --save-dev webpack-dev-server</span><br></pre></td></tr></table></figure></p>
+<p>安装成功后，我们需要在<strong>webpack.config.js</strong>文件中告诉开发服务器，去哪里加载文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">devServer: &#123;</span><br><span class="line">   contentBase: <span class="string">'./dist'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p> 以上配置告知 webpack-dev-server，在 localhost:8080 下建立服务，将 dist 目录下的文件，作为可访问文件。<br> 接着，让我们在<strong>package.json</strong>文件中添加一个 script 脚本，可以直接运行开发服务器：<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"start"</span>: <span class="string">"webpack-dev-server --open"</span></span><br></pre></td></tr></table></figure></p>
 <p> 现在，我们在命令行中运行<strong>$ npm start</strong>，就会看到浏览器自动加载页面。如果现在修改和保存任意源文件，web 服务器就会自动重新加载编译后的代码。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>webpack的学习时间跨度很长，webpack要学习的东西很多，继续加油吧～</p>
 
@@ -512,6 +478,35 @@
     <div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2017/11/20/webpack-guide/">webpack，一个广泛应用的模块打包器（二）——资源管理模块</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 萌萌哒的邱邱邱邱 的个人博客">萌萌哒的邱邱邱邱</a></p>
+  <p><span>发布时间:</span>2017年11月20日 - 00:11</p>
+  <p><span>最后更新:</span>2018年02月06日 - 23:02</p>
+  <p><span>原始链接:</span><a href="/2017/11/20/webpack-guide/" title="webpack，一个广泛应用的模块打包器（二）——资源管理模块">https://qiuruolin.github.io/2017/11/20/webpack-guide/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2017/11/20/webpack-guide/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
       
     </div>
 
@@ -979,323 +974,6 @@
 
 
   
-
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    var isXml = true;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length === 0) {
-      search_path = "search.xml";
-    } else if (/json$/i.test(search_path)) {
-      isXml = false;
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    var onPopupClose = function (e) {
-      $('.popup').hide();
-      $('#local-search-input').val('');
-      $('.search-result-list').remove();
-      $('#no-result').remove();
-      $(".local-search-pop-overlay").remove();
-      $('body').css('overflow', '');
-    }
-
-    function proceedsearch() {
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
-        .css('overflow', 'hidden');
-      $('.search-popup-overlay').click(onPopupClose);
-      $('.popup').toggle();
-      var $localSearchInput = $('#local-search-input');
-      $localSearchInput.attr("autocapitalize", "none");
-      $localSearchInput.attr("autocorrect", "off");
-      $localSearchInput.focus();
-    }
-
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-
-      // start loading animation
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
-          '<div id="search-loading-icon">' +
-          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
-          '</div>' +
-          '</div>')
-        .css('overflow', 'hidden');
-      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
-
-      $.ajax({
-        url: path,
-        dataType: isXml ? "xml" : "json",
-        async: true,
-        success: function(res) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = isXml ? $("entry", res).map(function() {
-            return {
-              title: $("title", this).text(),
-              content: $("content",this).text(),
-              url: $("url" , this).text()
-            };
-          }).get() : res;
-          var input = document.getElementById(search_id);
-          var resultContent = document.getElementById(content_id);
-          var inputEventFunction = function() {
-            var searchText = input.value.trim().toLowerCase();
-            var keywords = searchText.split(/[\s\-]+/);
-            if (keywords.length > 1) {
-              keywords.push(searchText);
-            }
-            var resultItems = [];
-            if (searchText.length > 0) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var hitCount = 0;
-                var searchTextCount = 0;
-                var title = data.title.trim();
-                var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
-                var indexOfTitle = [];
-                var indexOfContent = [];
-                // only match articles with not empty titles
-                if(title != '') {
-                  keywords.forEach(function(keyword) {
-                    function getIndexByWord(word, text, caseSensitive) {
-                      var wordLen = word.length;
-                      if (wordLen === 0) {
-                        return [];
-                      }
-                      var startPosition = 0, position = [], index = [];
-                      if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
-                      }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
-                        index.push({position: position, word: word});
-                        startPosition = position + wordLen;
-                      }
-                      return index;
-                    }
-
-                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
-                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
-                  });
-                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
-                    isMatch = true;
-                    hitCount = indexOfTitle.length + indexOfContent.length;
-                  }
-                }
-
-                // show search results
-
-                if (isMatch) {
-                  // sort index by position of keyword
-
-                  [indexOfTitle, indexOfContent].forEach(function (index) {
-                    index.sort(function (itemLeft, itemRight) {
-                      if (itemRight.position !== itemLeft.position) {
-                        return itemRight.position - itemLeft.position;
-                      } else {
-                        return itemLeft.word.length - itemRight.word.length;
-                      }
-                    });
-                  });
-
-                  // merge hits into slices
-
-                  function mergeIntoSlice(text, start, end, index) {
-                    var item = index[index.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    var hits = [];
-                    var searchTextCountInSlice = 0;
-                    while (position + word.length <= end && index.length != 0) {
-                      if (word === searchText) {
-                        searchTextCountInSlice++;
-                      }
-                      hits.push({position: position, length: word.length});
-                      var wordEnd = position + word.length;
-
-                      // move to next position of hit
-
-                      index.pop();
-                      while (index.length != 0) {
-                        item = index[index.length - 1];
-                        position = item.position;
-                        word = item.word;
-                        if (wordEnd > position) {
-                          index.pop();
-                        } else {
-                          break;
-                        }
-                      }
-                    }
-                    searchTextCount += searchTextCountInSlice;
-                    return {
-                      hits: hits,
-                      start: start,
-                      end: end,
-                      searchTextCount: searchTextCountInSlice
-                    };
-                  }
-
-                  var slicesOfTitle = [];
-                  if (indexOfTitle.length != 0) {
-                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
-                  }
-
-                  var slicesOfContent = [];
-                  while (indexOfContent.length != 0) {
-                    var item = indexOfContent[indexOfContent.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    // cut out 100 characters
-                    var start = position - 20;
-                    var end = position + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if (end < position + word.length) {
-                      end = position + word.length;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
-                  }
-
-                  // sort slices in content by search text's count and hits' count
-
-                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
-                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
-                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
-                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
-                      return sliceRight.hits.length - sliceLeft.hits.length;
-                    } else {
-                      return sliceLeft.start - sliceRight.start;
-                    }
-                  });
-
-                  // select top N slices in content
-
-                  var upperBound = parseInt('1');
-                  if (upperBound >= 0) {
-                    slicesOfContent = slicesOfContent.slice(0, upperBound);
-                  }
-
-                  // highlight title and content
-
-                  function highlightKeyword(text, slice) {
-                    var result = '';
-                    var prevEnd = slice.start;
-                    slice.hits.forEach(function (hit) {
-                      result += text.substring(prevEnd, hit.position);
-                      var end = hit.position + hit.length;
-                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
-                      prevEnd = end;
-                    });
-                    result += text.substring(prevEnd, slice.end);
-                    return result;
-                  }
-
-                  var resultItem = '';
-
-                  if (slicesOfTitle.length != 0) {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
-                  } else {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
-                  }
-
-                  slicesOfContent.forEach(function (slice) {
-                    resultItem += "<a href='" + articleUrl + "'>" +
-                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
-                      "...</p>" + "</a>";
-                  });
-
-                  resultItem += "</li>";
-                  resultItems.push({
-                    item: resultItem,
-                    searchTextCount: searchTextCount,
-                    hitCount: hitCount,
-                    id: resultItems.length
-                  });
-                }
-              })
-            };
-            if (keywords.length === 1 && keywords[0] === "") {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
-            } else if (resultItems.length === 0) {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
-            } else {
-              resultItems.sort(function (resultLeft, resultRight) {
-                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
-                  return resultRight.searchTextCount - resultLeft.searchTextCount;
-                } else if (resultLeft.hitCount !== resultRight.hitCount) {
-                  return resultRight.hitCount - resultLeft.hitCount;
-                } else {
-                  return resultRight.id - resultLeft.id;
-                }
-              });
-              var searchResultList = '<ul class=\"search-result-list\">';
-              resultItems.forEach(function (result) {
-                searchResultList += result.item;
-              })
-              searchResultList += "</ul>";
-              resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === 'auto') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
-            });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
-        }
-      });
-    }
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });
-  </script>
 
 
 

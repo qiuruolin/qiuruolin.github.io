@@ -90,7 +90,7 @@
 
 
 
-  <meta name="keywords" content="Vue," />
+  <meta name="keywords" content="vue," />
 
 
 
@@ -102,7 +102,7 @@
 
 
 <meta name="description" content="vue以数据为驱动，是近年来比较火的一个轻量级的前后端分离的框架，前段时间学习了vue的一些基本知识，明白了vue中指令等的使用，个人觉得较难的一部分当属于使用vue进行组件化开发，在vue.js专业中文开发者社区上有不少大牛们使用vue重构的一些例子，比如豆瓣，饿了么等，大家可以clone下来自己重构一下，建议初学者在豆瓣和饿了么两个中先选择豆瓣的例子，豆瓣的例子会相对简单直观一些。我在刚学习">
-<meta name="keywords" content="Vue">
+<meta name="keywords" content="vue">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用webpack搭建vue项目——入门">
 <meta property="og:url" content="https://qiuruolin.github.io/2017/10/25/webpack-vue/index.html">
@@ -116,7 +116,7 @@
 <meta property="og:image" content="https://qiuruolin.github.io/img/目录2.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/result.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/babel.png">
-<meta property="og:updated_time" content="2018-02-06T12:42:05.000Z">
+<meta property="og:updated_time" content="2018-02-06T15:31:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用webpack搭建vue项目——入门">
 <meta name="twitter:description" content="vue以数据为驱动，是近年来比较火的一个轻量级的前后端分离的框架，前段时间学习了vue的一些基本知识，明白了vue中指令等的使用，个人觉得较难的一部分当属于使用vue进行组件化开发，在vue.js专业中文开发者社区上有不少大牛们使用vue重构的一些例子，比如豆瓣，饿了么等，大家可以clone下来自己重构一下，建议初学者在豆瓣和饿了么两个中先选择豆瓣的例子，豆瓣的例子会相对简单直观一些。我在刚学习">
@@ -272,43 +272,9 @@
       
 
       
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
-            
-            搜索
-          </a>
-        </li>
-      
     </ul>
   
 
-  
-    <div class="site-search">
-      
-  <div class="popup search-popup local-search-popup">
-  <div class="local-search-header clearfix">
-    <span class="search-icon">
-      <i class="fa fa-search"></i>
-    </span>
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
-    <div class="local-search-input-wrapper">
-      <input autocomplete="off"
-             placeholder="搜索..." spellcheck="false"
-             type="text" id="local-search-input">
-    </div>
-  </div>
-  <div id="local-search-result"></div>
-</div>
-
-
-
-    </div>
   
 </nav>
 
@@ -446,18 +412,18 @@
       
         <blockquote>
 <p>vue以数据为驱动，是近年来比较火的一个轻量级的前后端分离的框架，前段时间学习了vue的一些基本知识，明白了vue中指令等的使用，个人觉得较难的一部分当属于使用vue进行组件化开发，在vue.js专业中文开发者社区上有不少大牛们使用vue重构的一些例子，比如豆瓣，饿了么等，大家可以clone下来自己重构一下，建议初学者在豆瓣和饿了么两个中先选择豆瓣的例子，豆瓣的例子会相对简单直观一些。<br>我在刚学习使用vue进行组件化开发时，常常会使用</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ vue init webpack project-name</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vue init webpack project-name</span><br></pre></td></tr></table></figure>
 <p>来初始化一个vue项目，接着在这个初始化完成的项目中进行vue的组件化开发。我们可能明白每一个配置文件以及文件夹中的相关内容，但使用webpack构建vue项目的过程又是怎样的？这就不得而知了。<br>随着后来的学习，我开始自己慢慢使用webpack从零构建vue项目，踩了很多坑，可能也不是很深入，但是总想着能把这次过程写下来，以便后续的深入学习，初次学习可能理解以及步骤上会有偏差，还请各位不吝赐教～</p>
 </blockquote>
 <hr>
 <h1 id="webpack构建vue项目流程"><a href="#webpack构建vue项目流程" class="headerlink" title="webpack构建vue项目流程"></a>webpack构建vue项目流程</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><a id="more"></a>
 <ul>
-<li>首先需要你已下载安装<strong>node.js</strong> <a href="http://nodejs.cn/download/" target="_blank" rel="external">还没有下载安装？戳这里进入Node.js中文网进行下载安装</a><br>在你习惯使用的工作目录下新建文件夹，在这里我新建了一个名为<strong>webpack-vue-blog</strong>的文件夹（ps:项目名称中不可以含有空格，这在初始化时会报错的～大家注意一下，建议使用-或_代替），打开你的终端，进入到webpack-vue-blog的工作目录，使用<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm init //初始化并自动创建package.json文件，npm是node.js的命令</div></pre></td></tr></table></figure>
+<li>首先需要你已下载安装<strong>node.js</strong> <a href="http://nodejs.cn/download/" target="_blank" rel="noopener">还没有下载安装？戳这里进入Node.js中文网进行下载安装</a><br>在你习惯使用的工作目录下新建文件夹，在这里我新建了一个名为<strong>webpack-vue-blog</strong>的文件夹（ps:项目名称中不可以含有空格，这在初始化时会报错的～大家注意一下，建议使用-或_代替），打开你的终端，进入到webpack-vue-blog的工作目录，使用<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm init //初始化并自动创建package.json文件，npm是node.js的命令</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>接下来是一些项目的相关信息，一路按enter键就可以了，之后你可以在package.json文件中看到项目的相关信息<br><img src="/img/description.png" alt="描述"></p>
 <p><img src="/img/package.png" alt="package.json文件"></p>
-<p>这里建议大家可以下载安装一下cnpm淘宝npm镜像，因为npm安装插件是从国外服务器下载，受网络影响大，可能出现异常，使用cnpm的话可以在一定程度上提高我们模块的下载安装速度<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</div></pre></td></tr></table></figure></p>
+<p>这里建议大家可以下载安装一下cnpm淘宝npm镜像，因为npm安装插件是从国外服务器下载，受网络影响大，可能出现异常，使用cnpm的话可以在一定程度上提高我们模块的下载安装速度<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></p>
 <h3 id="接下来就要安装vue-webpack等相关的模块，在这里先大致介绍一下相关的命令"><a href="#接下来就要安装vue-webpack等相关的模块，在这里先大致介绍一下相关的命令" class="headerlink" title="接下来就要安装vue webpack等相关的模块，在这里先大致介绍一下相关的命令"></a>接下来就要安装vue webpack等相关的模块，在这里先大致介绍一下相关的命令</h3><ul>
 <li>使用npm安装插件：命令提示符执行npm(cnpm) install <name> [-g] [–save-dev]</name></li>
 <li>-g：全局安装</li>
@@ -465,10 +431,10 @@
 <li>-dev：保存至package.json的devDependencies节点，不指定-dev将保存至dependencies节点</li>
 </ul>
 <hr>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//安装vue</div><div class="line">$ cnpm install --save vue </div><div class="line">//安装webpack以及webpack测试服务器，默认安装是1.0版本的，所以必须指定版本号</div><div class="line">$ cnpm install --save-dev webpack@^2.1.0-beta.25 webpack-dev-server@^2.1.0-beta.9 </div><div class="line">//安装babel，一般的浏览器是不认识es6语法的，babel的作用是将ES6代码转为ES5代码，从而编译成浏览器认识的语法</div><div class="line">$ cnpm install --save-dev babel-core babel-loader babel-preset-es2015</div><div class="line">//用来解析vue的组件，.vue后缀的文件</div><div class="line">$ cnpm install --save-dev vue-loader vue-template-compiler</div><div class="line">//用来解析css</div><div class="line">$ cnpm install --save-dev css-loader file-loader</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//安装vue</span><br><span class="line">$ cnpm install --save vue </span><br><span class="line">//安装webpack以及webpack测试服务器，默认安装是1.0版本的，所以必须指定版本号</span><br><span class="line">$ cnpm install --save-dev webpack@^2.1.0-beta.25 webpack-dev-server@^2.1.0-beta.9 </span><br><span class="line">//安装babel，一般的浏览器是不认识es6语法的，babel的作用是将ES6代码转为ES5代码，从而编译成浏览器认识的语法</span><br><span class="line">$ cnpm install --save-dev babel-core babel-loader babel-preset-es2015</span><br><span class="line">//用来解析vue的组件，.vue后缀的文件</span><br><span class="line">$ cnpm install --save-dev vue-loader vue-template-compiler</span><br><span class="line">//用来解析css</span><br><span class="line">$ cnpm install --save-dev css-loader file-loader</span><br></pre></td></tr></table></figure>
 <p>需要用到的模块我们已经安装完之后，就可以开始在package.json看到我们所安装的依赖包，在<strong>webpack-vue-blog</strong>目录下也会生成名为<strong>node_modules</strong>的文件夹<br><img src="/img/package1.png" alt="package.json文件"></p>
-<h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><p>安装了这么多的依赖包，终于要进入编码的阶段了，打开你的编辑器，这里我使用的是VS Code工具进行编码，这个工具比较小，但是要安装相关的插件，我这里不详细介绍了哈，感兴趣的萌友们可以安装使用一下。现在我们的<strong>webpack-vue-blog</strong>工程目录下只有<strong>node_modules</strong>文件夹以及<strong>package.json</strong>文件<br><img src="/img/目录.png" alt="目录"><br>接下来我们在根目录下新建<strong>src</strong>文件夹用来存放我们项目的源码，在src目录下新建<strong>App.vue</strong>以及<strong>main.js</strong>文件，其中App.vue是我们的入口页面，main.js是应用初始化入口文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">//App.vue</div><div class="line">&lt;template&gt;</div><div class="line">    &lt;div id=<span class="string">"app"</span>&gt;</div><div class="line">        &lt;h1&gt;&#123;&#123; msg &#125;&#125;&lt;/h1&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line"><span class="built_in">export</span> default &#123;</div><div class="line">    <span class="function"><span class="title">data</span></span> () &#123;</div><div class="line">        <span class="built_in">return</span> &#123;</div><div class="line">            msg: <span class="string">'This is your first webpack-vue project!'</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;style scoped&gt;</div><div class="line"></div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//main.js</div><div class="line">import Vue from <span class="string">'vue'</span></div><div class="line">import App from <span class="string">'./App.vue'</span> // 将同目录下的App.vue导入</div><div class="line"></div><div class="line">/* 实例化一个vue */</div><div class="line">new Vue(&#123;</div><div class="line">  el: <span class="string">'#app'</span>,</div><div class="line">  render: h =&gt; h(App)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><p>安装了这么多的依赖包，终于要进入编码的阶段了，打开你的编辑器，这里我使用的是VS Code工具进行编码，这个工具比较小，但是要安装相关的插件，我这里不详细介绍了哈，感兴趣的萌友们可以安装使用一下。现在我们的<strong>webpack-vue-blog</strong>工程目录下只有<strong>node_modules</strong>文件夹以及<strong>package.json</strong>文件<br><img src="/img/目录.png" alt="目录"><br>接下来我们在根目录下新建<strong>src</strong>文件夹用来存放我们项目的源码，在src目录下新建<strong>App.vue</strong>以及<strong>main.js</strong>文件，其中App.vue是我们的入口页面，main.js是应用初始化入口文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//App.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div id=<span class="string">"app"</span>&gt;</span><br><span class="line">        &lt;h1&gt;&#123;&#123; msg &#125;&#125;&lt;/h1&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="built_in">export</span> default &#123;</span><br><span class="line">    <span class="function"><span class="title">data</span></span> () &#123;</span><br><span class="line">        <span class="built_in">return</span> &#123;</span><br><span class="line">            msg: <span class="string">'This is your first webpack-vue project!'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//main.js</span><br><span class="line">import Vue from <span class="string">'vue'</span></span><br><span class="line">import App from <span class="string">'./App.vue'</span> // 将同目录下的App.vue导入</span><br><span class="line"></span><br><span class="line">/* 实例化一个vue */</span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  render: h =&gt; h(App)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p><strong>render函数是渲染一个视图，然后提供给el挂载，如果没有render那页面什么都不会出来</strong></p>
 <h3 id="Vue2-0的渲染过程："><a href="#Vue2-0的渲染过程：" class="headerlink" title="Vue2.0的渲染过程："></a>Vue2.0的渲染过程：</h3><ul>
 <li>Vue实例选项对象的 render 方法作为一个函数，接受传入的参数 h 函数，返回 h(App) 的函数调用结果</li>
@@ -476,15 +442,15 @@
 <li>Vue 在调用 render 方法时，会传入一个 createElement 函数作为参数，也就是这里的 h 的实参是 createElement 函数，然后 createElement 会以 APP 为参数进行调用</li>
 </ul>
 <hr>
-<p>[官方文档]:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">render: <span class="keyword">function</span> (createElement) &#123;</div><div class="line">   <span class="built_in">return</span> createElement(</div><div class="line">     <span class="string">'h'</span> + this.level,   // tag name 标签名称</div><div class="line">      this.<span class="variable">$slots</span>.default // 子组件中的阵列</div><div class="line">    )</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>接下来我们将进入webpack部分  <a href="https://doc.webpack-china.org/guides/getting-started" target="_blank" rel="external">戳进来学习webpack中文文档</a>，在根目录下新建名为<strong>webpack.config.js</strong>的文件，用来进行相关的配置 <a href="https://doc.webpack-china.org/configuration/entry-context/" target="_blank" rel="external">webpack入口出口等核心概念中文文档</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">//webpack.config.js</div><div class="line">var path = require(<span class="string">'path'</span>);</div><div class="line">var webpack = require(<span class="string">'webpack'</span>);</div><div class="line"></div><div class="line">module.exports = &#123;</div><div class="line">    /* 入口文件 */</div><div class="line">    entry: <span class="string">'./src/main.js'</span>,</div><div class="line">    /* 输出 */</div><div class="line">    output: &#123;</div><div class="line">        /* 输出目录，没有则新建 通过__dirname获得当前文件所在目录的完整目录名：*/</div><div class="line">        path: path.resolve(__dirname, <span class="string">'./dist'</span>),</div><div class="line">        /* 静态目录，可以直接从这里取文件 */</div><div class="line">        publicPath: <span class="string">'/dist/'</span>,</div><div class="line">        /* 文件名 */</div><div class="line">        filename: <span class="string">'build.js'</span></div><div class="line">    &#125;,</div><div class="line">    module: &#123;</div><div class="line">        rules: [</div><div class="line">            /* 用来解析vue后缀的文件 */</div><div class="line">            &#123;</div><div class="line">                <span class="built_in">test</span>: /\.vue$/,</div><div class="line">                loader: <span class="string">'vue-loader'</span></div><div class="line">            &#125;,</div><div class="line">            /* 用babel来解析js文件并把es6的语法转换成浏览器认识的语法 */</div><div class="line">            &#123;</div><div class="line">                <span class="built_in">test</span>: /\.js$/,</div><div class="line">                loader: <span class="string">'babel-loader'</span>,</div><div class="line">                /* 排除模块安装目录的文件 */</div><div class="line">                exclude: /node_modules/</div><div class="line">            &#125;</div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>我们当前的项目目录为：<br><img src="/img/目录2.png" alt="目录"><br>接下来我们将进行webpack的核心功能——模块打包<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cnpm install -g webpack@^2.1.0-beta.25 //全局安装webpack，以便使用webpack命令进行打包等</div></pre></td></tr></table></figure></p>
-<p>进入<strong>webpack-vue-blog</strong>目录下并运行命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ webpack</div></pre></td></tr></table></figure></p>
-<p>执行完毕后你可以发现在根目录下新增了一个名为<strong>dist</strong>的文件夹，其中有个<strong>build.js</strong>文件，而这输出的文件夹名及文件名正是我们在<strong>webpack.config.js</strong>中配置好的。<br>这么久还不能看效果，急死人了，不要着急，已经快要接近尾声啦！！<br>接下来，我们在根目录下新建名为index.html的文件，并引入我们刚刚生成的build.js文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">//index.html</div><div class="line">&lt;!doctype html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">    &lt;meta charset=<span class="string">"utf-8"</span>&gt;</div><div class="line">    &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"</span>&gt;</div><div class="line">    &lt;title&gt;webpack-vue-blog&lt;/title&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;div id=<span class="string">"app"</span>&gt;&lt;/div&gt;</div><div class="line">        &lt;script src=<span class="string">"./dist/build.js"</span>&gt;&lt;/script&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
-<p>接下来运行命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ webpack-dev-server</div></pre></td></tr></table></figure></p>
+<p>[官方文档]:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="keyword">function</span> (createElement) &#123;</span><br><span class="line">   <span class="built_in">return</span> createElement(</span><br><span class="line">     <span class="string">'h'</span> + this.level,   // tag name 标签名称</span><br><span class="line">      this.<span class="variable">$slots</span>.default // 子组件中的阵列</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接下来我们将进入webpack部分  <a href="https://doc.webpack-china.org/guides/getting-started" target="_blank" rel="noopener">戳进来学习webpack中文文档</a>，在根目录下新建名为<strong>webpack.config.js</strong>的文件，用来进行相关的配置 <a href="https://doc.webpack-china.org/configuration/entry-context/" target="_blank" rel="noopener">webpack入口出口等核心概念中文文档</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">//webpack.config.js</span><br><span class="line">var path = require(<span class="string">'path'</span>);</span><br><span class="line">var webpack = require(<span class="string">'webpack'</span>);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    /* 入口文件 */</span><br><span class="line">    entry: <span class="string">'./src/main.js'</span>,</span><br><span class="line">    /* 输出 */</span><br><span class="line">    output: &#123;</span><br><span class="line">        /* 输出目录，没有则新建 通过__dirname获得当前文件所在目录的完整目录名：*/</span><br><span class="line">        path: path.resolve(__dirname, <span class="string">'./dist'</span>),</span><br><span class="line">        /* 静态目录，可以直接从这里取文件 */</span><br><span class="line">        publicPath: <span class="string">'/dist/'</span>,</span><br><span class="line">        /* 文件名 */</span><br><span class="line">        filename: <span class="string">'build.js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    module: &#123;</span><br><span class="line">        rules: [</span><br><span class="line">            /* 用来解析vue后缀的文件 */</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">test</span>: /\.vue$/,</span><br><span class="line">                loader: <span class="string">'vue-loader'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            /* 用babel来解析js文件并把es6的语法转换成浏览器认识的语法 */</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">test</span>: /\.js$/,</span><br><span class="line">                loader: <span class="string">'babel-loader'</span>,</span><br><span class="line">                /* 排除模块安装目录的文件 */</span><br><span class="line">                exclude: /node_modules/</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们当前的项目目录为：<br><img src="/img/目录2.png" alt="目录"><br>接下来我们将进行webpack的核心功能——模块打包<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cnpm install -g webpack@^2.1.0-beta.25 //全局安装webpack，以便使用webpack命令进行打包等</span><br></pre></td></tr></table></figure></p>
+<p>进入<strong>webpack-vue-blog</strong>目录下并运行命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ webpack</span><br></pre></td></tr></table></figure></p>
+<p>执行完毕后你可以发现在根目录下新增了一个名为<strong>dist</strong>的文件夹，其中有个<strong>build.js</strong>文件，而这输出的文件夹名及文件名正是我们在<strong>webpack.config.js</strong>中配置好的。<br>这么久还不能看效果，急死人了，不要着急，已经快要接近尾声啦！！<br>接下来，我们在根目录下新建名为index.html的文件，并引入我们刚刚生成的build.js文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//index.html</span><br><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">    &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"</span>&gt;</span><br><span class="line">    &lt;title&gt;webpack-vue-blog&lt;/title&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;div id=<span class="string">"app"</span>&gt;&lt;/div&gt;</span><br><span class="line">        &lt;script src=<span class="string">"./dist/build.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>接下来运行命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ webpack-dev-server</span><br></pre></td></tr></table></figure></p>
 <p>稍微等待一会，就会提示你已经运行成功啦，并且可以通过访问localhost:8080来访问我们的第一个使用webpack构建的vue项目。<br><img src="/img/result.png" alt="效果"><br>这样我们的使用webpack构建的vue项目也算是搭建完成了。</p>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>这是自搭建个人博客网站以来着手写的第一篇博客，当然，这只是一个很简单的项目，在后续深入学习中，你会发现程序员们会将babel的相关配置保存在.babelrc配置文件中，比如：<br><img src="/img/babel.png" alt="Babel"><br>相信大家在学习babel相关教程时会了解到 <a href="http://www.ruanyifeng.com/blog/2016/01/babel.html" target="_blank" rel="external">Babel入门推荐教程</a></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>这是自搭建个人博客网站以来着手写的第一篇博客，当然，这只是一个很简单的项目，在后续深入学习中，你会发现程序员们会将babel的相关配置保存在.babelrc配置文件中，比如：<br><img src="/img/babel.png" alt="Babel"><br>相信大家在学习babel相关教程时会了解到 <a href="http://www.ruanyifeng.com/blog/2016/01/babel.html" target="_blank" rel="noopener">Babel入门推荐教程</a></p>
 <p>希望能对萌友们有所帮助～</p>
 
       
@@ -497,6 +463,35 @@
     <div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2017/10/25/webpack-vue/">使用webpack搭建vue项目——入门</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 萌萌哒的邱邱邱邱 的个人博客">萌萌哒的邱邱邱邱</a></p>
+  <p><span>发布时间:</span>2017年10月25日 - 11:10</p>
+  <p><span>最后更新:</span>2018年02月06日 - 23:02</p>
+  <p><span>原始链接:</span><a href="/2017/10/25/webpack-vue/" title="使用webpack搭建vue项目——入门">https://qiuruolin.github.io/2017/10/25/webpack-vue/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2017/10/25/webpack-vue/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
       
     </div>
 
@@ -549,7 +544,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Vue/" rel="tag"># Vue</a>
+            <a href="/tags/vue/" rel="tag"># vue</a>
           
         </div>
       
@@ -960,323 +955,6 @@
 
 
   
-
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    var isXml = true;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length === 0) {
-      search_path = "search.xml";
-    } else if (/json$/i.test(search_path)) {
-      isXml = false;
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    var onPopupClose = function (e) {
-      $('.popup').hide();
-      $('#local-search-input').val('');
-      $('.search-result-list').remove();
-      $('#no-result').remove();
-      $(".local-search-pop-overlay").remove();
-      $('body').css('overflow', '');
-    }
-
-    function proceedsearch() {
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
-        .css('overflow', 'hidden');
-      $('.search-popup-overlay').click(onPopupClose);
-      $('.popup').toggle();
-      var $localSearchInput = $('#local-search-input');
-      $localSearchInput.attr("autocapitalize", "none");
-      $localSearchInput.attr("autocorrect", "off");
-      $localSearchInput.focus();
-    }
-
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-
-      // start loading animation
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
-          '<div id="search-loading-icon">' +
-          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
-          '</div>' +
-          '</div>')
-        .css('overflow', 'hidden');
-      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
-
-      $.ajax({
-        url: path,
-        dataType: isXml ? "xml" : "json",
-        async: true,
-        success: function(res) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = isXml ? $("entry", res).map(function() {
-            return {
-              title: $("title", this).text(),
-              content: $("content",this).text(),
-              url: $("url" , this).text()
-            };
-          }).get() : res;
-          var input = document.getElementById(search_id);
-          var resultContent = document.getElementById(content_id);
-          var inputEventFunction = function() {
-            var searchText = input.value.trim().toLowerCase();
-            var keywords = searchText.split(/[\s\-]+/);
-            if (keywords.length > 1) {
-              keywords.push(searchText);
-            }
-            var resultItems = [];
-            if (searchText.length > 0) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var hitCount = 0;
-                var searchTextCount = 0;
-                var title = data.title.trim();
-                var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
-                var indexOfTitle = [];
-                var indexOfContent = [];
-                // only match articles with not empty titles
-                if(title != '') {
-                  keywords.forEach(function(keyword) {
-                    function getIndexByWord(word, text, caseSensitive) {
-                      var wordLen = word.length;
-                      if (wordLen === 0) {
-                        return [];
-                      }
-                      var startPosition = 0, position = [], index = [];
-                      if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
-                      }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
-                        index.push({position: position, word: word});
-                        startPosition = position + wordLen;
-                      }
-                      return index;
-                    }
-
-                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
-                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
-                  });
-                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
-                    isMatch = true;
-                    hitCount = indexOfTitle.length + indexOfContent.length;
-                  }
-                }
-
-                // show search results
-
-                if (isMatch) {
-                  // sort index by position of keyword
-
-                  [indexOfTitle, indexOfContent].forEach(function (index) {
-                    index.sort(function (itemLeft, itemRight) {
-                      if (itemRight.position !== itemLeft.position) {
-                        return itemRight.position - itemLeft.position;
-                      } else {
-                        return itemLeft.word.length - itemRight.word.length;
-                      }
-                    });
-                  });
-
-                  // merge hits into slices
-
-                  function mergeIntoSlice(text, start, end, index) {
-                    var item = index[index.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    var hits = [];
-                    var searchTextCountInSlice = 0;
-                    while (position + word.length <= end && index.length != 0) {
-                      if (word === searchText) {
-                        searchTextCountInSlice++;
-                      }
-                      hits.push({position: position, length: word.length});
-                      var wordEnd = position + word.length;
-
-                      // move to next position of hit
-
-                      index.pop();
-                      while (index.length != 0) {
-                        item = index[index.length - 1];
-                        position = item.position;
-                        word = item.word;
-                        if (wordEnd > position) {
-                          index.pop();
-                        } else {
-                          break;
-                        }
-                      }
-                    }
-                    searchTextCount += searchTextCountInSlice;
-                    return {
-                      hits: hits,
-                      start: start,
-                      end: end,
-                      searchTextCount: searchTextCountInSlice
-                    };
-                  }
-
-                  var slicesOfTitle = [];
-                  if (indexOfTitle.length != 0) {
-                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
-                  }
-
-                  var slicesOfContent = [];
-                  while (indexOfContent.length != 0) {
-                    var item = indexOfContent[indexOfContent.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    // cut out 100 characters
-                    var start = position - 20;
-                    var end = position + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if (end < position + word.length) {
-                      end = position + word.length;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
-                  }
-
-                  // sort slices in content by search text's count and hits' count
-
-                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
-                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
-                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
-                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
-                      return sliceRight.hits.length - sliceLeft.hits.length;
-                    } else {
-                      return sliceLeft.start - sliceRight.start;
-                    }
-                  });
-
-                  // select top N slices in content
-
-                  var upperBound = parseInt('1');
-                  if (upperBound >= 0) {
-                    slicesOfContent = slicesOfContent.slice(0, upperBound);
-                  }
-
-                  // highlight title and content
-
-                  function highlightKeyword(text, slice) {
-                    var result = '';
-                    var prevEnd = slice.start;
-                    slice.hits.forEach(function (hit) {
-                      result += text.substring(prevEnd, hit.position);
-                      var end = hit.position + hit.length;
-                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
-                      prevEnd = end;
-                    });
-                    result += text.substring(prevEnd, slice.end);
-                    return result;
-                  }
-
-                  var resultItem = '';
-
-                  if (slicesOfTitle.length != 0) {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
-                  } else {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
-                  }
-
-                  slicesOfContent.forEach(function (slice) {
-                    resultItem += "<a href='" + articleUrl + "'>" +
-                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
-                      "...</p>" + "</a>";
-                  });
-
-                  resultItem += "</li>";
-                  resultItems.push({
-                    item: resultItem,
-                    searchTextCount: searchTextCount,
-                    hitCount: hitCount,
-                    id: resultItems.length
-                  });
-                }
-              })
-            };
-            if (keywords.length === 1 && keywords[0] === "") {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
-            } else if (resultItems.length === 0) {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
-            } else {
-              resultItems.sort(function (resultLeft, resultRight) {
-                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
-                  return resultRight.searchTextCount - resultLeft.searchTextCount;
-                } else if (resultLeft.hitCount !== resultRight.hitCount) {
-                  return resultRight.hitCount - resultLeft.hitCount;
-                } else {
-                  return resultRight.id - resultLeft.id;
-                }
-              });
-              var searchResultList = '<ul class=\"search-result-list\">';
-              resultItems.forEach(function (result) {
-                searchResultList += result.item;
-              })
-              searchResultList += "</ul>";
-              resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === 'auto') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
-            });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
-        }
-      });
-    }
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });
-  </script>
 
 
 
