@@ -7,13 +7,6 @@
     </url>
 
     <url>
-        <loc>https://qiuruolin.github.io/categories/JavaScript/</loc>
-        <lastmod>2018-02-06T15:31:13.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://qiuruolin.github.io/categories/%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7/</loc>
         <lastmod>2018-02-06T15:31:23.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -37,6 +30,20 @@
     <url>
         <loc>https://qiuruolin.github.io/categories/%E8%BD%AC%E7%A0%81%E5%B7%A5%E5%85%B7/</loc>
         <lastmod>2018-02-06T15:31:37.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://qiuruolin.github.io/categories/JavaScript/</loc>
+        <lastmod>2018-02-10T02:40:24.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://qiuruolin.github.io/categories/%E7%AE%97%E6%B3%95/</loc>
+        <lastmod>2018-02-10T02:42:34.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

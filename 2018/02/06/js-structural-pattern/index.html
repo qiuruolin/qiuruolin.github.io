@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JavaScript之设计模式," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="继上篇创建型设计模式之后，此篇博文主要记录结构型设计模式的学习过程，如果在某些地方表述不正确的，还希望大家能够指出，共同进步～  结构型设计模式结构型设计模式是一类关注于如何将类或对象组合成更大、更复杂的结构的设计模式，主要应用于对象的组合。包括外观模式、适配器模式、代理模式、装饰者模式、桥接模式、组合模式以及享元模式。 外观模式外观模式，为一组复杂的子系统接口提供一个更高级的统一接口，通过这个">
+<meta name="keywords" content="JavaScript之设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript设计模式之结构型设计模式">
+<meta property="og:url" content="https://qiuruolin.github.io/2018/02/06/js-structural-pattern/index.html">
+<meta property="og:site_name" content="邱邱邱邱的个人博客">
+<meta property="og:description" content="继上篇创建型设计模式之后，此篇博文主要记录结构型设计模式的学习过程，如果在某些地方表述不正确的，还希望大家能够指出，共同进步～  结构型设计模式结构型设计模式是一类关注于如何将类或对象组合成更大、更复杂的结构的设计模式，主要应用于对象的组合。包括外观模式、适配器模式、代理模式、装饰者模式、桥接模式、组合模式以及享元模式。 外观模式外观模式，为一组复杂的子系统接口提供一个更高级的统一接口，通过这个">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://qiuruolin.github.io/img/structual/外观模式.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/structual/proxy.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/structual/bridge-1.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/structual/桥接模式1.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/structual/桥接模式.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/structual/bridge.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/structual/组合模式.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/structual/flyWeight.png">
+<meta property="og:updated_time" content="2018-02-10T02:40:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript设计模式之结构型设计模式">
+<meta name="twitter:description" content="继上篇创建型设计模式之后，此篇博文主要记录结构型设计模式的学习过程，如果在某些地方表述不正确的，还希望大家能够指出，共同进步～  结构型设计模式结构型设计模式是一类关注于如何将类或对象组合成更大、更复杂的结构的设计模式，主要应用于对象的组合。包括外观模式、适配器模式、代理模式、装饰者模式、桥接模式、组合模式以及享元模式。 外观模式外观模式，为一组复杂的子系统接口提供一个更高级的统一接口，通过这个">
+<meta name="twitter:image" content="https://qiuruolin.github.io/img/structual/外观模式.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://qiuruolin.github.io/2018/02/06/js-structural-pattern/"/>
+
+
+
+
+
+  <title>JavaScript设计模式之结构型设计模式 | 邱邱邱邱的个人博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c6b7cb6722791755bb6aae172845cc92";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">邱邱邱邱的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://qiuruolin.github.io/2018/02/06/js-structural-pattern/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="萌萌哒的邱邱邱邱">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="邱邱邱邱的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaScript设计模式之结构型设计模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-06T13:57:08+08:00">
+                2018-02-06
+              </time>
+            
+
+            
+              <span id="busuanzi_container_page_pv">  |  阅读量 <span id="busuanzi_value_page_pv"></span> 次</span>
+            
+
+            
+
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/06/js-structural-pattern/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/06/js-structural-pattern/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>继上篇创建型设计模式之后，此篇博文主要记录结构型设计模式的学习过程，如果在某些地方表述不正确的，还希望大家能够指出，共同进步～</p>
+</blockquote>
+<h1 id="结构型设计模式"><a href="#结构型设计模式" class="headerlink" title="结构型设计模式"></a>结构型设计模式</h1><p>结构型设计模式是一类关注于如何将类或对象组合成更大、更复杂的结构的设计模式，主要应用于对象的组合。包括<strong>外观模式</strong>、<strong>适配器模式</strong>、<strong>代理模式</strong>、<strong>装饰者模式</strong>、<strong>桥接模式</strong>、<strong>组合模式</strong>以及<strong>享元模式</strong>。</p>
+<h2 id="外观模式"><a href="#外观模式" class="headerlink" title="外观模式"></a>外观模式</h2><p><strong>外观模式</strong>，为一组复杂的子系统接口提供一个更高级的<strong>统一接口</strong>，通过这个接口使得对子系统接口的访问更加容易。<br><a id="more"></a><br><img src="/img/structual/外观模式.png" alt="外观模式"></p>
+<ul>
+<li><p>外观模式<strong>简化底层接口复杂性</strong>，比如可以用来简化我们事件的绑定</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> addEvent(dom, <span class="built_in">type</span>, fn)&#123;</span><br><span class="line">    <span class="keyword">if</span>(dom.addEventListener)&#123;</span><br><span class="line">        dom.addEventListener(<span class="built_in">type</span>, fn, <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(dom.attachEvent)&#123;</span><br><span class="line">        dom.attachEvent(<span class="string">'on'</span> + <span class="built_in">type</span>, fn);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        dom[<span class="string">'on'</span> + <span class="built_in">type</span>] = fn;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以实现<strong>小型代码库</strong>，通过使用外观模式来封装多个功能，简化底层操作方法。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var A = &#123;</span><br><span class="line">    g: <span class="keyword">function</span>(id)&#123;</span><br><span class="line">        <span class="built_in">return</span> document.getElementById(id);</span><br><span class="line">    &#125;,</span><br><span class="line">    css: <span class="keyword">function</span>(id, key, value)&#123;</span><br><span class="line">        document.getElementById(id).style[key] = value;</span><br><span class="line">    &#125;,</span><br><span class="line">    attr: <span class="keyword">function</span>(id, key, value)&#123;</span><br><span class="line">        document.getElementById(id)[key] = value;</span><br><span class="line">    &#125;,</span><br><span class="line">    html: <span class="keyword">function</span>(id, html)&#123;</span><br><span class="line">        document.getElementById(id).innerHTML = html;</span><br><span class="line">    &#125;,</span><br><span class="line">    on: <span class="keyword">function</span>(id, <span class="built_in">type</span>, fn)&#123;</span><br><span class="line">        document.getElementById(id)[<span class="string">'on'</span> + <span class="built_in">type</span>] = fn;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// Test</span><br><span class="line">A.css(<span class="string">'box'</span>, <span class="string">'background'</span>, <span class="string">'red'</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>当一个复杂的系统提供一系列复杂的接口方法时，为系统的管理方便会造成接口方法的使用极其复杂，我们可以通过使用外观模式封装隐藏其复杂性，并简化其使用。</p>
+<h2 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h2><p><strong>适配器模式</strong>，将一个类（对象）的接口（方法或者属性）转化成另外一个接口，以满足用户需求。</p>
+<ul>
+<li><p>适配异类框架</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">//定义框架</span><br><span class="line">var A = A || &#123;&#125;;</span><br><span class="line">A.g = <span class="keyword">function</span>(id)&#123;</span><br><span class="line">    <span class="built_in">return</span> document.getElementById(id);</span><br><span class="line">&#125;</span><br><span class="line">A.on = <span class="keyword">function</span>(id, <span class="built_in">type</span>, fn)&#123;</span><br><span class="line">    var dom = typeof id === <span class="string">'string'</span>? this.g(id) : id;</span><br><span class="line">    <span class="keyword">if</span>(dom.addEventListener)&#123;</span><br><span class="line">        dom.addEventListener(<span class="built_in">type</span>, fn, <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(dom.attachEvent)&#123;</span><br><span class="line">        dom.attachEvent(<span class="string">'on'</span> + <span class="built_in">type</span>, fn);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        dom[<span class="string">'on'</span> + <span class="built_in">type</span>] = fn;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//适配JQuery</span><br><span class="line">A.g = <span class="keyword">function</span>(id)&#123;</span><br><span class="line">    <span class="built_in">return</span> $(id).get(0);</span><br><span class="line">&#125;</span><br><span class="line">A.on = <span class="keyword">function</span>(id, <span class="built_in">type</span>, fn)&#123;</span><br><span class="line">    var dom = typeof id === <span class="string">'string'</span>? $(<span class="string">'#'</span> + id) : $(id);</span><br><span class="line">    dom.on(<span class="built_in">type</span>, fn);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>参数适配器，用适配器来适配传入的参数对象</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 适配参数</span><br><span class="line"><span class="keyword">function</span> doSomeThing(obj)&#123;</span><br><span class="line">    var _adapter = &#123;</span><br><span class="line">        name: <span class="string">'qiuqiu'</span>,</span><br><span class="line">        title: <span class="string">'js'</span>,</span><br><span class="line">        age: <span class="string">'20'</span>,</span><br><span class="line">        color: <span class="string">'pink'</span>,</span><br><span class="line">        size: 100,</span><br><span class="line">        prize: 50</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(var i <span class="keyword">in</span> _adapter)&#123;</span><br><span class="line">        _adapter[i] = obj[i] || _adapter[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数据适配，将数组转换为对象形式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 数据适配</span><br><span class="line"><span class="keyword">function</span> arrToObjAdapter(arr)&#123;</span><br><span class="line">    <span class="built_in">return</span> &#123;</span><br><span class="line">        name: arr[0],</span><br><span class="line">        <span class="built_in">type</span>: arr[1],</span><br><span class="line">        title: arr[2],</span><br><span class="line">        data: arr[3]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在JavaScipt中，适配器模式<strong>不仅仅可以适配两个类接口不兼容的问题，还可以用于适配两个代码库，适配前后端数据等</strong>。</p>
+<h2 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h2><p><strong>代理模式</strong>，由于一个对象不能直接引用另一个对象，所以需要通过代理对象在这两个对象之间起到中介的作用。<br><img src="/img/structual/proxy.png" alt="proxy"><br>在JavaScript中，代理模式往往用于解决跨域请求问题。</p>
+<h2 id="装饰者模式"><a href="#装饰者模式" class="headerlink" title="装饰者模式"></a>装饰者模式</h2><p><strong>装饰者模式</strong>，在不改变原对象的基础上，通过对其进行包装拓展（添加属性或者方法）使原有对象可以满足用户的更复杂需求。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 装饰者模式</span><br><span class="line">// 装饰者</span><br><span class="line">var decorator = <span class="keyword">function</span>(input, fn)&#123;</span><br><span class="line">    var input = document.getElementById(input);</span><br><span class="line">    <span class="keyword">if</span>(typeof input.onclick === <span class="string">'function'</span>)&#123;</span><br><span class="line">        var oldClickFn = input.onclick;</span><br><span class="line">        input.onclick = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">            oldClickFn();</span><br><span class="line">            fn();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        input.onclick = fn;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Test</span><br><span class="line">decorator(<span class="string">'tel-input'</span>, <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    document.getElementById(<span class="string">'tel_demo_text'</span>).style.display = <span class="string">'none'</span>;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>适配器方法是对原有对象适配，添加的方法与原有方法功能大致相似，装饰者模式提供的方法与原来的方法功能是<strong>有一定区别</strong>的，在装饰者模式中，<strong>不需要了解对象原有的功能</strong>就可以对功能进行拓展。<br>装饰者模式对对象的拓展是一种<strong>良性拓展</strong>，不用了解其具体实现，只是在外部进行了一次封装，这又是对原有功能<strong>完整性</strong>的一种保护。</p>
+<h2 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h2><p><strong>桥接模式</strong>，在系统沿着多个维度变化的同时，又不增加其复杂度并已达到解耦。<br><img src="/img/structual/bridge-1.png" alt="bridge-1"><br><img src="/img/structual/桥接模式1.png" alt="桥接模式"><br>多维度：<br><img src="/img/structual/桥接模式.png" alt="桥接模式"><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">// 桥接模式</span><br><span class="line">// 运动单元</span><br><span class="line"><span class="keyword">function</span> Speed(x, y)&#123;</span><br><span class="line">    this.x = x;</span><br><span class="line">    this.y = y;</span><br><span class="line">&#125;</span><br><span class="line">Speed.prototype.run = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    console.log(<span class="string">"运动起来"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 着色单元</span><br><span class="line"><span class="keyword">function</span> Color(cl)&#123;</span><br><span class="line">    this.color = cl;</span><br><span class="line">&#125;</span><br><span class="line">Color.prototype.draw = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    console.log(<span class="string">"绘制色彩"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 说话单元</span><br><span class="line"><span class="keyword">function</span> Speak(wd)&#123;</span><br><span class="line">    this.word = wd;</span><br><span class="line">&#125;</span><br><span class="line">Speak.prototype.say = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    console.log(<span class="string">"书写字体"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> Ball(x, y, c) &#123;</span><br><span class="line">    this.speed = new Speed(x, y);</span><br><span class="line">    this.color = new Color(c);</span><br><span class="line">&#125;</span><br><span class="line">Ball.prototype.init = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    this.speed.run();</span><br><span class="line">    this.color.draw();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> People(x, y, f)&#123;</span><br><span class="line">    this.speed = new Speed(x, y);</span><br><span class="line">    this.speak = new Speak(f);</span><br><span class="line">&#125;</span><br><span class="line">People.prototype.init = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    this.speed.run();</span><br><span class="line">    this.speak.say();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Test</span><br><span class="line">var ball = new Ball(2, 5, <span class="string">'red'</span>);</span><br><span class="line">ball.init();</span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/structual/bridge.png" alt="bridge"><br>桥接模式<strong>先抽象提取共用部分</strong>，然后将实现与抽象通过桥接方法链接在一起，来实现解耦的作用。如我们创建实体<strong>Ball</strong>时，将需要的每个抽象动作单元<strong>Speed</strong>和<strong>Color</strong>通过桥接，链接在一起运作，这样它们之间不会相互影响并且该方式降低了它们之间的耦合。<br>桥接模式最主要的特点是将<strong>实现层</strong>（如元素绑定的事件）与<strong>抽象层</strong>（如修饰页面UI逻辑）解耦分离，使两部分可以独立变化。</p>
+<h2 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h2><p><strong>组合模式</strong>，又称为部分-整体模式，将对象组合成树形结构以表示“部分整体”的层次结构。使得用户对单个对象和组合对象的使用具有一致性。<br><img src="/img/structual/组合模式.png" alt="组合模式"><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line">// 组合模式</span><br><span class="line">// 寄生组合式继承：寄生式继承＋构造函数继承</span><br><span class="line"><span class="keyword">function</span> inheritObject(o)&#123;</span><br><span class="line">    // 声明一个过渡对象</span><br><span class="line">    <span class="keyword">function</span> <span class="function"><span class="title">F</span></span>()&#123;&#125;;</span><br><span class="line">    // 过渡对象的原型继承父对象</span><br><span class="line">    F.prototype = o;</span><br><span class="line">    // 返回过渡对象的实例，该实例的原型继承了父对象</span><br><span class="line">    <span class="built_in">return</span> new F();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 处理的不是对象，而是类的原型</span><br><span class="line"><span class="keyword">function</span> inheritPrototype(subClass, superClass)&#123;</span><br><span class="line">    // 复制一份父类的原型副本保存在变量中</span><br><span class="line">    var p = new inheritObject(superClass.prototype);</span><br><span class="line">    // 修正因为重写子类类型导致子类的constructor属性被修改</span><br><span class="line">    p.constructor = subClass;</span><br><span class="line">    // 设置子类的原型</span><br><span class="line">    subClass.prototype = p;</span><br><span class="line">&#125;</span><br><span class="line">// 虚拟父类</span><br><span class="line">var News = <span class="function"><span class="title">function</span></span> ()&#123;</span><br><span class="line">    this.children = [];</span><br><span class="line">    this.element = null;</span><br><span class="line">&#125;</span><br><span class="line">News.prototype = &#123;</span><br><span class="line">    init: <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">        throw new Error(<span class="string">"请重写你的方法"</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    add: <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">        throw new Error(<span class="string">"请重写你的方法"</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    getElement: <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">        throw new Error(<span class="string">"请重写你的方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 容器类</span><br><span class="line">var Container = <span class="keyword">function</span>(iid, parent)&#123;</span><br><span class="line">    News.call(this);</span><br><span class="line">    this.id = id;</span><br><span class="line">    this.parent = parent;</span><br><span class="line">    this.init();</span><br><span class="line">&#125;</span><br><span class="line">inheritPrototype(Container, News);</span><br><span class="line">Container.prototype.init = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    this.element = document.createElement(<span class="string">'ul'</span>);</span><br><span class="line">    this.element.id = this.id;</span><br><span class="line">    this.element.className = <span class="string">'new-container'</span>;</span><br><span class="line">&#125;</span><br><span class="line">Container.prototype.add = <span class="keyword">function</span>(child)&#123;</span><br><span class="line">    this.children.push(child);</span><br><span class="line">    // 插入当前组件元素树中</span><br><span class="line">    this.element.appendChild(child.getElement());</span><br><span class="line">    <span class="built_in">return</span> this;</span><br><span class="line">&#125;</span><br><span class="line">Container.prototype.getElement = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    <span class="built_in">return</span> this.element;</span><br><span class="line">&#125;</span><br><span class="line">Container.prototype.show = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    this.parent.appendChild(this.element);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var Item = <span class="keyword">function</span>(classname)&#123;</span><br><span class="line">    News.call(this);</span><br><span class="line">    this.classname = classname || <span class="string">''</span>;</span><br><span class="line">    this.init();</span><br><span class="line">&#125;</span><br><span class="line">inheritPrototype(Item, News);</span><br><span class="line">Item.prototype.init = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    this.element = document.createElement(<span class="string">'li'</span>);</span><br><span class="line">    this.element.className = this.classname;</span><br><span class="line">&#125;</span><br><span class="line">Item.prototype.add = <span class="keyword">function</span>(child)&#123;</span><br><span class="line">    this.children.push(child);</span><br><span class="line">    // 插入当前组件元素树中</span><br><span class="line">    this.element.appendChild(child.getElement());</span><br><span class="line">    <span class="built_in">return</span> this;</span><br><span class="line">&#125;</span><br><span class="line">Item.prototype.getElement = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    <span class="built_in">return</span> this.element;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 叶子节点类</span><br><span class="line">var ImageNews = <span class="keyword">function</span> (url, href, classname) &#123;</span><br><span class="line">    News.call(this);</span><br><span class="line">    this.url = url || <span class="string">''</span>;</span><br><span class="line">    this.href = href || <span class="string">'#'</span>;</span><br><span class="line">    this.classname = classname || <span class="string">''</span>;</span><br><span class="line">    this.init();</span><br><span class="line">&#125;</span><br><span class="line">inheritPrototype(ImageNews, News);</span><br><span class="line">ImageNews.prototype.init = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    this.element = document.createElement(<span class="string">'a'</span>);</span><br><span class="line">    var img = new Image();</span><br><span class="line">    img.src = this.url;</span><br><span class="line">    this.element.appendChild(img);</span><br><span class="line">    this.element.className = <span class="string">'image-news'</span> + this.classname;</span><br><span class="line">    this.element.href = this.href;</span><br><span class="line">&#125;</span><br><span class="line">ImageNews.prototype.add = <span class="function"><span class="title">function</span></span>()&#123;&#125;</span><br><span class="line">ImageNews.prototype.getElement = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    <span class="built_in">return</span> this.element;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var IconNews = <span class="keyword">function</span> (text, href, <span class="built_in">type</span>) &#123;</span><br><span class="line">    News.call(this);</span><br><span class="line">    this.text = text || <span class="string">''</span>;</span><br><span class="line">    this.href = href || <span class="string">'#'</span>;</span><br><span class="line">    this.type = <span class="built_in">type</span> || <span class="string">'video'</span>;</span><br><span class="line">    this.init();</span><br><span class="line">&#125;</span><br><span class="line">inheritPrototype(IconNews, News);</span><br><span class="line">IconNews.prototype.init = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    this.element = document.createElement(<span class="string">'a'</span>);</span><br><span class="line">    this.element.innerHTML = this.text;</span><br><span class="line">    this.element.className = <span class="string">'icon'</span> + this.type;</span><br><span class="line">    this.element.href = this.href;</span><br><span class="line">&#125;</span><br><span class="line">IconNews.prototype.add = <span class="function"><span class="title">function</span></span>()&#123;&#125;</span><br><span class="line">IconNews.prototype.getElement = <span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    <span class="built_in">return</span> this.element;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Test</span><br><span class="line">var news1 = new Container(<span class="string">'news'</span>, document.body);</span><br><span class="line">news1.add(</span><br><span class="line">    new Item(<span class="string">'normal'</span>).add(</span><br><span class="line">        new IconNews(<span class="string">'lalala'</span>, <span class="string">'#'</span>, <span class="string">'video'</span>)</span><br><span class="line">    )</span><br><span class="line">).add(</span><br><span class="line">    new Item(<span class="string">'normal'</span>).add(</span><br><span class="line">        new IconNews(<span class="string">'aiaia'</span>, <span class="string">'#'</span>, <span class="string">'live'</span>)</span><br><span class="line">    )</span><br><span class="line">).add(</span><br><span class="line">    new Item(<span class="string">'normal'</span>).add(</span><br><span class="line">        new ImageNews(<span class="string">'img/test1.png'</span>, <span class="string">'#'</span>, <span class="string">'small'</span>)</span><br><span class="line">    )</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>组合模式的约束要求是<strong>接口的统一</strong>，上面的例子中，我们让所有的新闻都继承了一个新闻虚拟父类<strong>News</strong>，其中在虚拟类的构造函数中定义了两个特权变量，是因为后面的所有继承子类都要声明这两个变量，为了简化子类我们也可以将这些共有的变量<strong>提前声明在父类中</strong>，相当于Java语言中<strong>protected</strong>关键字的作用。<br>组合模式能够给我们提供一个<strong>清晰的组成结构</strong>，组合对象类<strong>通过继承同一个父类使其具有统一的方法</strong>，这样也方便了我们统一管理与使用。</p>
+<h2 id="享元模式"><a href="#享元模式" class="headerlink" title="享元模式"></a>享元模式</h2><p><strong>享元模式</strong>，运用共享技术有效地支持大量的细粒度的对象，避免对象间拥有相同内容造成多余的开销。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">// 享元模式</span><br><span class="line">// 通用享元类</span><br><span class="line">var FlyWeight = &#123;</span><br><span class="line">    moveX: <span class="keyword">function</span>(x)&#123;</span><br><span class="line">        this.x = x;</span><br><span class="line">    &#125;,</span><br><span class="line">    moveY: <span class="keyword">function</span>(y)&#123;</span><br><span class="line">        this.y = y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var Player = <span class="keyword">function</span>(x, y, c)&#123;</span><br><span class="line">    this.x = x;</span><br><span class="line">    this.y = y;</span><br><span class="line">    this.c = c;</span><br><span class="line">&#125;</span><br><span class="line">Player.prototype = FlyWeight;</span><br><span class="line">Player.prototype.changeC = <span class="keyword">function</span>(c)&#123;</span><br><span class="line">    this.c = c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var Spirit = <span class="keyword">function</span>(x, y, r)&#123;</span><br><span class="line">    this.x = x;</span><br><span class="line">    this.y = y;</span><br><span class="line">    this.r = r;</span><br><span class="line">&#125;</span><br><span class="line">Spirit.prototype = FlyWeight;</span><br><span class="line">Spirit.prototype.changeR = <span class="keyword">function</span>(r)&#123;</span><br><span class="line">    this.r = r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Test</span><br><span class="line">var player = new Player(5, 6, <span class="string">'red'</span>);</span><br><span class="line">console.log(player);</span><br><span class="line">player.moveX(6);</span><br><span class="line">player.moveY(8);</span><br><span class="line">player.changeC(<span class="string">'green'</span>);</span><br><span class="line">console.log(player)</span><br><span class="line"></span><br><span class="line">var spirit = new Spirit(2, 3, 4);</span><br><span class="line">console.log(spirit);</span><br><span class="line">spirit.moveX(3);</span><br><span class="line">spirit.moveY(4);</span><br><span class="line">spirit.changeR(5);</span><br><span class="line">console.log(spirit)</span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/structual/flyWeight.png" alt="flyWeight"><br>我们将人物类<strong>Player</strong>以及精灵类<strong>Spirit</strong>中的内部方法（移动方法）提取出来，实现公有，减少其它类重写时造成的不必要的开销。<br>享元模式主要是<strong>对其数据、方法共享分离</strong>，它将数据和方法分成<strong>内部数据</strong>、<strong>内部方法</strong>和<strong>外部数据</strong>、<strong>外部方法</strong>。内部方法与内部数据指的是相似或者共有的数据和方法。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>JavaScript设计模式之结构型设计模式到此也就告一段落了，因为其中有部分设计模式之前因为时间不足未曾深入学习，所以可能有些理解的不够透彻，如果有存在描述不当的地方，欢迎大家指出～共同进步～</p>
+<p>下一篇我将记录JavaScript设计模式中行为型设计模式的学习过程～加油加油～</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/02/06/js-structural-pattern/">JavaScript设计模式之结构型设计模式</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 萌萌哒的邱邱邱邱 的个人博客">萌萌哒的邱邱邱邱</a></p>
+  <p><span>发布时间:</span>2018年02月06日 - 13:02</p>
+  <p><span>最后更新:</span>2018年02月10日 - 10:02</p>
+  <p><span>原始链接:</span><a href="/2018/02/06/js-structural-pattern/" title="JavaScript设计模式之结构型设计模式">https://qiuruolin.github.io/2018/02/06/js-structural-pattern/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2018/02/06/js-structural-pattern/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+      
+    </div>
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-eye"></i>感谢您的阅读-------------</div>
+    
+</div>
+      </div>
+    
+    
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的支持</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/img/wechat.png" alt="萌萌哒的邱邱邱邱 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/img/alipay.png" alt="萌萌哒的邱邱邱邱 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript之设计模式/" rel="tag"># JavaScript之设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/31/js-creational-pattern/" rel="next" title="JavaScript设计模式之创建型设计模式">
+                <i class="fa fa-chevron-left"></i> JavaScript设计模式之创建型设计模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/17/algorithm-sort/" rel="prev" title="算法之排序">
+                算法之排序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a795d51f3581934" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/img/avatar.png"
+                alt="萌萌哒的邱邱邱邱" />
+            
+              <p class="site-author-name" itemprop="name">萌萌哒的邱邱邱邱</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/qiuruolin/qiuruolin.github.io.git" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1312492221@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.jianshu.com/nb/16441987" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://my.csdn.net" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#结构型设计模式"><span class="nav-number">1.</span> <span class="nav-text">结构型设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#外观模式"><span class="nav-number">1.1.</span> <span class="nav-text">外观模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适配器模式"><span class="nav-number">1.2.</span> <span class="nav-text">适配器模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理模式"><span class="nav-number">1.3.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装饰者模式"><span class="nav-number">1.4.</span> <span class="nav-text">装饰者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#桥接模式"><span class="nav-number">1.5.</span> <span class="nav-text">桥接模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组合模式"><span class="nav-number">1.6.</span> <span class="nav-text">组合模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#享元模式"><span class="nav-number">1.7.</span> <span class="nav-text">享元模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.8.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">萌萌哒的邱邱邱邱</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+     本页点击 <span id="busuanzi_value_page_pv"></span> 次
+  |  本站总点击 <span id="busuanzi_value_site_pv"></span> 次
+  |  您是第 <span id="busuanzi_value_site_uv"></span> 位访客
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://qiuruolin.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://qiuruolin.github.io/2018/02/06/js-structural-pattern/';
+          this.page.identifier = '2018/02/06/js-structural-pattern/';
+          this.page.title = 'JavaScript设计模式之结构型设计模式';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://qiuruolin.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  <script type="text/javascript" src="/js/src/particle.js" count="50" zindex="-2" opacity="1" color="0,104,183"></script>
+  <script type="text/javascript" src="/js/src/love.js"></script>
+  <script type="text/javascript" src="/js/src/dytitle.js"></script>
+</body>
+</html>
