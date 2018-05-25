@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="面经," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="因为我们专业要求大四一学年的实习，所以这段时间也就自然在做春招内推的各项准备，从开始找实习到获得腾讯实习Offer大约历经了一个多月的时间，这一个多月来压力很大，也很怕找不到好的实习，所以这个月也刷了很多大佬的面经，获得了很多帮助，也增长了很多前端知识。是在清明节前一天收到腾讯HR小哥哥的Offer电话，时隔这么久才想起要把腾讯面试的一些问题写成博客，或许会对大家有所帮助。  前言从准备春招以来">
+<meta name="keywords" content="面经">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记腾讯的一次前端面试经历（共四面，已拿实习Offer）">
+<meta property="og:url" content="https://qiuruolin.github.io/2018/05/23/interview-experiences/index.html">
+<meta property="og:site_name" content="邱邱邱邱的个人博客">
+<meta property="og:description" content="因为我们专业要求大四一学年的实习，所以这段时间也就自然在做春招内推的各项准备，从开始找实习到获得腾讯实习Offer大约历经了一个多月的时间，这一个多月来压力很大，也很怕找不到好的实习，所以这个月也刷了很多大佬的面经，获得了很多帮助，也增长了很多前端知识。是在清明节前一天收到腾讯HR小哥哥的Offer电话，时隔这么久才想起要把腾讯面试的一些问题写成博客，或许会对大家有所帮助。  前言从准备春招以来">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://qiuruolin.github.io/img/event.png">
+<meta property="og:updated_time" content="2018-05-25T04:11:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记腾讯的一次前端面试经历（共四面，已拿实习Offer）">
+<meta name="twitter:description" content="因为我们专业要求大四一学年的实习，所以这段时间也就自然在做春招内推的各项准备，从开始找实习到获得腾讯实习Offer大约历经了一个多月的时间，这一个多月来压力很大，也很怕找不到好的实习，所以这个月也刷了很多大佬的面经，获得了很多帮助，也增长了很多前端知识。是在清明节前一天收到腾讯HR小哥哥的Offer电话，时隔这么久才想起要把腾讯面试的一些问题写成博客，或许会对大家有所帮助。  前言从准备春招以来">
+<meta name="twitter:image" content="https://qiuruolin.github.io/img/event.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://qiuruolin.github.io/2018/05/23/interview-experiences/"/>
+
+
+
+
+
+  <title>记腾讯的一次前端面试经历（共四面，已拿实习Offer） | 邱邱邱邱的个人博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c6b7cb6722791755bb6aae172845cc92";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">邱邱邱邱的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://qiuruolin.github.io/2018/05/23/interview-experiences/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="萌萌哒的邱邱邱邱">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="邱邱邱邱的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">记腾讯的一次前端面试经历（共四面，已拿实习Offer）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-23T21:19:33+08:00">
+                2018-05-23
+              </time>
+            
+
+            
+              <span id="busuanzi_container_page_pv">  |  阅读量 <span id="busuanzi_value_page_pv"></span> 次</span>
+            
+
+            
+
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面经/" itemprop="url" rel="index">
+                    <span itemprop="name">面经</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/23/interview-experiences/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/23/interview-experiences/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>因为我们专业要求大四一学年的实习，所以这段时间也就自然在做春招内推的各项准备，从开始找实习到获得腾讯实习Offer大约历经了一个多月的时间，这一个多月来压力很大，也很怕找不到好的实习，所以这个月也刷了很多大佬的面经，获得了很多帮助，也增长了很多前端知识。是在清明节前一天收到腾讯HR小哥哥的Offer电话，时隔这么久才想起要把腾讯面试的一些问题写成博客，或许会对大家有所帮助。</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>从准备春招以来，一共面试的公司有三家：京东、腾讯和CVTE，京东情况比较特殊应该不算是正式的春招，京东面试时问了很多有关CSS的知识，比如margin塌陷、CSS3新特性、背景透明的实现方法、清除浮动的方法以及垂直居中的方法等<br><a id="more"></a><br>CVTE是唯一一个现场面试的，很多面试题目都很类似，印象最深的是三道手撕代码题，</p>
+<ul>
+<li>第一道是写一程序遍历一个DOM结构，</li>
+<li>第二道是算法题，要求给你一个字符串”I love dog”变成”dog love I”</li>
+<li>第三道是实现某个种栅格布局</li>
+</ul>
+<h1 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h1><p>一面大概面了一个多小时，问了很多基础知识，涉及的方面也很广<br>首先介绍实习经历，balabala讲了一下项目经验，然后大概说了一下什么时候开始学习前端，以下是我记得的一些问题：</p>
+<h4 id="1-怎么使用dns缓存做优化"><a href="#1-怎么使用dns缓存做优化" class="headerlink" title="1. 怎么使用dns缓存做优化"></a>1. 怎么使用dns缓存做优化</h4><p>DNS的优化， 当然是尽可能少的造成DNS查询开销，当用户在浏览器的地址栏中输入网址时，浏览器会首先通过访问的域名来定位到IP (DNS) 从而找到去哪里获取资源，浏览器会按浏览器缓存-&gt;系统缓存-&gt;路由器缓存-&gt;ISP DNS缓存-&gt;递归搜索依次进行查询，DNS优化就是需要我们尽可能少的域名解析。<br>DNS预取就是在浏览器加载网页时， 对网页中的或者的href属性中的域名进行后台的预解析， 并且将解析结果缓存在浏览器端， 当用户在真正点击链接时， 省去在当下的DNS解析消耗， 把这个消耗过程转嫁到用户无法感知的浏览过程中去。<br>我们可以通过以下方法来打开DNS预取：</p>
+<ul>
+<li>可以通过用meta信息来告知浏览器， 当前页面要做DNS预取:<meta http-equiv="x-dns-prefetch-control" content="on"></li>
+<li>可以使用link标签来强制对DNS做预取: <link rel="dns-prefetch" href="http://bdimg.share.baidu.com"></li>
+</ul>
+<h4 id="2-ES6了解哪些？"><a href="#2-ES6了解哪些？" class="headerlink" title="2. ES6了解哪些？"></a>2. ES6了解哪些？</h4><p>ES6中有很多知识点，比如Promise、Generator、箭头函数等，建议大家多熟悉一下</p>
+<h4 id="3-知道哪些数组方法"><a href="#3-知道哪些数组方法" class="headerlink" title="3. 知道哪些数组方法"></a>3. 知道哪些数组方法</h4><p>最常用的有方法有：</p>
+<ul>
+<li>join()——将数组元素组成一个字符串</li>
+<li>push()和pop()——类似栈的操作</li>
+<li>shift()和unshift()——删除数组第一项／添加元素至数组第一项</li>
+<li>sort()——对数组进行排序</li>
+<li>reverse()——反转数组項的顺序</li>
+<li>concat() ——将参数添加到原数组中。这个方法会先创建当前数组一个副本，然后将接收到的参数添加到这个副本的末尾，最后返回新构建的数组。在没有给 concat()方法传递参数的情况下，它只是复制当前数组并返回副本。</li>
+<li>slice()——返回从原数组中指定开始下标到结束下标之间的项组成的新数组。</li>
+<li>splice()——很强大的数组方法，它有很多种用法，可以实现删除、插入和替换。</li>
+<li>indexOf()和lastIndexOf()——从数组的开头（位置 0）开始向后查找／从数组的末尾开始向前查找。</li>
+<li>forEach()——对数组进行遍历循环，对数组中的每一项运行给定函数。</li>
+<li>map()——对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组。</li>
+<li>filter()——“过滤”功能，数组中的每一项运行给定函数，返回满足过滤条件组成的数组。</li>
+<li>every()——判断数组中每一项都是否满足条件，只有所有项都满足条件，才会返回true。</li>
+<li>some()——判断数组中是否存在满足条件的项，只要有一项满足条件，就会返回true。</li>
+<li>reduce()和 reduceRight()——从数组的第一项开始，逐个遍历到最后／从数组的最后一项开始，向前遍历到第一项。<br>两个方法都接收两个参数：一个在每一项上调用的函数和（可选的）作为归并基础的初始值。</li>
+</ul>
+<h4 id="4-将字符串转换为数字"><a href="#4-将字符串转换为数字" class="headerlink" title="4. 将字符串转换为数字"></a>4. 将字符串转换为数字</h4><ul>
+<li>parseInt()和parseFloat()，要注意方法的第二个参数，表示使用的基模式（二进制(2)、八进制(8)、十进制(10)、十六进制(16)）</li>
+<li>强制类型转换：Number(value)</li>
+<li>js弱类型转换（不推荐）：var x = str-0; x = x*1;</li>
+</ul>
+<h4 id="5-cdn缓存的原理"><a href="#5-cdn缓存的原理" class="headerlink" title="5. cdn缓存的原理"></a>5. cdn缓存的原理</h4><p> 推荐看<a href="https://www.cnblogs.com/SkySoot/p/6119356.html" target="_blank" rel="noopener">CDN技术详解</a>这篇博客，博主对于CDN的相关知识点确实讲解的比较到位了</p>
+<h4 id="6-事件捕获和事件冒泡"><a href="#6-事件捕获和事件冒泡" class="headerlink" title="6. 事件捕获和事件冒泡"></a>6. 事件捕获和事件冒泡</h4><p>贴一张图大家感受一下<br><img src="/img/event.png" alt="事件机制"></p>
+<h4 id="7-阻止冒泡事件和默认事件"><a href="#7-阻止冒泡事件和默认事件" class="headerlink" title="7. 阻止冒泡事件和默认事件"></a>7. 阻止冒泡事件和默认事件</h4><p>event.stopPropagation()：这是阻止事件的冒泡方法，不让事件向documen上蔓延，但是默认事件任然会执行，当你掉用这个方法的时候，如果点击一个连接，这个连接仍然会被打开<br>event.preventDefault()：这是阻止默认事件的方法，调用此方法是，连接不会被打开，但是会发生冒泡，冒泡会传递到上一层的父元素；<br>IE下：<br>window.event.cancelBubble = true;//停止冒泡<br>window.event.returnValue = false;//阻止事件的默认行为</p>
+<h4 id="8-前端优化"><a href="#8-前端优化" class="headerlink" title="8. 前端优化"></a>8. 前端优化</h4><p><a href="https://blog.csdn.net/mahoking/article/details/51472697" target="_blank" rel="noopener">Web前端性能优化总结</a></p>
+<h4 id="9-CSS文件为什么要放在文档头部？js文件为什么放在底部？"><a href="#9-CSS文件为什么要放在文档头部？js文件为什么放在底部？" class="headerlink" title="9. CSS文件为什么要放在文档头部？js文件为什么放在底部？"></a>9. CSS文件为什么要放在文档头部？js文件为什么放在底部？</h4><h4 id="10-HTML5引入的新特性"><a href="#10-HTML5引入的新特性" class="headerlink" title="10. HTML5引入的新特性"></a>10. HTML5引入的新特性</h4><h4 id="11-HTTP缓存机制"><a href="#11-HTTP缓存机制" class="headerlink" title="11. HTTP缓存机制"></a>11. HTTP缓存机制</h4><p><a href="https://www.cnblogs.com/chenqf/p/6386163.html" target="_blank" rel="noopener">彻底弄懂HTTP缓存机制及原理</a></p>
+<h4 id="12-cache-control的属性（no-cache和no-store的区别）"><a href="#12-cache-control的属性（no-cache和no-store的区别）" class="headerlink" title="12. cache-control的属性（no-cache和no-store的区别）"></a>12. cache-control的属性（no-cache和no-store的区别）</h4><p><a href="https://blog.csdn.net/eroswang/article/details/8302191" target="_blank" rel="noopener">浏览器缓存详解:expires,cache-control,last-modified,etag详细说明</a><br>Cache-Control: no-cache：这个很容易让人产生误解，使人误以为是响应不被缓存。实际上Cache-Control: no-cache是会被缓存的，只不过每次在向客户端（浏览器）提供响应数据时，缓存都要向服务器评估缓存响应的有效性。<br>Cache-Control: no-store：这个才是响应不被缓存的意思。</p>
+<h4 id="13-Http状态码（403、304是什么）"><a href="#13-Http状态码（403、304是什么）" class="headerlink" title="13. Http状态码（403、304是什么）"></a>13. Http状态码（403、304是什么）</h4><p><a href="https://blog.csdn.net/dufufd/article/details/53112184" target="_blank" rel="noopener">常见的HTTP状态码(HTTP Status Code)说明</a></p>
+<h4 id="14-jsonp的实现原理"><a href="#14-jsonp的实现原理" class="headerlink" title="14. jsonp的实现原理"></a>14. jsonp的实现原理</h4><p><a href="https://blog.csdn.net/u011897301/article/details/52679486" target="_blank" rel="noopener">简单透彻理解JSONP原理及使用</a></p>
+<h4 id="15-xss、cors？以及如何防范？sql注入？？"><a href="#15-xss、cors？以及如何防范？sql注入？？" class="headerlink" title="15. xss、cors？以及如何防范？sql注入？？"></a>15. xss、cors？以及如何防范？sql注入？？</h4><ul>
+<li><p>XSS：跨站脚本攻击<br>它允许用户将恶意代码植入到提供给其他用户使用的页面中，可以简单的理解为一种javascript代码注入。<br>XSS的防御措施：</p>
+<ul>
+<li>过滤转义输入输出</li>
+<li>避免使用eval、new Function等执行字符串的方法，除非确定字符串和用户输入无关</li>
+<li>使用cookie的httpOnly属性，加上了这个属性的cookie字段，js是无法进行读写的</li>
+<li>使用innerHTML、document.write的时候，如果数据是用户输入的，那么需要对象关键字符进行过滤与转义</li>
+</ul>
+</li>
+<li><p>CSRF：跨站请求伪造<br>其实就是网站中的一些提交行为，被黑客利用，在你访问黑客的网站的时候进行操作，会被操作到其他网站上<br>CSRF防御措施：</p>
+<ul>
+<li>检测http referer是否是同域名</li>
+<li>避免登录的session长时间存储在客户端中</li>
+<li>关键请求使用验证码或者token机制</li>
+</ul>
+</li>
+</ul>
+<h4 id="16-setTimeout的执行原理以及什么时候回调函数会加入到任务队列中？与Promise执行机制上有什么不同？"><a href="#16-setTimeout的执行原理以及什么时候回调函数会加入到任务队列中？与Promise执行机制上有什么不同？" class="headerlink" title="16. setTimeout的执行原理以及什么时候回调函数会加入到任务队列中？与Promise执行机制上有什么不同？"></a>16. setTimeout的执行原理以及什么时候回调函数会加入到任务队列中？与Promise执行机制上有什么不同？</h4><p><a href="https://blog.csdn.net/qq_31628337/article/details/71056294" target="_blank" rel="noopener">JS：事件循环机制、调用栈以及任务队列</a></p>
+<h4 id="17-postMessage的实现，跨域请求的实现"><a href="#17-postMessage的实现，跨域请求的实现" class="headerlink" title="17. postMessage的实现，跨域请求的实现"></a>17. postMessage的实现，跨域请求的实现</h4><p><a href="http://blog.csdn.net/ligang2585116/article/details/73072868" target="_blank" rel="noopener">八种方式实现跨域请求</a><br><a href="https://segmentfault.com/a/1190000011145364" target="_blank" rel="noopener">前端常见跨域解决方案</a></p>
+<h4 id="18-Web-Storage的方法（setItem、getItem、removeItem、clear）"><a href="#18-Web-Storage的方法（setItem、getItem、removeItem、clear）" class="headerlink" title="18. Web Storage的方法（setItem、getItem、removeItem、clear）"></a>18. Web Storage的方法（setItem、getItem、removeItem、clear）</h4><p><a href="https://blog.csdn.net/shenzhennba/article/details/8480756" target="_blank" rel="noopener">HTML5本地存储之Web Storage篇</a></p>
+<h4 id="19-页面重绘和重排，如何减少重排？如何减少对DOM的操作"><a href="#19-页面重绘和重排，如何减少重排？如何减少对DOM的操作" class="headerlink" title="19. 页面重绘和重排，如何减少重排？如何减少对DOM的操作"></a>19. 页面重绘和重排，如何减少重排？如何减少对DOM的操作</h4><p><a href="https://www.cnblogs.com/nightstarsky/p/5853978.html" target="_blank" rel="noopener">JS对DOM的操作优化法则</a></p>
+<h4 id="20-CSS有哪些选择器？优先级"><a href="#20-CSS有哪些选择器？优先级" class="headerlink" title="20. CSS有哪些选择器？优先级"></a>20. CSS有哪些选择器？优先级</h4><h4 id="21-如何添加元素，创建元素（除了createElement和createTextNode还有什么）"><a href="#21-如何添加元素，创建元素（除了createElement和createTextNode还有什么）" class="headerlink" title="21. 如何添加元素，创建元素（除了createElement和createTextNode还有什么）"></a>21. 如何添加元素，创建元素（除了createElement和createTextNode还有什么）</h4><p><a href="https://blog.csdn.net/u010582082/article/details/70196854" target="_blank" rel="noopener">js创建dom节点之最容易被忽略的createDocumentFragment()方法</a></p>
+<h4 id="22-怎么选取DOM元素（DOM元素选择的方式）"><a href="#22-怎么选取DOM元素（DOM元素选择的方式）" class="headerlink" title="22. 怎么选取DOM元素（DOM元素选择的方式）"></a>22. 怎么选取DOM元素（DOM元素选择的方式）</h4><p><a href="https://www.cnblogs.com/wangshengli520/p/7737058.html" target="_blank" rel="noopener">JS选取DOM元素的方法</a></p>
+<h4 id="23-call和apply的区别，bind方法"><a href="#23-call和apply的区别，bind方法" class="headerlink" title="23. call和apply的区别，bind方法"></a>23. call和apply的区别，bind方法</h4><p><a href="https://www.cnblogs.com/Shd-Study/archive/2017/03/16/6560808.html" target="_blank" rel="noopener">javascript中call()、apply()、bind()的用法终于理解</a><br><a href="http://blog.csdn.net/java_zhaoyanli/article/details/50891305" target="_blank" rel="noopener">bind方法</a></p>
+<h4 id="24-块级作用域及其应用场景"><a href="#24-块级作用域及其应用场景" class="headerlink" title="24. 块级作用域及其应用场景"></a>24. 块级作用域及其应用场景</h4><p><a href="https://blog.csdn.net/github_26672553/article/details/53534436" target="_blank" rel="noopener">块级作用域</a></p>
+<h4 id="25-let和var的区别（除了变量提升，还有什么）"><a href="#25-let和var的区别（除了变量提升，还有什么）" class="headerlink" title="25. let和var的区别（除了变量提升，还有什么）"></a>25. let和var的区别（除了变量提升，还有什么）</h4><p><a href="http://blog.csdn.net/nfer_zhuang/article/details/48781671" target="_blank" rel="noopener">js中let和var定义变量的区别</a></p>
+<h4 id="26-HTTP2-0的特性"><a href="#26-HTTP2-0的特性" class="headerlink" title="26. HTTP2.0的特性"></a>26. HTTP2.0的特性</h4><p><a href="http://blog.csdn.net/sysuzhyupeng/article/details/56508111" target="_blank" rel="noopener">HTTP 2.0带来哪些新特性</a></p>
+<h4 id="27-对象复制（深浅拷贝）Object-assign"><a href="#27-对象复制（深浅拷贝）Object-assign" class="headerlink" title="27. 对象复制（深浅拷贝）Object.assign"></a>27. 对象复制（深浅拷贝）Object.assign</h4><p><a href="https://www.cnblogs.com/shiyou00/p/6379170.html" target="_blank" rel="noopener">javascript对象的深浅拷贝浅析</a></p>
+<h4 id="28-innerHTML和outerHTML"><a href="#28-innerHTML和outerHTML" class="headerlink" title="28. innerHTML和outerHTML"></a>28. innerHTML和outerHTML</h4><h4 id="29-null和undefined的区别"><a href="#29-null和undefined的区别" class="headerlink" title="29. null和undefined的区别"></a>29. null和undefined的区别</h4><ul>
+<li>undefined一般用于抛出异常</li>
+<li>typeof null =&gt; object; typeof undefined =&gt; undefined</li>
+<li>Number(null) = 0; Number(undefined) = NaN</li>
+<li>正确使用null，可以有效清除引用，用于垃圾回收</li>
+<li>null instanceof Object // false</li>
+</ul>
+<h4 id="30-https为什么是安全的？SSL是怎么加密的？"><a href="#30-https为什么是安全的？SSL是怎么加密的？" class="headerlink" title="30. https为什么是安全的？SSL是怎么加密的？"></a>30. https为什么是安全的？SSL是怎么加密的？</h4><p><a href="https://blog.csdn.net/wx_962464/article/details/51043069" target="_blank" rel="noopener">详解HTTPS是如何确保安全性的</a></p>
+<h4 id="31-缓存过期时间的设置（除了expires和max-age还有什么）"><a href="#31-缓存过期时间的设置（除了expires和max-age还有什么）" class="headerlink" title="31. 缓存过期时间的设置（除了expires和max-age还有什么）"></a>31. 缓存过期时间的设置（除了expires和max-age还有什么）</h4><h4 id="32-什么是同源策略？怎样属于同源（同协议同域名同端口）"><a href="#32-什么是同源策略？怎样属于同源（同协议同域名同端口）" class="headerlink" title="32. 什么是同源策略？怎样属于同源（同协议同域名同端口）"></a>32. 什么是同源策略？怎样属于同源（同协议同域名同端口）</h4><h4 id="33-vue-router对history的操作"><a href="#33-vue-router对history的操作" class="headerlink" title="33. vue-router对history的操作"></a>33. vue-router对history的操作</h4><h4 id="34-对json方法的了解（son-stringify和json-parseJSON）"><a href="#34-对json方法的了解（son-stringify和json-parseJSON）" class="headerlink" title="34. 对json方法的了解（son.stringify和json.parseJSON）"></a>34. 对json方法的了解（son.stringify和json.parseJSON）</h4><h4 id="35-还有什么要问我的吗？"><a href="#35-还有什么要问我的吗？" class="headerlink" title="35. 还有什么要问我的吗？"></a>35. 还有什么要问我的吗？</h4><h1 id="二面"><a href="#二面" class="headerlink" title="二面"></a>二面</h1><p>二面时间不长，大概20分钟左右，因为是晚上下课后打来的电话，所以问的内容也不算多</p>
+<h4 id="1-http协议的请求头内容"><a href="#1-http协议的请求头内容" class="headerlink" title="1. http协议的请求头内容"></a>1. http协议的请求头内容</h4><p><a href="https://blog.csdn.net/u010256388/article/details/68491509" target="_blank" rel="noopener">HTTP请求行、请求头、请求体详解</a></p>
+<h4 id="2-cache-control-是什么？以及它的取值有哪些"><a href="#2-cache-control-是什么？以及它的取值有哪些" class="headerlink" title="2. cache-control 是什么？以及它的取值有哪些"></a>2. cache-control 是什么？以及它的取值有哪些</h4><h4 id="3-http1-1有哪些不足"><a href="#3-http1-1有哪些不足" class="headerlink" title="3. http1.1有哪些不足"></a>3. http1.1有哪些不足</h4><p><a href="https://www.zhihu.com/question/34074946" target="_blank" rel="noopener">HTTP/2.0 相比1.0有哪些重大改进？</a></p>
+<h4 id="4-快速排序的思想"><a href="#4-快速排序的思想" class="headerlink" title="4. 快速排序的思想"></a>4. 快速排序的思想</h4><p>排序算法可以参考我上一篇博客<a href="http://qiuruolin.cn/2018/02/17/algorithm-sort/" target="_blank" rel="noopener">算法之排序</a></p>
+<h4 id="5-事件捕获和事件冒泡"><a href="#5-事件捕获和事件冒泡" class="headerlink" title="5. 事件捕获和事件冒泡"></a>5. 事件捕获和事件冒泡</h4><h4 id="6-怎么阻止事件冒泡？怎么在事件捕获阶段阻止事件冒泡"><a href="#6-怎么阻止事件冒泡？怎么在事件捕获阶段阻止事件冒泡" class="headerlink" title="6. 怎么阻止事件冒泡？怎么在事件捕获阶段阻止事件冒泡"></a>6. 怎么阻止事件冒泡？怎么在事件捕获阶段阻止事件冒泡</h4><h4 id="7-对ES6的了解"><a href="#7-对ES6的了解" class="headerlink" title="7. 对ES6的了解"></a>7. 对ES6的了解</h4><p>我提了Promise，后来就一直问的是Promise的知识：Promise有哪几种状态(pending, fulfilled, rejected)，状态之间的转换<br>new Promise(function(){<br>    resolve();<br>}).then(function(){<br>    //问此处的then可不可以被执行<br>})<br>事件监听器在事件点击之后监听是无效的，Promise和它有什么区别？<br><a href="https://segmentfault.com/a/1190000007678185" target="_blank" rel="noopener">promise介绍–基础篇</a></p>
+<h4 id="8-如果有一个箱子里有100个苹果，一次可以拿1或2个，问有多少种方法将100个苹果移到另一个箱子中"><a href="#8-如果有一个箱子里有100个苹果，一次可以拿1或2个，问有多少种方法将100个苹果移到另一个箱子中" class="headerlink" title="8. 如果有一个箱子里有100个苹果，一次可以拿1或2个，问有多少种方法将100个苹果移到另一个箱子中"></a>8. 如果有一个箱子里有100个苹果，一次可以拿1或2个，问有多少种方法将100个苹果移到另一个箱子中</h4><h1 id="三面"><a href="#三面" class="headerlink" title="三面"></a>三面</h1><p>三面是对我平时如何学习前端以及对我的学习兴趣做了进一步的了解</p>
+<h4 id="1-平时是如何学习的"><a href="#1-平时是如何学习的" class="headerlink" title="1. 平时是如何学习的"></a>1. 平时是如何学习的</h4><h4 id="2-如何进行沟通，有没有自己的一套沟通方案"><a href="#2-如何进行沟通，有没有自己的一套沟通方案" class="headerlink" title="2. 如何进行沟通，有没有自己的一套沟通方案"></a>2. 如何进行沟通，有没有自己的一套沟通方案</h4><h4 id="3-有没有好奇心？"><a href="#3-有没有好奇心？" class="headerlink" title="3. 有没有好奇心？"></a>3. 有没有好奇心？</h4><h4 id="4-平时写代码的时间有多少"><a href="#4-平时写代码的时间有多少" class="headerlink" title="4. 平时写代码的时间有多少"></a>4. 平时写代码的时间有多少</h4><h1 id="四面-HR面"><a href="#四面-HR面" class="headerlink" title="四面(HR面)"></a>四面(HR面)</h1><p>四面就是腾讯云招聘经理来的面试电话，也就是HR面，了解了一下个人的发展方向，家庭情况之类的<br>我觉得HR面其实也需要好好准备一下的，第一次HR面是在CVTE，挂了CVTE之后就对HR面有点阴影了，十分感谢我的老大在腾讯HR面前一天晚上顶着疲惫不堪的身心还特地打电话给我，教我如何回答得更理想～<br>拿到口头Offer后就回家过清明节了～</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实能够拿到腾讯实习Offer很大一部分是因为运气，希望小菜鸟的我和腾讯的缘分一直走下去～实习加油！！<br>啰啰嗦嗦说了很多，希望对大家有所帮助！</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/05/23/interview-experiences/">记腾讯的一次前端面试经历（共四面，已拿实习Offer）</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 萌萌哒的邱邱邱邱 的个人博客">萌萌哒的邱邱邱邱</a></p>
+  <p><span>发布时间:</span>2018年05月23日 - 21:05</p>
+  <p><span>最后更新:</span>2018年05月25日 - 12:05</p>
+  <p><span>原始链接:</span><a href="/2018/05/23/interview-experiences/" title="记腾讯的一次前端面试经历（共四面，已拿实习Offer）">https://qiuruolin.github.io/2018/05/23/interview-experiences/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2018/05/23/interview-experiences/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+      
+    </div>
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-eye"></i>感谢您的阅读-------------</div>
+    
+</div>
+      </div>
+    
+    
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的支持</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/img/wechat.png" alt="萌萌哒的邱邱邱邱 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/img/alipay.png" alt="萌萌哒的邱邱邱邱 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面经/" rel="tag"># 面经</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/17/algorithm-sort/" rel="next" title="算法之排序">
+                <i class="fa fa-chevron-left"></i> 算法之排序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a795d51f3581934" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/img/avatar.png"
+                alt="萌萌哒的邱邱邱邱" />
+            
+              <p class="site-author-name" itemprop="name">萌萌哒的邱邱邱邱</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/qiuruolin/qiuruolin.github.io.git" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1312492221@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.jianshu.com/nb/16441987" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://my.csdn.net" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一面"><span class="nav-number">2.</span> <span class="nav-text">一面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-怎么使用dns缓存做优化"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">1. 怎么使用dns缓存做优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-ES6了解哪些？"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">2. ES6了解哪些？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-知道哪些数组方法"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">3. 知道哪些数组方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-将字符串转换为数字"><span class="nav-number">2.0.0.4.</span> <span class="nav-text">4. 将字符串转换为数字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-cdn缓存的原理"><span class="nav-number">2.0.0.5.</span> <span class="nav-text">5. cdn缓存的原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-事件捕获和事件冒泡"><span class="nav-number">2.0.0.6.</span> <span class="nav-text">6. 事件捕获和事件冒泡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-阻止冒泡事件和默认事件"><span class="nav-number">2.0.0.7.</span> <span class="nav-text">7. 阻止冒泡事件和默认事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-前端优化"><span class="nav-number">2.0.0.8.</span> <span class="nav-text">8. 前端优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-CSS文件为什么要放在文档头部？js文件为什么放在底部？"><span class="nav-number">2.0.0.9.</span> <span class="nav-text">9. CSS文件为什么要放在文档头部？js文件为什么放在底部？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-HTML5引入的新特性"><span class="nav-number">2.0.0.10.</span> <span class="nav-text">10. HTML5引入的新特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-HTTP缓存机制"><span class="nav-number">2.0.0.11.</span> <span class="nav-text">11. HTTP缓存机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-cache-control的属性（no-cache和no-store的区别）"><span class="nav-number">2.0.0.12.</span> <span class="nav-text">12. cache-control的属性（no-cache和no-store的区别）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-Http状态码（403、304是什么）"><span class="nav-number">2.0.0.13.</span> <span class="nav-text">13. Http状态码（403、304是什么）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-jsonp的实现原理"><span class="nav-number">2.0.0.14.</span> <span class="nav-text">14. jsonp的实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-xss、cors？以及如何防范？sql注入？？"><span class="nav-number">2.0.0.15.</span> <span class="nav-text">15. xss、cors？以及如何防范？sql注入？？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-setTimeout的执行原理以及什么时候回调函数会加入到任务队列中？与Promise执行机制上有什么不同？"><span class="nav-number">2.0.0.16.</span> <span class="nav-text">16. setTimeout的执行原理以及什么时候回调函数会加入到任务队列中？与Promise执行机制上有什么不同？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17-postMessage的实现，跨域请求的实现"><span class="nav-number">2.0.0.17.</span> <span class="nav-text">17. postMessage的实现，跨域请求的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#18-Web-Storage的方法（setItem、getItem、removeItem、clear）"><span class="nav-number">2.0.0.18.</span> <span class="nav-text">18. Web Storage的方法（setItem、getItem、removeItem、clear）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19-页面重绘和重排，如何减少重排？如何减少对DOM的操作"><span class="nav-number">2.0.0.19.</span> <span class="nav-text">19. 页面重绘和重排，如何减少重排？如何减少对DOM的操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20-CSS有哪些选择器？优先级"><span class="nav-number">2.0.0.20.</span> <span class="nav-text">20. CSS有哪些选择器？优先级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#21-如何添加元素，创建元素（除了createElement和createTextNode还有什么）"><span class="nav-number">2.0.0.21.</span> <span class="nav-text">21. 如何添加元素，创建元素（除了createElement和createTextNode还有什么）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#22-怎么选取DOM元素（DOM元素选择的方式）"><span class="nav-number">2.0.0.22.</span> <span class="nav-text">22. 怎么选取DOM元素（DOM元素选择的方式）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#23-call和apply的区别，bind方法"><span class="nav-number">2.0.0.23.</span> <span class="nav-text">23. call和apply的区别，bind方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#24-块级作用域及其应用场景"><span class="nav-number">2.0.0.24.</span> <span class="nav-text">24. 块级作用域及其应用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#25-let和var的区别（除了变量提升，还有什么）"><span class="nav-number">2.0.0.25.</span> <span class="nav-text">25. let和var的区别（除了变量提升，还有什么）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#26-HTTP2-0的特性"><span class="nav-number">2.0.0.26.</span> <span class="nav-text">26. HTTP2.0的特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#27-对象复制（深浅拷贝）Object-assign"><span class="nav-number">2.0.0.27.</span> <span class="nav-text">27. 对象复制（深浅拷贝）Object.assign</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#28-innerHTML和outerHTML"><span class="nav-number">2.0.0.28.</span> <span class="nav-text">28. innerHTML和outerHTML</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#29-null和undefined的区别"><span class="nav-number">2.0.0.29.</span> <span class="nav-text">29. null和undefined的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#30-https为什么是安全的？SSL是怎么加密的？"><span class="nav-number">2.0.0.30.</span> <span class="nav-text">30. https为什么是安全的？SSL是怎么加密的？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#31-缓存过期时间的设置（除了expires和max-age还有什么）"><span class="nav-number">2.0.0.31.</span> <span class="nav-text">31. 缓存过期时间的设置（除了expires和max-age还有什么）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#32-什么是同源策略？怎样属于同源（同协议同域名同端口）"><span class="nav-number">2.0.0.32.</span> <span class="nav-text">32. 什么是同源策略？怎样属于同源（同协议同域名同端口）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#33-vue-router对history的操作"><span class="nav-number">2.0.0.33.</span> <span class="nav-text">33. vue-router对history的操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#34-对json方法的了解（son-stringify和json-parseJSON）"><span class="nav-number">2.0.0.34.</span> <span class="nav-text">34. 对json方法的了解（son.stringify和json.parseJSON）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#35-还有什么要问我的吗？"><span class="nav-number">2.0.0.35.</span> <span class="nav-text">35. 还有什么要问我的吗？</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二面"><span class="nav-number">3.</span> <span class="nav-text">二面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-http协议的请求头内容"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">1. http协议的请求头内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-cache-control-是什么？以及它的取值有哪些"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">2. cache-control 是什么？以及它的取值有哪些</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-http1-1有哪些不足"><span class="nav-number">3.0.0.3.</span> <span class="nav-text">3. http1.1有哪些不足</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-快速排序的思想"><span class="nav-number">3.0.0.4.</span> <span class="nav-text">4. 快速排序的思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-事件捕获和事件冒泡"><span class="nav-number">3.0.0.5.</span> <span class="nav-text">5. 事件捕获和事件冒泡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-怎么阻止事件冒泡？怎么在事件捕获阶段阻止事件冒泡"><span class="nav-number">3.0.0.6.</span> <span class="nav-text">6. 怎么阻止事件冒泡？怎么在事件捕获阶段阻止事件冒泡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-对ES6的了解"><span class="nav-number">3.0.0.7.</span> <span class="nav-text">7. 对ES6的了解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-如果有一个箱子里有100个苹果，一次可以拿1或2个，问有多少种方法将100个苹果移到另一个箱子中"><span class="nav-number">3.0.0.8.</span> <span class="nav-text">8. 如果有一个箱子里有100个苹果，一次可以拿1或2个，问有多少种方法将100个苹果移到另一个箱子中</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三面"><span class="nav-number">4.</span> <span class="nav-text">三面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-平时是如何学习的"><span class="nav-number">4.0.0.1.</span> <span class="nav-text">1. 平时是如何学习的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-如何进行沟通，有没有自己的一套沟通方案"><span class="nav-number">4.0.0.2.</span> <span class="nav-text">2. 如何进行沟通，有没有自己的一套沟通方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-有没有好奇心？"><span class="nav-number">4.0.0.3.</span> <span class="nav-text">3. 有没有好奇心？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-平时写代码的时间有多少"><span class="nav-number">4.0.0.4.</span> <span class="nav-text">4. 平时写代码的时间有多少</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四面-HR面"><span class="nav-number">5.</span> <span class="nav-text">四面(HR面)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">萌萌哒的邱邱邱邱</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+     本页点击 <span id="busuanzi_value_page_pv"></span> 次
+  |  本站总点击 <span id="busuanzi_value_site_pv"></span> 次
+  |  您是第 <span id="busuanzi_value_site_uv"></span> 位访客
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://qiuruolin.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://qiuruolin.github.io/2018/05/23/interview-experiences/';
+          this.page.identifier = '2018/05/23/interview-experiences/';
+          this.page.title = '记腾讯的一次前端面试经历（共四面，已拿实习Offer）';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://qiuruolin.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  <script type="text/javascript" src="/js/src/particle.js" count="50" zindex="-2" opacity="1" color="0,104,183"></script>
+  <script type="text/javascript" src="/js/src/love.js"></script>
+  <script type="text/javascript" src="/js/src/dytitle.js"></script>
+</body>
+</html>
