@@ -90,7 +90,7 @@
 
 
 
-  <meta name="keywords" content="iconfont 项目图标icon," />
+  <meta name="keywords" content="React.js Express," />
 
 
 
@@ -101,36 +101,18 @@
 
 
 
-<meta name="description" content="在学习他人网站代码时，我常常会发现前端开发人员习惯使用1&amp;lt;i class=&quot;iconfont icon-time&quot;&amp;gt;&amp;lt;/i&amp;gt; 来生成页面的图标，这打破了我们传统的方式——将icon图标以png等图片的形式下载下来，然后通过img标签引入页面中。在刚开始接触到这种方式时，我感到不解，想要试图在css文件中找到相应类的样式设置，认为是在css中设置了背景图，找寻无果…最近想要">
-<meta name="keywords" content="iconfont 项目图标icon">
+<meta name="description" content="最近为了7月份实习更加顺手，所以在学习公司比较流行的React，之前对Vue有过了解并做过项目练手，所以对React的思想也是比较好理解的，为了进一步提升自己，以及为后续学习使用Node搭建服务器端，我特地去腾讯云上买了自己的云服务器～这篇博客主要是介绍一下，一个使用React做前端，Express做后端的项目如何打包部署在云服务器上，希望对大家有所帮助～  云服务器准备首先你需要有个已经备案过">
+<meta name="keywords" content="React.js Express">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用iconfont创建项目图标">
-<meta property="og:url" content="https://qiuruolin.github.io/2017/10/31/iconfont/index.html">
+<meta property="og:title" content="基于React及Express项目的打包部署">
+<meta property="og:url" content="https://qiuruolin.github.io/2018/05/24/react-express/index.html">
 <meta property="og:site_name" content="邱邱邱邱的个人博客">
-<meta property="og:description" content="在学习他人网站代码时，我常常会发现前端开发人员习惯使用1&amp;lt;i class=&quot;iconfont icon-time&quot;&amp;gt;&amp;lt;/i&amp;gt; 来生成页面的图标，这打破了我们传统的方式——将icon图标以png等图片的形式下载下来，然后通过img标签引入页面中。在刚开始接触到这种方式时，我感到不解，想要试图在css文件中找到相应类的样式设置，认为是在css中设置了背景图，找寻无果…最近想要">
+<meta property="og:description" content="最近为了7月份实习更加顺手，所以在学习公司比较流行的React，之前对Vue有过了解并做过项目练手，所以对React的思想也是比较好理解的，为了进一步提升自己，以及为后续学习使用Node搭建服务器端，我特地去腾讯云上买了自己的云服务器～这篇博客主要是介绍一下，一个使用React做前端，Express做后端的项目如何打包部署在云服务器上，希望对大家有所帮助～  云服务器准备首先你需要有个已经备案过">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://qiuruolin.github.io/img/iconfont.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/time-search.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/add.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/add-success.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/success2.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/new-project.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/project-success.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/zip.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/project-code.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/project-init.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/project-ca.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/in.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/i.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/time.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/project-re.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/css.png">
-<meta property="og:image" content="https://qiuruolin.github.io/img/re.png">
-<meta property="og:updated_time" content="2018-02-06T15:31:27.000Z">
+<meta property="og:updated_time" content="2018-05-26T00:52:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用iconfont创建项目图标">
-<meta name="twitter:description" content="在学习他人网站代码时，我常常会发现前端开发人员习惯使用1&amp;lt;i class=&quot;iconfont icon-time&quot;&amp;gt;&amp;lt;/i&amp;gt; 来生成页面的图标，这打破了我们传统的方式——将icon图标以png等图片的形式下载下来，然后通过img标签引入页面中。在刚开始接触到这种方式时，我感到不解，想要试图在css文件中找到相应类的样式设置，认为是在css中设置了背景图，找寻无果…最近想要">
-<meta name="twitter:image" content="https://qiuruolin.github.io/img/iconfont.png">
+<meta name="twitter:title" content="基于React及Express项目的打包部署">
+<meta name="twitter:description" content="最近为了7月份实习更加顺手，所以在学习公司比较流行的React，之前对Vue有过了解并做过项目练手，所以对React的思想也是比较好理解的，为了进一步提升自己，以及为后续学习使用Node搭建服务器端，我特地去腾讯云上买了自己的云服务器～这篇博客主要是介绍一下，一个使用React做前端，Express做后端的项目如何打包部署在云服务器上，希望对大家有所帮助～  云服务器准备首先你需要有个已经备案过">
 
 
 
@@ -160,13 +142,13 @@
 
 
 
-  <link rel="canonical" href="https://qiuruolin.github.io/2017/10/31/iconfont/"/>
+  <link rel="canonical" href="https://qiuruolin.github.io/2018/05/24/react-express/"/>
 
 
 
 
 
-  <title>使用iconfont创建项目图标 | 邱邱邱邱的个人博客</title>
+  <title>基于React及Express项目的打包部署 | 邱邱邱邱的个人博客</title>
   
 
 
@@ -315,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://qiuruolin.github.io/2017/10/31/iconfont/">
+    <link itemprop="mainEntityOfPage" href="https://qiuruolin.github.io/2018/05/24/react-express/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="萌萌哒的邱邱邱邱">
@@ -332,7 +314,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">使用iconfont创建项目图标</h1>
+          <h1 class="post-title" itemprop="name headline">基于React及Express项目的打包部署</h1>
         
 
         <div class="post-meta">
@@ -344,8 +326,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-31T00:06:39+08:00">
-                2017-10-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T21:13:30+08:00">
+                2018-05-24
               </time>
             
 
@@ -372,8 +354,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iconfont图标/" itemprop="url" rel="index">
-                    <span itemprop="name">iconfont图标</span>
+                  <a href="/categories/React-js/" itemprop="url" rel="index">
+                    <span itemprop="name">React.js</span>
                   </a>
                 </span>
 
@@ -390,9 +372,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/10/31/iconfont/#comments" itemprop="discussionUrl">
+                <a href="/2018/05/24/react-express/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/10/31/iconfont/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/05/24/react-express/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -421,31 +403,14 @@
 
       
         <blockquote>
-<p>在学习他人网站代码时，我常常会发现前端开发人员习惯使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;i class=<span class="string">"iconfont icon-time"</span>&gt;&lt;/i&gt;</span><br></pre></td></tr></table></figure></p>
-<p>来生成页面的图标，这打破了我们传统的方式——将icon图标以png等图片的形式下载下来，然后通过img标签引入页面中。在刚开始接触到这种方式时，我感到不解，想要试图在css文件中找到相应类的样式设置，认为是在css中设置了背景图，找寻无果…最近想要充实一下个人博客，也就想着要把这次学习的心路历程记录下来，以供后续的深入学习。<br>初次学习可能有些地方讲解的不是很细致，还请各位不吝赐教～</p>
+<p>最近为了7月份实习更加顺手，所以在学习公司比较流行的React，之前对Vue有过了解并做过项目练手，所以对React的思想也是比较好理解的，为了进一步提升自己，以及为后续学习使用Node搭建服务器端，我特地去腾讯云上买了自己的云服务器～这篇博客主要是介绍一下，一个使用React做前端，Express做后端的项目如何打包部署在云服务器上，希望对大家有所帮助～</p>
 </blockquote>
-<hr>
-<h2 id="使用Iconfont的优点"><a href="#使用Iconfont的优点" class="headerlink" title="使用Iconfont的优点"></a>使用Iconfont的优点</h2><p>Iconfont其实就是指用字体文件取代图片文件，来展示图标、特殊字体等元素的一种方法。主要有以下4个优点</p>
-<ul>
-<li>加载文件体积小，提高加载速度<a id="more"></a></li>
-<li>可以直接通过css的font-size，color修改它的大小和颜色，可以缩放多个尺寸的图标，提高图标的可复用性</li>
-<li>支持一些css3对文字的效果，例如：阴影、旋转、透明度等</li>
-<li>兼容低版本浏览器<br>相对于我们传统的将icon下载为图片的形式，使用iconfont确实方便不少。当我们项目要修改主色调时，iconfont只需要修改css中颜色属性即可，而传统模式则需要你重新下载，这样不仅增加了我们的开发时间，而且会让前端开发工作变得枯燥无味。</li>
-</ul>
-<h2 id="Iconfont使用流程"><a href="#Iconfont使用流程" class="headerlink" title="Iconfont使用流程"></a>Iconfont使用流程</h2><p>在这里我们需要使用到第三方Iconfont在线服务（例如： 阿里巴巴Iconfont平台 ），个人比较偏向于阿里巴巴Iconfont平台，而在此文中也是在阿里巴巴Iconfont平台上进行操作的。</p>
-<p>首先，我们打开<a href="http://www.iconfont.cn" target="_blank" rel="noopener">阿里巴巴Iconfont平台</a>（ps:使用阿里巴巴Iconfont平台需要你有github账号或者微博账号）<br><img src="/img/iconfont.png" alt="阿里巴巴Iconfont平台"></p>
-<p>接下来，我们搜索我们想要的图标，建议使用英文搜索，匹配的icon可能更多哦～<br><img src="/img/time-search.png" alt="搜索"></p>
-<p>回车以后，你会看到很多有关于time的icon图标，选择你需要的那个，并添加至购物车中（如未登录的话，此时会要求你先登录）<br><img src="/img/add.png" alt="加入购物车"><br>加入成功后你可以在右上角购物车处看到你所添加的icon<br><img src="/img/add-success.png" alt="加入购物车"></p>
-<p><img src="/img/success2.png" alt="加入购物车"></p>
-<p>依此，你可以在项目中添加很多icon图标，这里就不一一演示了</p>
-<p>接下来，我们将购物车中所有的icon图标打包在一个新建的项目中<br><img src="/img/new-project.png" alt="新建项目"><br>添加成功后，你可以看到你创建的项目中有你所添加的所有icon图标<br><img src="/img/project-success.png" alt="新建项目"><br>点击<strong>下载至本地</strong>，将zip文件解压后其中的文件如下<br><img src="/img/zip.png" alt="新建项目"></p>
-<p>接下来，就是如何在项目中使用了<br><img src="/img/project-code.png" alt="新建项目"><br>在原来的html中我使用的是传统方式，将icon以图片的形式引入<br>可以看到的效果如下<br><img src="/img/project-init.png" alt="项目初始效果"><br>将刚刚解压的文件放置在项目的根目录下，可以对文件进行重命名，为了方便我重命名为<strong>icon-fonts</strong>，当前项目目录如下<br><img src="/img/project-ca.png" alt="项目目录"></p>
-<p>接下来我们在头部引入<strong>icon-fonts</strong>中的<strong>iconfont.css</strong>文件<br><img src="/img/in.png" alt="引入"><br>并使用i标签来替换传统方式<br><img src="/img/i.png" alt="i"></p>
-<p>其中<strong>iconfont</strong>是必须的类名，<strong>icon-time</strong>是你在阿里巴巴Iconfont平台创建的项目中图标所对应的类名，如下图<br><img src="/img/time.png" alt="time"><br><strong>img</strong>是我自己创建的用来定位的css类<br><img src="/img/project-re.png" alt="项目效果"><br>你会发现icon已经成功的被我们引入了，并且替换了传统的img标签</p>
-<p>你可以在css中任意设置icon图标的大小以及颜色，如下：<br><img src="/img/css.png" alt="css"></p>
-<p><img src="/img/re.png" alt="项目效果"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>写到这里，也差不多结束了，在这篇文章里我简单介绍了iconfont在项目中的使用，在实际运用中，你可以把项目中所需要的图标都以这种方式引入，这样在用户要求更换icon主色调时，就仅需要统一修改icon图标的颜色即可，而不需要重新下载icon图片，这样也就在一定程度上减少了项目的开发时间，提高了项目的开发质量，更重要的是前端开发人员不会因为重复无用功儿感觉枯燥无味。</p>
-<p>这些只是一些小小的应用，希望能对大家有所帮助～</p>
+<h1 id="云服务器准备"><a href="#云服务器准备" class="headerlink" title="云服务器准备"></a>云服务器准备</h1><p>首先你需要有个已经备案过的域名，然后需要买个云服务器，将你的域名解析到服务器地址，我解析的域名为qq.qiuruolin.cn，具体步骤大家可以Google一下～<br>因为我使用的是Mac，所以首先我在终端中使用ssh连接云服务器，配置nginx，并通过service nginx start启动服务，下载安装git，因为我们后面需要使用git来克隆express后端项目<br><a id="more"></a></p>
+<h1 id="React前端"><a href="#React前端" class="headerlink" title="React前端"></a>React前端</h1><p>首先使用create-react-app创建React项目，使用npm install安装依赖包，通过npm start运行，成功后就可以开始编写你自己的项目了<br>可以在项目中使用ajax去请求后端数据，但是要注意解决跨域问题：<br>在package.json中添加<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"proxy"</span>: &#123;</span><br><span class="line">	<span class="string">"/api"</span>: &#123;</span><br><span class="line">		<span class="string">"target"</span>: <span class="string">"http://127.0.0.1: 3001"</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;，</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://127.0.0.1" target="_blank" rel="noopener">http://127.0.0.1</a>: 3000换成你需要代理的域名，最好是使用IP地址，上面的配置就是将本地所有以/api开头的请求转发到你配置的地址上<br>在这个项目中，我们需要把请求代理到我们云服务器的express后端上</p>
+<p>写完代码之后，接下来就是打包部署到云服务器上的工作了<br>首先通过npm build对项目进行打包，生成名为build的文件夹<br>将build文件夹通过scp命令上传到云服务器上<br>注意：要上传至服务器的根目录下，默认为/root（可以在/etc/nginx/nginx.conf中配置）<br>上传后通过service nginx restart重启，这时你试着可以访问qq.qiuruolin.cn/build/index.html，若页面出现则表示部署成功。</p>
+<h1 id="Express后端"><a href="#Express后端" class="headerlink" title="Express后端"></a>Express后端</h1><p>通过express来新创建一个express项目，前提是需要你全局安装express，新建项目之后使用npm install安装依赖包，使用npm start运行，出现Express欢迎页则说明项目创建成功了<br>接着，你可以先编写一个简单的请求进行测试<br>创建仓库配置git，并将项目push到git上<br>连接云服务器，我们使用git克隆项目，并使用npm install安装依赖項，使用npm start，访问你解析的域名:3000/你的api，若成功则你的后端项目就在云服务器上部署成功了<br>你可以使用npm start &amp;将项目放置后台运行，使用jobs查看运行的进程，fg和bg将进程在前后台切换</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>到这一步，整个项目基本都配置完了，其实这个并不是花时间最多的地方，花时间探索的是，我如何去构建一个完整前后端俱全的项目，学习的路上会遇到很多迷茫，只要积极探索，不气馁，不放弃，不骄躁，相信大家可以变得更好！希望对大家有所帮助～</p>
 
       
     </div>
@@ -463,12 +428,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/2017/10/31/iconfont/">使用iconfont创建项目图标</a></p>
+  <p><span>本文标题:</span><a href="/2018/05/24/react-express/">基于React及Express项目的打包部署</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 萌萌哒的邱邱邱邱 的个人博客">萌萌哒的邱邱邱邱</a></p>
-  <p><span>发布时间:</span>2017年10月31日 - 00:10</p>
-  <p><span>最后更新:</span>2018年02月06日 - 23:02</p>
-  <p><span>原始链接:</span><a href="/2017/10/31/iconfont/" title="使用iconfont创建项目图标">https://qiuruolin.github.io/2017/10/31/iconfont/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2017/10/31/iconfont/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2018年05月24日 - 21:05</p>
+  <p><span>最后更新:</span>2018年05月26日 - 08:05</p>
+  <p><span>原始链接:</span><a href="/2018/05/24/react-express/" title="基于React及Express项目的打包部署">https://qiuruolin.github.io/2018/05/24/react-express/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2018/05/24/react-express/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -538,7 +503,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/iconfont-项目图标icon/" rel="tag"># iconfont 项目图标icon</a>
+            <a href="/tags/React-js-Express/" rel="tag"># React.js Express</a>
           
         </div>
       
@@ -551,8 +516,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/25/webpack-vue/" rel="next" title="使用webpack搭建vue项目——入门">
-                <i class="fa fa-chevron-left"></i> 使用webpack搭建vue项目——入门
+              <a href="/2018/05/23/interview-experiences/" rel="next" title="记腾讯的一次前端面试经历（共四面，已拿实习Offer）">
+                <i class="fa fa-chevron-left"></i> 记腾讯的一次前端面试经历（共四面，已拿实习Offer）
               </a>
             
           </div>
@@ -560,10 +525,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/01/babel/" rel="prev" title="babel，一个广泛使用的转码器">
-                babel，一个广泛使用的转码器 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -743,7 +704,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Iconfont的优点"><span class="nav-number">1.</span> <span class="nav-text">使用Iconfont的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iconfont使用流程"><span class="nav-number">2.</span> <span class="nav-text">Iconfont使用流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#云服务器准备"><span class="nav-number">1.</span> <span class="nav-text">云服务器准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React前端"><span class="nav-number">2.</span> <span class="nav-text">React前端</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Express后端"><span class="nav-number">3.</span> <span class="nav-text">Express后端</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
@@ -915,9 +876,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://qiuruolin.github.io/2017/10/31/iconfont/';
-          this.page.identifier = '2017/10/31/iconfont/';
-          this.page.title = '使用iconfont创建项目图标';
+          this.page.url = 'https://qiuruolin.github.io/2018/05/24/react-express/';
+          this.page.identifier = '2018/05/24/react-express/';
+          this.page.title = '基于React及Express项目的打包部署';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://qiuruolin.disqus.com/embed.js';
