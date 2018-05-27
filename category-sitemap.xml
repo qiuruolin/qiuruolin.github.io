@@ -42,13 +42,6 @@
     </url>
 
     <url>
-        <loc>https://qiuruolin.github.io/categories/JavaScript/</loc>
-        <lastmod>2018-02-10T03:53:06.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://qiuruolin.github.io/categories/%E9%9D%A2%E7%BB%8F/</loc>
         <lastmod>2018-05-25T04:11:05.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -56,8 +49,15 @@
     </url>
 
     <url>
+        <loc>https://qiuruolin.github.io/categories/JavaScript/</loc>
+        <lastmod>2018-05-27T11:00:32.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://qiuruolin.github.io/categories/React-js/</loc>
-        <lastmod>2018-05-26T00:52:12.000Z</lastmod>
+        <lastmod>2018-05-27T11:01:07.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

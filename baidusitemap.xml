@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>https://qiuruolin.github.io/2018/05/27/react-life-circle/</loc>
+    <lastmod>2018-05-27T11:01:07.000Z</lastmod>
+    <data>
+        <display>
+        <title>React之组件生命周期</title>
+        <pubTime>2018-05-27T09:21:35.000Z</pubTime>
+        
+        <tag>React.js 生命周期</tag>
+         
+         
+           
+             
+              <breadCrumb title="React.js" url="https://qiuruolin.github.io/categories/React-js/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://qiuruolin.github.io/2018/01/31/js-creational-pattern/</loc>
+    <lastmod>2018-05-27T11:00:32.000Z</lastmod>
+    <data>
+        <display>
+        <title>JavaScript设计模式之创建型设计模式</title>
+        <pubTime>2018-01-31T13:33:22.000Z</pubTime>
+        
+        <tag>JavaScript之设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="JavaScript" url="https://qiuruolin.github.io/categories/JavaScript/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://qiuruolin.github.io/2018/05/24/react-express/</loc>
     <lastmod>2018-05-26T00:52:12.000Z</lastmod>
     <data>
@@ -192,26 +232,6 @@
         <pubTime>2018-01-30T11:27:14.000Z</pubTime>
         
         <tag>JavaScript之继承</tag>
-         
-         
-           
-             
-              <breadCrumb title="JavaScript" url="https://qiuruolin.github.io/categories/JavaScript/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://qiuruolin.github.io/2018/01/31/js-creational-pattern/</loc>
-    <lastmod>2018-02-06T15:31:01.000Z</lastmod>
-    <data>
-        <display>
-        <title>JavaScript设计模式之创建型设计模式</title>
-        <pubTime>2018-01-31T13:33:22.000Z</pubTime>
-        
-        <tag>JavaScript之设计模式</tag>
          
          
            
