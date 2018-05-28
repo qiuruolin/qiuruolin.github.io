@@ -90,7 +90,7 @@
 
 
 
-  <meta name="keywords" content="React.js 生命周期," />
+  <meta name="keywords" content="mysql," />
 
 
 
@@ -101,20 +101,25 @@
 
 
 
-<meta name="description" content="在学习React时，有时候遇到数据更新，而界面却不能及时更新的问题，查了很多资料，大部分原因是因为对React组件的生命周期没有很好地理解，所以特地想把生命周期有关的知识记录下来，便于自己理解和学习，也希望能够对大家有一些帮助～  前言React组件的生命周期状态可分为三种：  Mounting: 已插入真实DOM Updating: 正在被重新渲染 Unmounting: 已移出真实DOM">
-<meta name="keywords" content="React.js 生命周期">
+<meta name="description" content="因为最近在使用云服务器部署项目，所以也难免要在服务器上使用MySQL，所以就想把MySQL常使用记录下来，以便日后查看并熟悉～也希望能够对大家有所帮助～  准备首先你需要在云服务器上下载安装MySQL，网上有很多大牛们都写了相关的博客，这里就不再重复啦～注意：MySQL 中每个命令后都要以分号;结尾。">
+<meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="React之组件生命周期">
-<meta property="og:url" content="https://qiuruolin.github.io/2018/05/27/react-life-circle/index.html">
+<meta property="og:title" content="Linux之MySQL数据库常用操作">
+<meta property="og:url" content="https://qiuruolin.github.io/2018/05/28/Linux-mysql/index.html">
 <meta property="og:site_name" content="邱邱邱邱的个人博客">
-<meta property="og:description" content="在学习React时，有时候遇到数据更新，而界面却不能及时更新的问题，查了很多资料，大部分原因是因为对React组件的生命周期没有很好地理解，所以特地想把生命周期有关的知识记录下来，便于自己理解和学习，也希望能够对大家有一些帮助～  前言React组件的生命周期状态可分为三种：  Mounting: 已插入真实DOM Updating: 正在被重新渲染 Unmounting: 已移出真实DOM">
+<meta property="og:description" content="因为最近在使用云服务器部署项目，所以也难免要在服务器上使用MySQL，所以就想把MySQL常使用记录下来，以便日后查看并熟悉～也希望能够对大家有所帮助～  准备首先你需要在云服务器上下载安装MySQL，网上有很多大牛们都写了相关的博客，这里就不再重复啦～注意：MySQL 中每个命令后都要以分号;结尾。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://qiuruolin.github.io/img/life-circle.jpg">
-<meta property="og:updated_time" content="2018-05-27T11:01:07.000Z">
+<meta property="og:image" content="https://qiuruolin.github.io/img/mysql/show-database.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/mysql/create-success.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/mysql/show-tables.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/mysql/describe-user.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/mysql/select.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/mysql/update-success2.png">
+<meta property="og:updated_time" content="2018-05-28T13:36:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="React之组件生命周期">
-<meta name="twitter:description" content="在学习React时，有时候遇到数据更新，而界面却不能及时更新的问题，查了很多资料，大部分原因是因为对React组件的生命周期没有很好地理解，所以特地想把生命周期有关的知识记录下来，便于自己理解和学习，也希望能够对大家有一些帮助～  前言React组件的生命周期状态可分为三种：  Mounting: 已插入真实DOM Updating: 正在被重新渲染 Unmounting: 已移出真实DOM">
-<meta name="twitter:image" content="https://qiuruolin.github.io/img/life-circle.jpg">
+<meta name="twitter:title" content="Linux之MySQL数据库常用操作">
+<meta name="twitter:description" content="因为最近在使用云服务器部署项目，所以也难免要在服务器上使用MySQL，所以就想把MySQL常使用记录下来，以便日后查看并熟悉～也希望能够对大家有所帮助～  准备首先你需要在云服务器上下载安装MySQL，网上有很多大牛们都写了相关的博客，这里就不再重复啦～注意：MySQL 中每个命令后都要以分号;结尾。">
+<meta name="twitter:image" content="https://qiuruolin.github.io/img/mysql/show-database.png">
 
 
 
@@ -144,13 +149,13 @@
 
 
 
-  <link rel="canonical" href="https://qiuruolin.github.io/2018/05/27/react-life-circle/"/>
+  <link rel="canonical" href="https://qiuruolin.github.io/2018/05/28/Linux-mysql/"/>
 
 
 
 
 
-  <title>React之组件生命周期 | 邱邱邱邱的个人博客</title>
+  <title>Linux之MySQL数据库常用操作 | 邱邱邱邱的个人博客</title>
   
 
 
@@ -299,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://qiuruolin.github.io/2018/05/27/react-life-circle/">
+    <link itemprop="mainEntityOfPage" href="https://qiuruolin.github.io/2018/05/28/Linux-mysql/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="萌萌哒的邱邱邱邱">
@@ -316,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">React之组件生命周期</h1>
+          <h1 class="post-title" itemprop="name headline">Linux之MySQL数据库常用操作</h1>
         
 
         <div class="post-meta">
@@ -328,8 +333,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-27T17:21:35+08:00">
-                2018-05-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T14:54:11+08:00">
+                2018-05-28
               </time>
             
 
@@ -356,8 +361,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React-js/" itemprop="url" rel="index">
-                    <span itemprop="name">React.js</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -374,9 +379,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/27/react-life-circle/#comments" itemprop="discussionUrl">
+                <a href="/2018/05/28/Linux-mysql/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/27/react-life-circle/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/05/28/Linux-mysql/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -405,51 +410,43 @@
 
       
         <blockquote>
-<p>在学习React时，有时候遇到数据更新，而界面却不能及时更新的问题，查了很多资料，大部分原因是因为对React组件的生命周期没有很好地理解，所以特地想把生命周期有关的知识记录下来，便于自己理解和学习，也希望能够对大家有一些帮助～</p>
+<p>因为最近在使用云服务器部署项目，所以也难免要在服务器上使用MySQL，所以就想把MySQL常使用记录下来，以便日后查看并熟悉～也希望能够对大家有所帮助～</p>
 </blockquote>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>React组件的生命周期状态可分为三种：</p>
-<ul>
-<li>Mounting: 已插入真实DOM</li>
-<li>Updating: 正在被重新渲染</li>
-<li>Unmounting: 已移出真实DOM</li>
-</ul>
-<p>组件挂载的经典图片：</p>
+<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>首先你需要在云服务器上下载安装MySQL，网上有很多大牛们都写了相关的博客，这里就不再重复啦～<br>注意：MySQL 中每个命令后都要以分号;结尾。</p>
 <a id="more"></a>
-<p><img src="/img/life-circle.jpg" alt="life-circle"></p>
-<p>接下来我将会详细说明一下这几个生命周期的意义</p>
-<h1 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h1><p>首次调用组件时，有以下方法会被调用（注意顺序，从上到下先后执行）：</p>
-<ul>
-<li><p><strong>getDefaultProps()</strong>：这个方法是用来设置组件默认的props，组件生命周期只会调用一次。这个方法在对象被创建之前执行，因此不能在方法内调用this.props。</p>
-</li>
-<li><p><strong>getInitialState()</strong>：设置state初始值，在这个方法中你已经可以访问到this.props。</p>
-</li>
-<li><p><strong>componentWillMount()</strong>：该方法会在组件首次渲染之前调用，这个是在render方法调用前可修改state的最后一次机会。</p>
-</li>
-<li><p><strong>render()</strong>：调用render()方法时，首先检查this.props和this.state返回一个子元素，子元素可以是DOM组件或者其他自定义复合控件的虚拟实现 ，如果不想渲染可以返回null或者false。render()方法是很纯净的，这就意味着不要在这个方法里初始化组件的state，每次执行时返回相同的值，不会读写DOM或者与服务器交互。</p>
-</li>
-<li><p><strong>componentDidMount()</strong>：在首次真实的DOM渲染后调用（仅此一次），只在客户端。之后组件已经生成了对应的DOM结构，可以通过this.getDOMNode()来进行访问。 如果你想和其他JavaScript框架一起使用，可以在这个方法中调用setTimeout, setInterval或者发送AJAX请求等操作(防止异部操作阻塞UI)。</p>
-</li>
-</ul>
-<h1 id="存在期"><a href="#存在期" class="headerlink" title="存在期"></a>存在期</h1><p>实例化后，当props或者state发生变化时，下面方法依次被调用：</p>
-<ul>
-<li><p><strong>componentWillReceiveProps()</strong>：在组件接收到一个新的 prop (更新后)时被调用。这个方法在初始化render时不会被调用。</p>
-</li>
-<li><p><strong>shouldComponentUpdate()</strong>：返回一个布尔值。在组件接收到新的props或者state时被调用。在初始化时或者使用forceUpdate时不被调用。 可以在你确认不需要更新组件时使用。默认返回true。</p>
-</li>
-<li><p><strong>componentWillUpdate()</strong>：在组件接收到新的props或者state但还没有render时被调用。在初始化时不会被调用。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void componentWillUpdate(</span><br><span class="line">  object nextProps, object nextState</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>  在这个函数里面，你就不能使用this.setState来修改状态。这个函数调用之后，就会把nextProps和nextState分别设置到this.props和this.state中，紧接着这个函数，就会调用render()来更新界面了</p>
-</li>
-<li><p><strong>render()</strong>：与实例化期相同</p>
-</li>
-<li><p><strong>componentDidUpdate()</strong>：在组件完成更新后立即调用。在初始化时不会被调用。</p>
-</li>
-</ul>
-<h1 id="销毁期"><a href="#销毁期" class="headerlink" title="销毁期"></a>销毁期</h1><p>销毁阶段，只有一个函数被调用：</p>
-<ul>
-<li><strong>componentWillUnmount()</strong>：在组件从 DOM 中移除的时候立刻被调用。在这个函数中，可以做一些组件相关的清理工作，例如取消计时器、网络请求等</li>
-</ul>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这篇博客查阅了很多网上大牛们的博客，结合了菜鸟教程上的文档，希望自己能够对React组件的生命周期有更好地理解，前路漫漫～一起加油哦～</p>
+<h1 id="显示数据库"><a href="#显示数据库" class="headerlink" title="显示数据库"></a>显示数据库</h1><p><strong>show databases;</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/mysql/show-database.png" alt="显示所有数据库"></p>
+<p>Mysql 刚安装完有两个数据库：mysql 和test。mysql 库非常重要，它里面有MySQL 的系统信息，我们改密码和新增用户，实际上就是用这个库中的相关表进行操作。</p>
+<h1 id="建库："><a href="#建库：" class="headerlink" title="建库："></a>建库：</h1><p><strong>create database 库名;</strong></p>
+<p>例如：创建一个名字位node的库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database node;</span><br></pre></td></tr></table></figure>
+<p><img src="/img/mysql/create-success.png" alt="创建数据库"></p>
+<h1 id="建表："><a href="#建表：" class="headerlink" title="建表："></a>建表：</h1><p><strong>create table 表名 (字段设定列表);</strong></p>
+<p>例如：在刚创建的node库中建立表user, 表中有uid(序号, 自动增长), username(姓名), password(密码), email(邮箱)四个字段</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use node;</span><br><span class="line">create table user (uid int(4) auto_increment not null primary key, username varchar(255), password varchar(255), email varchar(255));</span><br></pre></td></tr></table></figure>
+<h1 id="显示数据库中的表"><a href="#显示数据库中的表" class="headerlink" title="显示数据库中的表"></a>显示数据库中的表</h1><p><strong>show tables;</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use node; //打开库</span><br><span class="line">show tables;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/mysql/show-tables.png" alt="显示表"></p>
+<h1 id="显示数据表的结构："><a href="#显示数据表的结构：" class="headerlink" title="显示数据表的结构："></a>显示数据表的结构：</h1><p><strong>describe 表名;</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">describe user;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/mysql/describe-user.png" alt="显示表结构"></p>
+<h1 id="增加记录"><a href="#增加记录" class="headerlink" title="增加记录"></a>增加记录</h1><p>例如：增加几条相关记录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">insert into user(username, password, email) values(<span class="string">'qiuqiu'</span>, <span class="string">'qqq'</span>, <span class="string">'qiw@qq.com'</span>);</span><br><span class="line">insert into user(username, password, email) values(<span class="string">'hehe'</span>, <span class="string">'123456'</span>, <span class="string">'wywu@qq.com'</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="显示表中的记录："><a href="#显示表中的记录：" class="headerlink" title="显示表中的记录："></a>显示表中的记录：</h1><p>可以使用<strong>select * from 表名;</strong>来查看我们表中的数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user;</span><br></pre></td></tr></table></figure>
+<p><img src="/img/mysql/select.png" alt="显示表记录"></p>
+<h1 id="修改记录"><a href="#修改记录" class="headerlink" title="修改记录"></a>修改记录</h1><p>例如：将qiuqiu的密码改为123</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update user <span class="built_in">set</span> password=<span class="string">'123'</span> <span class="built_in">where</span> username=<span class="string">'qiuqiu'</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="/img/mysql/update-success2.png" alt="修改"></p>
+<h1 id="删除记录"><a href="#删除记录" class="headerlink" title="删除记录"></a>删除记录</h1><p>例如：删除qiuqiu的纪录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete from user <span class="built_in">where</span> username=<span class="string">'qiuqiu'</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="删库和删表"><a href="#删库和删表" class="headerlink" title="删库和删表"></a>删库和删表</h1><p><strong>drop database 库名;</strong></p>
+<p><strong>drop table 表名;</strong></p>
+<h1 id="增加MySQL-用户"><a href="#增加MySQL-用户" class="headerlink" title="增加MySQL 用户"></a>增加MySQL 用户</h1><p><strong>grant select on 数据库.* to 用户名@登录主机 identified by “密码”</strong></p>
+<p>例1、增加一个用户user_1密码为123，让他可以在任何主机上登录，并对所有数据库有查询、插入、修改、删除的权限。首先用以root用户连入MySQL ，然后键入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant select, insert, update, delete on *.* to mailto:user_1@<span class="string">" "</span> Identified by <span class="string">"123"</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="备份与恢复"><a href="#备份与恢复" class="headerlink" title="备份与恢复"></a>备份与恢复</h1><h2 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h2><pre><code>例如：将上例创建的node库备份到文件back_node中
+</code></pre><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cd　/home/data/mysql 　(进入到库目录)</span></span><br><span class="line"><span class="comment"># mysqldump -u root -p –opt node &gt; back_node</span></span><br></pre></td></tr></table></figure>
+<h2 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mysql -u root -p recover_node &lt; back_node</span></span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>为了防止自己以后忘记，所以我在这里记录了一些通过命令而进行的一些常用的MySQL数据库操作，内容很简单，主要是为了便于自己以后查阅，也希望能够对大家有所帮助～</p>
 
       
     </div>
@@ -467,12 +464,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/2018/05/27/react-life-circle/">React之组件生命周期</a></p>
+  <p><span>本文标题:</span><a href="/2018/05/28/Linux-mysql/">Linux之MySQL数据库常用操作</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 萌萌哒的邱邱邱邱 的个人博客">萌萌哒的邱邱邱邱</a></p>
-  <p><span>发布时间:</span>2018年05月27日 - 17:05</p>
-  <p><span>最后更新:</span>2018年05月27日 - 19:05</p>
-  <p><span>原始链接:</span><a href="/2018/05/27/react-life-circle/" title="React之组件生命周期">https://qiuruolin.github.io/2018/05/27/react-life-circle/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2018/05/27/react-life-circle/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2018年05月28日 - 14:05</p>
+  <p><span>最后更新:</span>2018年05月28日 - 21:05</p>
+  <p><span>原始链接:</span><a href="/2018/05/28/Linux-mysql/" title="Linux之MySQL数据库常用操作">https://qiuruolin.github.io/2018/05/28/Linux-mysql/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2018/05/28/Linux-mysql/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -542,7 +539,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/React-js-生命周期/" rel="tag"># React.js 生命周期</a>
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
           
         </div>
       
@@ -555,8 +552,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/24/react-express/" rel="next" title="基于React及Express项目的打包部署">
-                <i class="fa fa-chevron-left"></i> 基于React及Express项目的打包部署
+              <a href="/2018/05/27/react-life-circle/" rel="next" title="React之组件生命周期">
+                <i class="fa fa-chevron-left"></i> React之组件生命周期
               </a>
             
           </div>
@@ -565,8 +562,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/05/28/Linux-mysql/" rel="prev" title="Linux之MySQL数据库常用操作">
-                Linux之MySQL数据库常用操作 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/28/server-proxy/" rel="prev" title="云服务器之代理">
+                云服务器之代理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -747,7 +744,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例化"><span class="nav-number">2.</span> <span class="nav-text">实例化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#存在期"><span class="nav-number">3.</span> <span class="nav-text">存在期</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#销毁期"><span class="nav-number">4.</span> <span class="nav-text">销毁期</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#显示数据库"><span class="nav-number">2.</span> <span class="nav-text">显示数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#建库："><span class="nav-number">3.</span> <span class="nav-text">建库：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#建表："><span class="nav-number">4.</span> <span class="nav-text">建表：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#显示数据库中的表"><span class="nav-number">5.</span> <span class="nav-text">显示数据库中的表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#显示数据表的结构："><span class="nav-number">6.</span> <span class="nav-text">显示数据表的结构：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#增加记录"><span class="nav-number">7.</span> <span class="nav-text">增加记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#显示表中的记录："><span class="nav-number">8.</span> <span class="nav-text">显示表中的记录：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改记录"><span class="nav-number">9.</span> <span class="nav-text">修改记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#删除记录"><span class="nav-number">10.</span> <span class="nav-text">删除记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#删库和删表"><span class="nav-number">11.</span> <span class="nav-text">删库和删表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#增加MySQL-用户"><span class="nav-number">12.</span> <span class="nav-text">增加MySQL 用户</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#备份与恢复"><span class="nav-number">13.</span> <span class="nav-text">备份与恢复</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#备份"><span class="nav-number">13.1.</span> <span class="nav-text">备份</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#恢复"><span class="nav-number">13.2.</span> <span class="nav-text">恢复</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">14.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
@@ -919,9 +916,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://qiuruolin.github.io/2018/05/27/react-life-circle/';
-          this.page.identifier = '2018/05/27/react-life-circle/';
-          this.page.title = 'React之组件生命周期';
+          this.page.url = 'https://qiuruolin.github.io/2018/05/28/Linux-mysql/';
+          this.page.identifier = '2018/05/28/Linux-mysql/';
+          this.page.title = 'Linux之MySQL数据库常用操作';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://qiuruolin.disqus.com/embed.js';

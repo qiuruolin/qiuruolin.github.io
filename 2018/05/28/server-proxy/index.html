@@ -90,7 +90,7 @@
 
 
 
-  <meta name="keywords" content="React.js 生命周期," />
+  <meta name="keywords" content="服务器代理," />
 
 
 
@@ -101,20 +101,18 @@
 
 
 
-<meta name="description" content="在学习React时，有时候遇到数据更新，而界面却不能及时更新的问题，查了很多资料，大部分原因是因为对React组件的生命周期没有很好地理解，所以特地想把生命周期有关的知识记录下来，便于自己理解和学习，也希望能够对大家有一些帮助～  前言React组件的生命周期状态可分为三种：  Mounting: 已插入真实DOM Updating: 正在被重新渲染 Unmounting: 已移出真实DOM">
-<meta name="keywords" content="React.js 生命周期">
+<meta name="description" content="今天想着要把自己做的那个Demo部署到服务器上，却发现在本地可以正常代理的请求，在经过打包部署后，api请求代理似乎已经失效了。花了很久的时间在解决这个问题，最后特别感谢某修给予的灵感以及学长的耐心解答，为了便于以后更方便地使用，我将之记录下来，也希望能够对大家有所帮助～  前言在云服务器上，我使用了nginx作为我的web服务器，nginx 作为目前最流行的web服务器之一，可以很方便地实现反">
+<meta name="keywords" content="服务器代理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="React之组件生命周期">
-<meta property="og:url" content="https://qiuruolin.github.io/2018/05/27/react-life-circle/index.html">
+<meta property="og:title" content="云服务器之代理">
+<meta property="og:url" content="https://qiuruolin.github.io/2018/05/28/server-proxy/index.html">
 <meta property="og:site_name" content="邱邱邱邱的个人博客">
-<meta property="og:description" content="在学习React时，有时候遇到数据更新，而界面却不能及时更新的问题，查了很多资料，大部分原因是因为对React组件的生命周期没有很好地理解，所以特地想把生命周期有关的知识记录下来，便于自己理解和学习，也希望能够对大家有一些帮助～  前言React组件的生命周期状态可分为三种：  Mounting: 已插入真实DOM Updating: 正在被重新渲染 Unmounting: 已移出真实DOM">
+<meta property="og:description" content="今天想着要把自己做的那个Demo部署到服务器上，却发现在本地可以正常代理的请求，在经过打包部署后，api请求代理似乎已经失效了。花了很久的时间在解决这个问题，最后特别感谢某修给予的灵感以及学长的耐心解答，为了便于以后更方便地使用，我将之记录下来，也希望能够对大家有所帮助～  前言在云服务器上，我使用了nginx作为我的web服务器，nginx 作为目前最流行的web服务器之一，可以很方便地实现反">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://qiuruolin.github.io/img/life-circle.jpg">
-<meta property="og:updated_time" content="2018-05-27T11:01:07.000Z">
+<meta property="og:updated_time" content="2018-05-28T14:17:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="React之组件生命周期">
-<meta name="twitter:description" content="在学习React时，有时候遇到数据更新，而界面却不能及时更新的问题，查了很多资料，大部分原因是因为对React组件的生命周期没有很好地理解，所以特地想把生命周期有关的知识记录下来，便于自己理解和学习，也希望能够对大家有一些帮助～  前言React组件的生命周期状态可分为三种：  Mounting: 已插入真实DOM Updating: 正在被重新渲染 Unmounting: 已移出真实DOM">
-<meta name="twitter:image" content="https://qiuruolin.github.io/img/life-circle.jpg">
+<meta name="twitter:title" content="云服务器之代理">
+<meta name="twitter:description" content="今天想着要把自己做的那个Demo部署到服务器上，却发现在本地可以正常代理的请求，在经过打包部署后，api请求代理似乎已经失效了。花了很久的时间在解决这个问题，最后特别感谢某修给予的灵感以及学长的耐心解答，为了便于以后更方便地使用，我将之记录下来，也希望能够对大家有所帮助～  前言在云服务器上，我使用了nginx作为我的web服务器，nginx 作为目前最流行的web服务器之一，可以很方便地实现反">
 
 
 
@@ -144,13 +142,13 @@
 
 
 
-  <link rel="canonical" href="https://qiuruolin.github.io/2018/05/27/react-life-circle/"/>
+  <link rel="canonical" href="https://qiuruolin.github.io/2018/05/28/server-proxy/"/>
 
 
 
 
 
-  <title>React之组件生命周期 | 邱邱邱邱的个人博客</title>
+  <title>云服务器之代理 | 邱邱邱邱的个人博客</title>
   
 
 
@@ -299,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://qiuruolin.github.io/2018/05/27/react-life-circle/">
+    <link itemprop="mainEntityOfPage" href="https://qiuruolin.github.io/2018/05/28/server-proxy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="萌萌哒的邱邱邱邱">
@@ -316,7 +314,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">React之组件生命周期</h1>
+          <h1 class="post-title" itemprop="name headline">云服务器之代理</h1>
         
 
         <div class="post-meta">
@@ -328,8 +326,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-27T17:21:35+08:00">
-                2018-05-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T21:33:39+08:00">
+                2018-05-28
               </time>
             
 
@@ -356,8 +354,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React-js/" itemprop="url" rel="index">
-                    <span itemprop="name">React.js</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -374,9 +372,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/27/react-life-circle/#comments" itemprop="discussionUrl">
+                <a href="/2018/05/28/server-proxy/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/27/react-life-circle/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/05/28/server-proxy/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -405,51 +403,28 @@
 
       
         <blockquote>
-<p>在学习React时，有时候遇到数据更新，而界面却不能及时更新的问题，查了很多资料，大部分原因是因为对React组件的生命周期没有很好地理解，所以特地想把生命周期有关的知识记录下来，便于自己理解和学习，也希望能够对大家有一些帮助～</p>
+<p>今天想着要把自己做的那个Demo部署到服务器上，却发现在本地可以正常代理的请求，在经过打包部署后，api请求代理似乎已经失效了。花了很久的时间在解决这个问题，最后特别感谢某修给予的灵感以及学长的耐心解答，为了便于以后更方便地使用，我将之记录下来，也希望能够对大家有所帮助～</p>
 </blockquote>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>React组件的生命周期状态可分为三种：</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在云服务器上，我使用了nginx作为我的web服务器，nginx 作为目前最流行的web服务器之一，可以很方便地实现反向代理。当在一台主机上部署了多个不同的web服务器，并且需要能在80端口同时访问这些web服务器时，可以使用 nginx 的反向代理功能: 用 nginx 在80端口监听所有请求，并依据转发规则(比较常见的是以 URI 来转发)转发到对应的web服务器上。<br><a id="more"></a><br>在我的项目中，是因为所需要请求的API位于服务器上的不同端口，为了实现跨域请求，所以需要进行代理。</p>
+<h1 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h1><p>我的服务器域名为<strong>qq.qiuruolin.cn</strong></p>
+<h2 id="不带URI的代理配置"><a href="#不带URI的代理配置" class="headerlink" title="不带URI的代理配置"></a>不带URI的代理配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    server &#123;</span><br><span class="line">            server_name qq.qiuruolin.cn;</span><br><span class="line">            location /api/ &#123;</span><br><span class="line">                    proxy_pass http://qq.qiuruolin.cn:3000;</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上的配置会 <a href="http://qq.qiuruolin.cn/api" target="_blank" rel="noopener">http://qq.qiuruolin.cn/api</a> 下的请求( GET 和 POST 请求都会转发)转发到 <a href="http://qq.qiuruolin.cn:3000/" target="_blank" rel="noopener">http://qq.qiuruolin.cn:3000/</a></p>
+<p><strong>需要注意的是，在以上的配置中，<a href="http://qq.qiuruolin.cn:3000是没有指定URI的。" target="_blank" rel="noopener">http://qq.qiuruolin.cn:3000是没有指定URI的。</a> </strong></p>
 <ul>
-<li>Mounting: 已插入真实DOM</li>
-<li>Updating: 正在被重新渲染</li>
-<li>Unmounting: 已移出真实DOM</li>
-</ul>
-<p>组件挂载的经典图片：</p>
-<a id="more"></a>
-<p><img src="/img/life-circle.jpg" alt="life-circle"></p>
-<p>接下来我将会详细说明一下这几个生命周期的意义</p>
-<h1 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h1><p>首次调用组件时，有以下方法会被调用（注意顺序，从上到下先后执行）：</p>
-<ul>
-<li><p><strong>getDefaultProps()</strong>：这个方法是用来设置组件默认的props，组件生命周期只会调用一次。这个方法在对象被创建之前执行，因此不能在方法内调用this.props。</p>
+<li><p>如果代理服务器地址中是带有URI的，此URI会替换掉 location 所匹配的URI部分。 </p>
 </li>
-<li><p><strong>getInitialState()</strong>：设置state初始值，在这个方法中你已经可以访问到this.props。</p>
-</li>
-<li><p><strong>componentWillMount()</strong>：该方法会在组件首次渲染之前调用，这个是在render方法调用前可修改state的最后一次机会。</p>
-</li>
-<li><p><strong>render()</strong>：调用render()方法时，首先检查this.props和this.state返回一个子元素，子元素可以是DOM组件或者其他自定义复合控件的虚拟实现 ，如果不想渲染可以返回null或者false。render()方法是很纯净的，这就意味着不要在这个方法里初始化组件的state，每次执行时返回相同的值，不会读写DOM或者与服务器交互。</p>
-</li>
-<li><p><strong>componentDidMount()</strong>：在首次真实的DOM渲染后调用（仅此一次），只在客户端。之后组件已经生成了对应的DOM结构，可以通过this.getDOMNode()来进行访问。 如果你想和其他JavaScript框架一起使用，可以在这个方法中调用setTimeout, setInterval或者发送AJAX请求等操作(防止异部操作阻塞UI)。</p>
+<li><p>如果代理服务器地址中是不带有URI的，则会用完整的请求URL来转发到代理服务器。</p>
 </li>
 </ul>
-<h1 id="存在期"><a href="#存在期" class="headerlink" title="存在期"></a>存在期</h1><p>实例化后，当props或者state发生变化时，下面方法依次被调用：</p>
+<h2 id="带URI的代理配置"><a href="#带URI的代理配置" class="headerlink" title="带URI的代理配置"></a>带URI的代理配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    server &#123;</span><br><span class="line">            server_name qq.qiuruolin.cn;</span><br><span class="line">            location /api/ &#123;</span><br><span class="line">                    proxy_pass http://qq.qiuruolin.cn:3000/uri/;</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>举🌰：</p>
 <ul>
-<li><p><strong>componentWillReceiveProps()</strong>：在组件接收到一个新的 prop (更新后)时被调用。这个方法在初始化render时不会被调用。</p>
+<li><p>不带URI<br><a href="http://qq.qiuruolin.cn/api/user/register-&gt;" target="_blank" rel="noopener">http://qq.qiuruolin.cn/api/user/register-&gt;</a> <a href="http://qq.qiuruolin.cn:3000/api/user/register" target="_blank" rel="noopener">http://qq.qiuruolin.cn:3000/api/user/register</a></p>
 </li>
-<li><p><strong>shouldComponentUpdate()</strong>：返回一个布尔值。在组件接收到新的props或者state时被调用。在初始化时或者使用forceUpdate时不被调用。 可以在你确认不需要更新组件时使用。默认返回true。</p>
-</li>
-<li><p><strong>componentWillUpdate()</strong>：在组件接收到新的props或者state但还没有render时被调用。在初始化时不会被调用。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void componentWillUpdate(</span><br><span class="line">  object nextProps, object nextState</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>  在这个函数里面，你就不能使用this.setState来修改状态。这个函数调用之后，就会把nextProps和nextState分别设置到this.props和this.state中，紧接着这个函数，就会调用render()来更新界面了</p>
-</li>
-<li><p><strong>render()</strong>：与实例化期相同</p>
-</li>
-<li><p><strong>componentDidUpdate()</strong>：在组件完成更新后立即调用。在初始化时不会被调用。</p>
+<li><p>带URI<br><a href="http://qq.qiuruolin.cn/api/user/register-&gt;" target="_blank" rel="noopener">http://qq.qiuruolin.cn/api/user/register-&gt;</a> <a href="http://qq.qiuruolin.cn:3000/uri/user/register" target="_blank" rel="noopener">http://qq.qiuruolin.cn:3000/uri/user/register</a></p>
 </li>
 </ul>
-<h1 id="销毁期"><a href="#销毁期" class="headerlink" title="销毁期"></a>销毁期</h1><p>销毁阶段，只有一个函数被调用：</p>
-<ul>
-<li><strong>componentWillUnmount()</strong>：在组件从 DOM 中移除的时候立刻被调用。在这个函数中，可以做一些组件相关的清理工作，例如取消计时器、网络请求等</li>
-</ul>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这篇博客查阅了很多网上大牛们的博客，结合了菜鸟教程上的文档，希望自己能够对React组件的生命周期有更好地理解，前路漫漫～一起加油哦～</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这次在服务器上的代理，开始的时候真的让我感觉到很混乱，以此博客纪念曾经混乱的自己～希望对大家有所帮助～继续努力！！！</p>
 
       
     </div>
@@ -467,12 +442,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/2018/05/27/react-life-circle/">React之组件生命周期</a></p>
+  <p><span>本文标题:</span><a href="/2018/05/28/server-proxy/">云服务器之代理</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 萌萌哒的邱邱邱邱 的个人博客">萌萌哒的邱邱邱邱</a></p>
-  <p><span>发布时间:</span>2018年05月27日 - 17:05</p>
-  <p><span>最后更新:</span>2018年05月27日 - 19:05</p>
-  <p><span>原始链接:</span><a href="/2018/05/27/react-life-circle/" title="React之组件生命周期">https://qiuruolin.github.io/2018/05/27/react-life-circle/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2018/05/27/react-life-circle/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2018年05月28日 - 21:05</p>
+  <p><span>最后更新:</span>2018年05月28日 - 22:05</p>
+  <p><span>原始链接:</span><a href="/2018/05/28/server-proxy/" title="云服务器之代理">https://qiuruolin.github.io/2018/05/28/server-proxy/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2018/05/28/server-proxy/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -542,7 +517,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/React-js-生命周期/" rel="tag"># React.js 生命周期</a>
+            <a href="/tags/服务器代理/" rel="tag"># 服务器代理</a>
           
         </div>
       
@@ -555,8 +530,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/24/react-express/" rel="next" title="基于React及Express项目的打包部署">
-                <i class="fa fa-chevron-left"></i> 基于React及Express项目的打包部署
+              <a href="/2018/05/28/Linux-mysql/" rel="next" title="Linux之MySQL数据库常用操作">
+                <i class="fa fa-chevron-left"></i> Linux之MySQL数据库常用操作
               </a>
             
           </div>
@@ -564,10 +539,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/28/Linux-mysql/" rel="prev" title="Linux之MySQL数据库常用操作">
-                Linux之MySQL数据库常用操作 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -747,7 +718,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例化"><span class="nav-number">2.</span> <span class="nav-text">实例化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#存在期"><span class="nav-number">3.</span> <span class="nav-text">存在期</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#销毁期"><span class="nav-number">4.</span> <span class="nav-text">销毁期</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代理"><span class="nav-number">2.</span> <span class="nav-text">代理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#不带URI的代理配置"><span class="nav-number">2.1.</span> <span class="nav-text">不带URI的代理配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#带URI的代理配置"><span class="nav-number">2.2.</span> <span class="nav-text">带URI的代理配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
@@ -919,9 +890,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://qiuruolin.github.io/2018/05/27/react-life-circle/';
-          this.page.identifier = '2018/05/27/react-life-circle/';
-          this.page.title = 'React之组件生命周期';
+          this.page.url = 'https://qiuruolin.github.io/2018/05/28/server-proxy/';
+          this.page.identifier = '2018/05/28/server-proxy/';
+          this.page.title = '云服务器之代理';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://qiuruolin.disqus.com/embed.js';
