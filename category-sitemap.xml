@@ -14,13 +14,6 @@
     </url>
 
     <url>
-        <loc>https://qiuruolin.github.io/categories/iconfont%E5%9B%BE%E6%A0%87/</loc>
-        <lastmod>2018-02-06T15:31:27.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://qiuruolin.github.io/categories/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6/</loc>
         <lastmod>2018-02-06T15:31:32.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -65,6 +58,13 @@
     <url>
         <loc>https://qiuruolin.github.io/categories/Linux/</loc>
         <lastmod>2018-05-29T11:53:14.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://qiuruolin.github.io/categories/iconfont%E5%9B%BE%E6%A0%87/</loc>
+        <lastmod>2018-07-24T12:44:17.008Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

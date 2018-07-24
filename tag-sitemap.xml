@@ -16,13 +16,6 @@
     </url>
 
     <url>
-        <loc>https://qiuruolin.github.io/tags/iconfont-%E9%A1%B9%E7%9B%AE%E5%9B%BE%E6%A0%87icon/</loc>
-        <lastmod>2018-02-06T15:31:27.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://qiuruolin.github.io/tags/vue/</loc>
         <lastmod>2018-02-06T15:31:32.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -88,6 +81,13 @@
     <url>
         <loc>https://qiuruolin.github.io/tags/nohup/</loc>
         <lastmod>2018-05-29T11:53:14.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://qiuruolin.github.io/tags/iconfont-%E9%A1%B9%E7%9B%AE%E5%9B%BE%E6%A0%87icon/</loc>
+        <lastmod>2018-07-24T12:44:17.008Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

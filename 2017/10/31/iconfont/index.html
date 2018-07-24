@@ -116,6 +116,7 @@
 <meta property="og:image" content="https://qiuruolin.github.io/img/success2.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/new-project.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/project-success.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/link.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/zip.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/project-code.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/project-init.png">
@@ -126,7 +127,7 @@
 <meta property="og:image" content="https://qiuruolin.github.io/img/project-re.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/css.png">
 <meta property="og:image" content="https://qiuruolin.github.io/img/re.png">
-<meta property="og:updated_time" content="2018-02-06T15:31:27.000Z">
+<meta property="og:updated_time" content="2018-07-24T12:44:17.008Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用iconfont创建项目图标">
 <meta name="twitter:description" content="在学习他人网站代码时，我常常会发现前端开发人员习惯使用1&amp;lt;i class=&quot;iconfont icon-time&quot;&amp;gt;&amp;lt;/i&amp;gt; 来生成页面的图标，这打破了我们传统的方式——将icon图标以png等图片的形式下载下来，然后通过img标签引入页面中。在刚开始接触到这种方式时，我感到不解，想要试图在css文件中找到相应类的样式设置，认为是在css中设置了背景图，找寻无果…最近想要">
@@ -438,9 +439,13 @@
 <p>回车以后，你会看到很多有关于time的icon图标，选择你需要的那个，并添加至购物车中（如未登录的话，此时会要求你先登录）<br><img src="/img/add.png" alt="加入购物车"><br>加入成功后你可以在右上角购物车处看到你所添加的icon<br><img src="/img/add-success.png" alt="加入购物车"></p>
 <p><img src="/img/success2.png" alt="加入购物车"></p>
 <p>依此，你可以在项目中添加很多icon图标，这里就不一一演示了</p>
-<p>接下来，我们将购物车中所有的icon图标打包在一个新建的项目中<br><img src="/img/new-project.png" alt="新建项目"><br>添加成功后，你可以看到你创建的项目中有你所添加的所有icon图标<br><img src="/img/project-success.png" alt="新建项目"><br>点击<strong>下载至本地</strong>，将zip文件解压后其中的文件如下<br><img src="/img/zip.png" alt="新建项目"></p>
-<p>接下来，就是如何在项目中使用了<br><img src="/img/project-code.png" alt="新建项目"><br>在原来的html中我使用的是传统方式，将icon以图片的形式引入<br>可以看到的效果如下<br><img src="/img/project-init.png" alt="项目初始效果"><br>将刚刚解压的文件放置在项目的根目录下，可以对文件进行重命名，为了方便我重命名为<strong>icon-fonts</strong>，当前项目目录如下<br><img src="/img/project-ca.png" alt="项目目录"></p>
-<p>接下来我们在头部引入<strong>icon-fonts</strong>中的<strong>iconfont.css</strong>文件<br><img src="/img/in.png" alt="引入"><br>并使用i标签来替换传统方式<br><img src="/img/i.png" alt="i"></p>
+<p>接下来，我们将购物车中所有的icon图标打包在一个新建的项目中<br><img src="/img/new-project.png" alt="新建项目"><br>添加成功后，你可以看到你创建的项目中有你所添加的所有icon图标<br><img src="/img/project-success.png" alt="新建项目"></p>
+<p>建议使用：生成在线链接<br><img src="/img/link.png" alt="生成链接"><br>并在css文件中通过<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@import url(<span class="string">'链接地址'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>引入资源<br>也可以通过点击<strong>下载至本地</strong>，将zip文件解压后其中的文件如下<br><img src="/img/zip.png" alt="新建项目"></p>
+<p>接下来，就是如何在项目中使用了<br><img src="/img/project-code.png" alt="新建项目"><br>在原来的html中我使用的是传统方式，将icon以图片的形式引入<br>可以看到的效果如下<br><img src="/img/project-init.png" alt="项目初始效果"></p>
+<p> ———– 下载至本地需要进行的 ———–<br>将刚刚解压的文件放置在项目的根目录下，可以对文件进行重命名，为了方便我重命名为<strong>icon-fonts</strong>，当前项目目录如下<br><img src="/img/project-ca.png" alt="项目目录"></p>
+<p>接下来我们在头部引入<strong>icon-fonts</strong>中的<strong>iconfont.css</strong>文件<br><img src="/img/in.png" alt="引入"><br> ———– 华丽丽的分割线 ———–</p>
+<p>并使用i标签来替换传统方式<br><img src="/img/i.png" alt="i"></p>
 <p>其中<strong>iconfont</strong>是必须的类名，<strong>icon-time</strong>是你在阿里巴巴Iconfont平台创建的项目中图标所对应的类名，如下图<br><img src="/img/time.png" alt="time"><br><strong>img</strong>是我自己创建的用来定位的css类<br><img src="/img/project-re.png" alt="项目效果"><br>你会发现icon已经成功的被我们引入了，并且替换了传统的img标签</p>
 <p>你可以在css中任意设置icon图标的大小以及颜色，如下：<br><img src="/img/css.png" alt="css"></p>
 <p><img src="/img/re.png" alt="项目效果"></p>
@@ -466,7 +471,7 @@
   <p><span>本文标题:</span><a href="/2017/10/31/iconfont/">使用iconfont创建项目图标</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 萌萌哒的邱邱邱邱 的个人博客">萌萌哒的邱邱邱邱</a></p>
   <p><span>发布时间:</span>2017年10月31日 - 00:10</p>
-  <p><span>最后更新:</span>2018年02月06日 - 23:02</p>
+  <p><span>最后更新:</span>2018年07月24日 - 20:07</p>
   <p><span>原始链接:</span><a href="/2017/10/31/iconfont/" title="使用iconfont创建项目图标">https://qiuruolin.github.io/2017/10/31/iconfont/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2017/10/31/iconfont/"  aria-label="复制成功！"></i></span>
   </p>
