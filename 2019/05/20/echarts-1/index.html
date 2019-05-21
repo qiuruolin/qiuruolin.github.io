@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="echarts源码解读," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="2019年首次发博，不知道大家有没有出去过520呢？？我反正是脚伤了！哭 今天7月份我将入职腾讯，我的工作导师于3月份让我学习可视化，前段时间一直在忙毕设，也就耽搁下来了。 在echarts源码解读系列文章中，我将会记录我学习echarts源码时的过程，并对echarts的基本实现进行大致的解读，写博客是为了能够让自己对echarts有更好的了解，也希望能够通过博客帮助到需要学习解读echart">
+<meta name="keywords" content="echarts源码解读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="echarts源码解读《一》：zrender源码概要分析">
+<meta property="og:url" content="https://qiuruolin.github.io/2019/05/20/echarts-1/index.html">
+<meta property="og:site_name" content="邱邱邱邱的个人博客">
+<meta property="og:description" content="2019年首次发博，不知道大家有没有出去过520呢？？我反正是脚伤了！哭 今天7月份我将入职腾讯，我的工作导师于3月份让我学习可视化，前段时间一直在忙毕设，也就耽搁下来了。 在echarts源码解读系列文章中，我将会记录我学习echarts源码时的过程，并对echarts的基本实现进行大致的解读，写博客是为了能够让自己对echarts有更好的了解，也希望能够通过博客帮助到需要学习解读echart">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://qiuruolin.github.io/img/echarts/贝塞尔1.png">
+<meta property="og:image" content="https://qiuruolin.github.io/img/echarts/贝塞尔2.png">
+<meta property="og:updated_time" content="2019-05-21T02:30:33.003Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="echarts源码解读《一》：zrender源码概要分析">
+<meta name="twitter:description" content="2019年首次发博，不知道大家有没有出去过520呢？？我反正是脚伤了！哭 今天7月份我将入职腾讯，我的工作导师于3月份让我学习可视化，前段时间一直在忙毕设，也就耽搁下来了。 在echarts源码解读系列文章中，我将会记录我学习echarts源码时的过程，并对echarts的基本实现进行大致的解读，写博客是为了能够让自己对echarts有更好的了解，也希望能够通过博客帮助到需要学习解读echart">
+<meta name="twitter:image" content="https://qiuruolin.github.io/img/echarts/贝塞尔1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://qiuruolin.github.io/2019/05/20/echarts-1/"/>
+
+
+
+
+
+  <title>echarts源码解读《一》：zrender源码概要分析 | 邱邱邱邱的个人博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c6b7cb6722791755bb6aae172845cc92";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">邱邱邱邱的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://qiuruolin.github.io/2019/05/20/echarts-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="萌萌哒的邱邱邱邱">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="邱邱邱邱的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">echarts源码解读《一》：zrender源码概要分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-20T10:17:38+08:00">
+                2019-05-20
+              </time>
+            
+
+            
+              <span id="busuanzi_container_page_pv">  |  阅读量 <span id="busuanzi_value_page_pv"></span> 次</span>
+            
+
+            
+
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/echarts/" itemprop="url" rel="index">
+                    <span itemprop="name">echarts</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/20/echarts-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/05/20/echarts-1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>2019年首次发博，不知道大家有没有出去过520呢？？我反正是脚伤了！哭</p>
+<p>今天7月份我将入职腾讯，我的工作导师于3月份让我学习可视化，前段时间一直在忙毕设，也就耽搁下来了。</p>
+<p>在echarts源码解读系列文章中，我将会记录我学习echarts源码时的过程，并对echarts的基本实现进行大致的解读，写博客是为了能够让自己对echarts有更好的了解，也希望能够通过博客帮助到需要学习解读echarts源码的小伙伴们，一起加油吧！！！</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于echarts是基于zrender进行实现的，所以要解读echarts源码，首先要对zrender有大致的了解，在这篇文章中，我将对zrender的整体结构进行大致的解读。</p>
+<a id="more"></a>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>zrender是canvas的一个类库，也就是说zrender是基于canvas实现的，canvas API可以参考：<a href="http://www.w3school.com.cn/tags/html_ref_canvas.asp" target="_blank" rel="noopener">W3CSchool Canvas 参考手册</a> </p>
+<p>在后续的解读中，我们会介绍zrender使用canvas api 的位置及用途。</p>
+<h1 id="目录介绍"><a href="#目录介绍" class="headerlink" title="目录介绍"></a>目录介绍</h1><p>文件夹：</p>
+<ul>
+<li>animation 动画有关； </li>
+<li>contain 包含判断； </li>
+<li>container Group.js 元素组的概念； </li>
+<li>core 核心代码，包含一些工具（util.js）、事件（event.js）、唯一ID(guid.js)、矩阵运算有关（matrix.js）等； </li>
+<li>dom HandleProxy.js dom事件有关； </li>
+<li>graphic 图形有关，shape文件夹下就是各个图形的js文件； </li>
+<li>mixin 混入模式要混入的函数; </li>
+<li>tool 工具函数，包括颜色工具(color.js)，path工具(path.js)和转换工具（transformPath.js）; </li>
+<li>vml IE中的画笔，<a href="http://www.g168.net/txt/vml/]" target="_blank" rel="noopener">vml解释</a></li>
+</ul>
+<p>全局的文件： </p>
+<ul>
+<li>config.js 配置文件 </li>
+<li>Element.js 元素文件作为zrender最基本的元素 </li>
+<li>Handle.js C层，控制层 </li>
+<li>Layer.js 图层管理 </li>
+<li>Painter.js V层，视图层 </li>
+<li>Storage.js M层，数据管理层 </li>
+<li>zrender.js 入口</li>
+</ul>
+<h1 id="zrender整体架构"><a href="#zrender整体架构" class="headerlink" title="zrender整体架构"></a>zrender整体架构</h1><p>zrender采用了MVC封装，M为Model数据层，V为View视图层，C为Controller控制层：</p>
+<ul>
+<li>Storage(M)：Storage为zrender中的Model层，它主要进行图形数据的增删改查(CRUD)操作；</li>
+<li>Painter(V)：Painter为zrender中的View层，它主要对canvas元素的生命周期进行管理，渲染视图以及控制更新等。定义了addHover、setBackgroundColor等方法；</li>
+<li>Handler(C)：Handler为zrender中的Controller层，它主要实现事件交互处理，实现完整dom事件的模拟封装。</li>
+</ul>
+<h1 id="图形"><a href="#图形" class="headerlink" title="图形"></a>图形</h1><p>处于graphic文件夹下，zrender定义了一系列图形，供外界调用，包括圆形、矩形、心形、扇形、多边形、折线等，echarts通过调用zrender定义好的图形，可以很便捷地完成图表渲染。</p>
+<h2 id="Displayable"><a href="#Displayable" class="headerlink" title="Displayable"></a>Displayable</h2><p><strong>Displayable.js</strong>为<strong>Path、Text</strong>等的基类，继承自<strong>Element</strong>，定义了setStyle、useStyle等方法，</p>
+<h2 id="Text"><a href="#Text" class="headerlink" title="Text"></a>Text</h2><p>文本，继承自Displayable，调用了helper/text.js中的renderText方法进行绘制。主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">renderText</span>(<span class="params">hostEl, ctx, text, style, rect, prevEl</span>) </span>&#123;</span><br><span class="line">    style.rich</span><br><span class="line">        ? renderRichText(hostEl, ctx, text, style, rect, prevEl)</span><br><span class="line">        : renderPlainText(hostEl, ctx, text, style, rect, prevEl);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>文本分为富文本以及普通文本进行分别渲染，它们均通过调用canvas的<strong>ctx.fillText或ctx.strokeText</strong> 等api进行文本渲染，具体实现可以查看helper/text.js文件。</p>
+<h2 id="Style"><a href="#Style" class="headerlink" title="Style"></a>Style</h2><p>图形的样式文件，定义了基本的样式属性，以及样式set、clone以及判断等方法。</p>
+<h2 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h2><p>path为图形的基类，继承自Displayable，定义了buildPath、getBoundingRect、setShape等方法，其包含this._style属性即为<strong>Style</strong>对象实例。</p>
+<h2 id="Shape"><a href="#Shape" class="headerlink" title="Shape"></a>Shape</h2><p>shape文件下存放着zrender定义的图形文件，扩展自Path。</p>
+<h3 id="Circle"><a href="#Circle" class="headerlink" title="Circle"></a>Circle</h3><p>圆形，通过调用Path.extend方法进行扩展，重写了<strong>buildPath</strong>方法，buildPath调用了canvas api：<strong>ctx.arc</strong>进行圆形的绘制，主要实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">buildPath: <span class="function"><span class="keyword">function</span> (<span class="params">ctx, shape, inBundle</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (inBundle) &#123;</span><br><span class="line">        ctx.moveTo(shape.cx + shape.r, shape.cy);</span><br><span class="line">    &#125;</span><br><span class="line">    ctx.arc(shape.cx, shape.cy, shape.r, <span class="number">0</span>, <span class="built_in">Math</span>.PI * <span class="number">2</span>, <span class="literal">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Arc"><a href="#Arc" class="headerlink" title="Arc"></a>Arc</h3><p>弧形，通过调用Path.extend方法进行扩展，重写了<strong>buildPath</strong>方法，buildPath调用了canvas api：<strong>ctx.arc</strong>进行弧形的绘制，主要实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">buildPath: <span class="function"><span class="keyword">function</span> (<span class="params">ctx, shape</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> x = shape.cx;</span><br><span class="line">    <span class="keyword">var</span> y = shape.cy;</span><br><span class="line">    <span class="keyword">var</span> r = <span class="built_in">Math</span>.max(shape.r, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">var</span> startAngle = shape.startAngle;</span><br><span class="line">    <span class="keyword">var</span> endAngle = shape.endAngle;</span><br><span class="line">    <span class="keyword">var</span> clockwise = shape.clockwise;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> unitX = <span class="built_in">Math</span>.cos(startAngle);</span><br><span class="line">    <span class="keyword">var</span> unitY = <span class="built_in">Math</span>.sin(startAngle);</span><br><span class="line"></span><br><span class="line">    ctx.moveTo(unitX * r + x, unitY * r + y);</span><br><span class="line">    ctx.arc(x, y, r, startAngle, endAngle, !clockwise);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Heart"><a href="#Heart" class="headerlink" title="Heart"></a>Heart</h3><p>心形❤️，通过调用Path.extend方法进行扩展，重写了<strong>buildPath</strong>方法，buildPath调用了canvas api：<strong>ctx.bezierCurveTo</strong>进行弧形的绘制，主要实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">buildPath: <span class="function"><span class="keyword">function</span> (<span class="params">ctx, shape</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> x = shape.cx;</span><br><span class="line">    <span class="keyword">var</span> y = shape.cy;</span><br><span class="line">    <span class="keyword">var</span> a = shape.width;</span><br><span class="line">    <span class="keyword">var</span> b = shape.height;</span><br><span class="line">    ctx.moveTo(x, y);</span><br><span class="line">    ctx.bezierCurveTo(</span><br><span class="line">        x + a / <span class="number">2</span>, y - b * <span class="number">2</span> / <span class="number">3</span>,</span><br><span class="line">        x + a * <span class="number">2</span>, y + b / <span class="number">3</span>,</span><br><span class="line">        x, y + b</span><br><span class="line">    );</span><br><span class="line">    ctx.bezierCurveTo(</span><br><span class="line">        x - a * <span class="number">2</span>, y + b / <span class="number">3</span>,</span><br><span class="line">        x - a / <span class="number">2</span>, y - b * <span class="number">2</span> / <span class="number">3</span>,</span><br><span class="line">        x, y</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>bezierCurveTo(控制点1x坐标, 控制点1y坐标, 控制点2x坐标, 控制点2y坐标, 结束点x坐标, 结束点y坐标)</p>
+<p>三次被塞尔曲线绘制：</p>
+<ul>
+<li>P0为开始点，P1为控制点1，P2为控制点2，P3为结束点</li>
+<li>取 <strong>P0P1</strong> 中点M</li>
+<li>取 <strong>P1P2</strong> 中点M’</li>
+<li>取 <strong>MM’</strong> 中点P</li>
+<li>则 <strong>P</strong> 为曲线的必经点</li>
+</ul>
+<p>具体绘制图如下：</p>
+<p><img src="/img/echarts/贝塞尔1.png" alt="贝塞尔1"></p>
+<p>同理，我们可以绘制出左半边心形：</p>
+<p><img src="/img/echarts/贝塞尔2.png" alt="贝塞尔2"></p>
+<h3 id="Droplet"><a href="#Droplet" class="headerlink" title="Droplet"></a>Droplet</h3><p>水滴形状💧，通过调用Path.extend方法进行扩展，重写了<strong>buildPath</strong>方法，buildPath调用了canvas api：<strong>ctx.bezierCurveTo</strong>进行弧形的绘制，贝塞尔曲线的绘制过程同<strong>心形</strong>绘制原理，主要实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">buildPath: <span class="function"><span class="keyword">function</span> (<span class="params">ctx, shape</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> x = shape.cx;</span><br><span class="line">    <span class="keyword">var</span> y = shape.cy;</span><br><span class="line">    <span class="keyword">var</span> a = shape.width;</span><br><span class="line">    <span class="keyword">var</span> b = shape.height;</span><br><span class="line"></span><br><span class="line">    ctx.moveTo(x, y + a);</span><br><span class="line">    ctx.bezierCurveTo(</span><br><span class="line">        x + a,</span><br><span class="line">        y + a,</span><br><span class="line">        x + a * <span class="number">3</span> / <span class="number">2</span>,</span><br><span class="line">        y - a / <span class="number">3</span>,</span><br><span class="line">        x,</span><br><span class="line">        y - b</span><br><span class="line">    );</span><br><span class="line">    ctx.bezierCurveTo(</span><br><span class="line">        x - a * <span class="number">3</span> / <span class="number">2</span>,</span><br><span class="line">        y - a / <span class="number">3</span>,</span><br><span class="line">        x - a,</span><br><span class="line">        y + a,</span><br><span class="line">        x,</span><br><span class="line">        y + a</span><br><span class="line">    );</span><br><span class="line">    ctx.closePath();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Ellipse"><a href="#Ellipse" class="headerlink" title="Ellipse"></a>Ellipse</h3><p>椭圆，通过调用Path.extend方法进行扩展，重写了<strong>buildPath</strong>方法，buildPath调用了canvas api：<strong>ctx.bezierCurveTo</strong>进行弧形的绘制，贝塞尔曲线的绘制过程同<strong>心形</strong>绘制原理，主要实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">buildPath: <span class="function"><span class="keyword">function</span> (<span class="params">ctx, shape</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> k = <span class="number">0.5522848</span>;</span><br><span class="line">    <span class="keyword">var</span> x = shape.cx;</span><br><span class="line">    <span class="keyword">var</span> y = shape.cy;</span><br><span class="line">    <span class="keyword">var</span> a = shape.rx;</span><br><span class="line">    <span class="keyword">var</span> b = shape.ry;</span><br><span class="line">    <span class="keyword">var</span> ox = a * k; <span class="comment">// 水平控制点偏移量</span></span><br><span class="line">    <span class="keyword">var</span> oy = b * k; <span class="comment">// 垂直控制点偏移量</span></span><br><span class="line">    <span class="comment">// 从椭圆的左端点开始顺时针绘制四条三次贝塞尔曲线</span></span><br><span class="line">    ctx.moveTo(x - a, y);</span><br><span class="line">    ctx.bezierCurveTo(x - a, y - oy, x - ox, y - b, x, y - b);</span><br><span class="line">    ctx.bezierCurveTo(x + ox, y - b, x + a, y - oy, x + a, y);</span><br><span class="line">    ctx.bezierCurveTo(x + a, y + oy, x + ox, y + b, x, y + b);</span><br><span class="line">    ctx.bezierCurveTo(x - ox, y + b, x - a, y + oy, x - a, y);</span><br><span class="line">    ctx.closePath();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Sector"><a href="#Sector" class="headerlink" title="Sector"></a>Sector</h3><p>扇形，通过调用Path.extend方法进行扩展，重写了<strong>buildPath</strong>方法，buildPath调用了canvas api：<strong>ctx.arc以及arc.lineTo</strong>进行圆形的绘制，主要实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">buildPath: <span class="function"><span class="keyword">function</span> (<span class="params">ctx, shape</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> x = shape.cx;</span><br><span class="line">    <span class="keyword">var</span> y = shape.cy;</span><br><span class="line">    <span class="keyword">var</span> r0 = <span class="built_in">Math</span>.max(shape.r0 || <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">var</span> r = <span class="built_in">Math</span>.max(shape.r, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">var</span> startAngle = shape.startAngle;</span><br><span class="line">    <span class="keyword">var</span> endAngle = shape.endAngle;</span><br><span class="line">    <span class="keyword">var</span> clockwise = shape.clockwise;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> unitX = <span class="built_in">Math</span>.cos(startAngle);</span><br><span class="line">    <span class="keyword">var</span> unitY = <span class="built_in">Math</span>.sin(startAngle);</span><br><span class="line"></span><br><span class="line">    ctx.moveTo(unitX * r0 + x, unitY * r0 + y);</span><br><span class="line"></span><br><span class="line">    ctx.lineTo(unitX * r + x, unitY * r + y);</span><br><span class="line"></span><br><span class="line">    ctx.arc(x, y, r, startAngle, endAngle, !clockwise);</span><br><span class="line"></span><br><span class="line">    ctx.lineTo(</span><br><span class="line">        <span class="built_in">Math</span>.cos(endAngle) * r0 + x,</span><br><span class="line">        <span class="built_in">Math</span>.sin(endAngle) * r0 + y</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (r0 !== <span class="number">0</span>) &#123;</span><br><span class="line">        ctx.arc(x, y, r0, endAngle, startAngle, clockwise);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ctx.closePath();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>zrender还定义了<strong>Rect矩形</strong>、<strong>Isogon正多边形</strong>、<strong>Line直线</strong>、<strong>Polygon多边形</strong>、<strong>Polyline折线</strong>、<strong>Ring圆环</strong>、<strong>Rose玫瑰线</strong>、<strong>Star n角星</strong>等图形，其实现过程基本与上述图形上类似，都是基于canvas的<strong>lineTo、arc、bezierCurveTo</strong>等api进行绘制的，这边就不做一一介绍了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>zrender中封装了很多工具，在后续echarts源码解读中，我们可以看到echarts是基于zrender进行开发的。</p>
+<p>希望这篇博文能够帮助大家对zrender及其实现的图形有大致的了解～</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/05/20/echarts-1/">echarts源码解读《一》：zrender源码概要分析</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 萌萌哒的邱邱邱邱 的个人博客">萌萌哒的邱邱邱邱</a></p>
+  <p><span>发布时间:</span>2019年05月20日 - 10:05</p>
+  <p><span>最后更新:</span>2019年05月21日 - 10:05</p>
+  <p><span>原始链接:</span><a href="/2019/05/20/echarts-1/" title="echarts源码解读《一》：zrender源码概要分析">https://qiuruolin.github.io/2019/05/20/echarts-1/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2019/05/20/echarts-1/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+      
+    </div>
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-eye"></i>感谢您的阅读-------------</div>
+    
+</div>
+      </div>
+    
+    
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的支持</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/img/wechat.png" alt="萌萌哒的邱邱邱邱 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/img/alipay.png" alt="萌萌哒的邱邱邱邱 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/echarts源码解读/" rel="tag"># echarts源码解读</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/29/nohup-sh/" rel="next" title="云服务器之后台运行">
+                <i class="fa fa-chevron-left"></i> 云服务器之后台运行
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a795d51f3581934" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/img/avatar.png"
+                alt="萌萌哒的邱邱邱邱" />
+            
+              <p class="site-author-name" itemprop="name">萌萌哒的邱邱邱邱</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/qiuruolin/qiuruolin.github.io.git" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1312492221@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.jianshu.com/nb/16441987" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://my.csdn.net" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目录介绍"><span class="nav-number">3.</span> <span class="nav-text">目录介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#zrender整体架构"><span class="nav-number">4.</span> <span class="nav-text">zrender整体架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图形"><span class="nav-number">5.</span> <span class="nav-text">图形</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Displayable"><span class="nav-number">5.1.</span> <span class="nav-text">Displayable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Text"><span class="nav-number">5.2.</span> <span class="nav-text">Text</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Style"><span class="nav-number">5.3.</span> <span class="nav-text">Style</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Path"><span class="nav-number">5.4.</span> <span class="nav-text">Path</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shape"><span class="nav-number">5.5.</span> <span class="nav-text">Shape</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Circle"><span class="nav-number">5.5.1.</span> <span class="nav-text">Circle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Arc"><span class="nav-number">5.5.2.</span> <span class="nav-text">Arc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Heart"><span class="nav-number">5.5.3.</span> <span class="nav-text">Heart</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Droplet"><span class="nav-number">5.5.4.</span> <span class="nav-text">Droplet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ellipse"><span class="nav-number">5.5.5.</span> <span class="nav-text">Ellipse</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sector"><span class="nav-number">5.5.6.</span> <span class="nav-text">Sector</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">萌萌哒的邱邱邱邱</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+     本页点击 <span id="busuanzi_value_page_pv"></span> 次
+  |  本站总点击 <span id="busuanzi_value_site_pv"></span> 次
+  |  您是第 <span id="busuanzi_value_site_uv"></span> 位访客
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://qiuruolin.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://qiuruolin.github.io/2019/05/20/echarts-1/';
+          this.page.identifier = '2019/05/20/echarts-1/';
+          this.page.title = 'echarts源码解读《一》：zrender源码概要分析';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://qiuruolin.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  <script type="text/javascript" src="/js/src/particle.js" count="50" zindex="-2" opacity="1" color="0,104,183"></script>
+  <script type="text/javascript" src="/js/src/love.js"></script>
+  <script type="text/javascript" src="/js/src/dytitle.js"></script>
+</body>
+</html>
