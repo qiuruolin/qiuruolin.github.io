@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="echarts源码解读," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="分析完echarts简单的结构之后，我们就进入到了Component源码解读，在这篇博文中，我将主要介绍各Component的渲染过程以及其使用的zrender graphic。希望和小伙伴们一起进步呀！！加油！！  前言echarts对Component的定义呢，可以认为是除Series外的其他配置项，在这篇博文中我们将探讨title（图标标题）、legend（图例组件）、AxisPointe">
+<meta name="keywords" content="echarts源码解读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="echarts源码解读《三》：echarts源码之Component分析">
+<meta property="og:url" content="https://qiuruolin.github.io/2019/05/22/echarts-3/index.html">
+<meta property="og:site_name" content="邱邱邱邱的个人博客">
+<meta property="og:description" content="分析完echarts简单的结构之后，我们就进入到了Component源码解读，在这篇博文中，我将主要介绍各Component的渲染过程以及其使用的zrender graphic。希望和小伙伴们一起进步呀！！加油！！  前言echarts对Component的定义呢，可以认为是除Series外的其他配置项，在这篇博文中我们将探讨title（图标标题）、legend（图例组件）、AxisPointe">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://qiuruolin.github.io/img/echarts/legend.png">
+<meta property="og:updated_time" content="2019-05-23T11:42:25.928Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="echarts源码解读《三》：echarts源码之Component分析">
+<meta name="twitter:description" content="分析完echarts简单的结构之后，我们就进入到了Component源码解读，在这篇博文中，我将主要介绍各Component的渲染过程以及其使用的zrender graphic。希望和小伙伴们一起进步呀！！加油！！  前言echarts对Component的定义呢，可以认为是除Series外的其他配置项，在这篇博文中我们将探讨title（图标标题）、legend（图例组件）、AxisPointe">
+<meta name="twitter:image" content="https://qiuruolin.github.io/img/echarts/legend.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://qiuruolin.github.io/2019/05/22/echarts-3/"/>
+
+
+
+
+
+  <title>echarts源码解读《三》：echarts源码之Component分析 | 邱邱邱邱的个人博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c6b7cb6722791755bb6aae172845cc92";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">邱邱邱邱的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://qiuruolin.github.io/2019/05/22/echarts-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="萌萌哒的邱邱邱邱">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="邱邱邱邱的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">echarts源码解读《三》：echarts源码之Component分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-22T16:17:18+08:00">
+                2019-05-22
+              </time>
+            
+
+            
+              <span id="busuanzi_container_page_pv">  |  阅读量 <span id="busuanzi_value_page_pv"></span> 次</span>
+            
+
+            
+
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/echarts/" itemprop="url" rel="index">
+                    <span itemprop="name">echarts</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/22/echarts-3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/05/22/echarts-3/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>分析完echarts简单的结构之后，我们就进入到了Component源码解读，在这篇博文中，我将主要介绍各Component的渲染过程以及其使用的zrender graphic。希望和小伙伴们一起进步呀！！加油！！</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>echarts对Component的定义呢，可以认为是除Series外的其他配置项，在这篇博文中我们将探讨<strong>title（图标标题）、legend（图例组件）、AxisPointer（坐标轴指示器）、坐标系以及坐标轴</strong>这些Component。</p>
+<p>用户通过传递option对象来设置相应的Component。</p>
+<p>在这部分中echarts采用了Model以及View的架构来管理Component：</p>
+<ul>
+<li>Model：model/Component.js 管理Component数据</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li>View：view/Component.js 负责渲染Component视图</li>
+</ul>
+<h1 id="Model层"><a href="#Model层" class="headerlink" title="Model层"></a>Model层</h1><p><strong>model/Component.js</strong>。Component扩展自Model（Model是Echarts中最基本的元素，其定义了<strong>mergeOption</strong>等方法，混合了LineStyle、AraeStyle、ItemStyle以及TextStyle），重写了init及mergeOption等方法，定义了mergeDefaultAndTheme、getDefaultOption等方法以及defaultOption（Component默认配置）、componentIndex等属性。</p>
+<h1 id="View层"><a href="#View层" class="headerlink" title="View层"></a>View层</h1><p><strong>view/Component.js</strong>。Component中定义了group等属性以及init、render、dispose等方法。</p>
+<h1 id="快速扩展"><a href="#快速扩展" class="headerlink" title="快速扩展"></a>快速扩展</h1><p>在echarts中定义了<strong>extendComponentModel</strong>以及<strong>extendComponentView</strong>方法，可以让Component对Model以及View进行快速扩展</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">extendComponentModel</span>(<span class="params">opts</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ComponentModel.extend(opts);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">extendComponentView</span>(<span class="params">opts</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ComponentView.extend(opts);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Title"><a href="#Title" class="headerlink" title="Title"></a>Title</h1><p>title是我们在使用echarts图表时设置的标题组件，简单的🌰：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">title: &#123;</span><br><span class="line">    left: <span class="string">'center'</span>,</span><br><span class="line">    text: <span class="string">'例子Title'</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>title文件中Model部分通过extendComponentModel方法扩展自Component Model，重写了<strong>defaultOption</strong>属性，用于设置title的默认option。</p>
+<p>View部分通过extendComponentView方法扩展Component View，重写了render方法对title进行渲染，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">titleModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 通过zrender的Text图形新建文本元素</span></span><br><span class="line">    <span class="keyword">var</span> textEl = <span class="keyword">new</span> graphic.Text(&#123;</span><br><span class="line">        style: graphic.setTextStyle(&#123;&#125;, textStyleModel, &#123;</span><br><span class="line">            text: titleModel.get(<span class="string">'text'</span>),</span><br><span class="line">            textFill: textStyleModel.getTextColor()</span><br><span class="line">        &#125;, &#123;<span class="attr">disableBox</span>: <span class="literal">true</span>&#125;),</span><br><span class="line">        z2: <span class="number">10</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> textRect = textEl.getBoundingRect();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> subText = titleModel.get(<span class="string">'subtext'</span>);</span><br><span class="line">    <span class="comment">// 创建subText元素</span></span><br><span class="line">    <span class="keyword">var</span> subTextEl = <span class="keyword">new</span> graphic.Text(&#123;</span><br><span class="line">        style: graphic.setTextStyle(&#123;&#125;, subtextStyleModel, &#123;</span><br><span class="line">            text: subText,</span><br><span class="line">            textFill: subtextStyleModel.getTextColor(),</span><br><span class="line">            y: textRect.height + titleModel.get(<span class="string">'itemGap'</span>),</span><br><span class="line">            textVerticalAlign: <span class="string">'top'</span></span><br><span class="line">        &#125;, &#123;<span class="attr">disableBox</span>: <span class="literal">true</span>&#125;),</span><br><span class="line">        z2: <span class="number">10</span></span><br><span class="line">    &#125;);</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    group.add(textEl);</span><br><span class="line">    subText &amp;&amp; group.add(subTextEl);</span><br><span class="line">    <span class="comment">// If no subText, but add subTextEl, there will be an empty line.</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 设定title的位置</span></span><br><span class="line">    <span class="keyword">if</span> (!textAlign) &#123;</span><br><span class="line">        <span class="comment">// Align left if title is on the left. center and right is same</span></span><br><span class="line">        textAlign = titleModel.get(<span class="string">'left'</span>) || titleModel.get(<span class="string">'right'</span>);</span><br><span class="line">        <span class="keyword">if</span> (textAlign === <span class="string">'middle'</span>) &#123;</span><br><span class="line">            textAlign = <span class="string">'center'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// Adjust layout by text align</span></span><br><span class="line">        <span class="keyword">if</span> (textAlign === <span class="string">'right'</span>) &#123;</span><br><span class="line">            layoutRect.x += layoutRect.width;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (textAlign === <span class="string">'center'</span>) &#123;</span><br><span class="line">            layoutRect.x += layoutRect.width / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!textBaseline) &#123;</span><br><span class="line">        textBaseline = titleModel.get(<span class="string">'top'</span>) || titleModel.get(<span class="string">'bottom'</span>);</span><br><span class="line">        <span class="keyword">if</span> (textBaseline === <span class="string">'center'</span>) &#123;</span><br><span class="line">            textBaseline = <span class="string">'middle'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (textBaseline === <span class="string">'bottom'</span>) &#123;</span><br><span class="line">            layoutRect.y += layoutRect.height;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (textBaseline === <span class="string">'middle'</span>) &#123;</span><br><span class="line">            layoutRect.y += layoutRect.height / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        textBaseline = textBaseline || <span class="string">'top'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    group.attr(<span class="string">'position'</span>, [layoutRect.x, layoutRect.y]);</span><br><span class="line">    <span class="keyword">var</span> alignStyle = &#123;</span><br><span class="line">        textAlign: textAlign,</span><br><span class="line">        textVerticalAlign: textBaseline</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">// 设置文本样式</span></span><br><span class="line">    textEl.setStyle(alignStyle);</span><br><span class="line">    subTextEl.setStyle(alignStyle);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 渲染背景</span></span><br><span class="line">    <span class="comment">// Get groupRect again because textAlign has been changed</span></span><br><span class="line">    groupRect = group.getBoundingRect();</span><br><span class="line">    <span class="keyword">var</span> padding = layoutRect.margin;</span><br><span class="line">    <span class="keyword">var</span> style = titleModel.getItemStyle([<span class="string">'color'</span>, <span class="string">'opacity'</span>]);</span><br><span class="line">    style.fill = titleModel.get(<span class="string">'backgroundColor'</span>);</span><br><span class="line">    <span class="keyword">var</span> rect = <span class="keyword">new</span> graphic.Rect(&#123;</span><br><span class="line">        shape: &#123;</span><br><span class="line">            x: groupRect.x - padding[<span class="number">3</span>],</span><br><span class="line">            y: groupRect.y - padding[<span class="number">0</span>],</span><br><span class="line">            width: groupRect.width + padding[<span class="number">1</span>] + padding[<span class="number">3</span>],</span><br><span class="line">            height: groupRect.height + padding[<span class="number">0</span>] + padding[<span class="number">2</span>],</span><br><span class="line">            r: titleModel.get(<span class="string">'borderRadius'</span>)</span><br><span class="line">        &#125;,</span><br><span class="line">        style: style,</span><br><span class="line">        silent: <span class="literal">true</span></span><br><span class="line">    &#125;);</span><br><span class="line">    graphic.subPixelOptimizeRect(rect);</span><br><span class="line"></span><br><span class="line">    group.add(rect);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>title文本渲染主要是通过zrender graphic中的Text进行渲染的，通过zrender Style中定义的setStyle方法对元素进行样式设定。</p>
+<h1 id="Legend"><a href="#Legend" class="headerlink" title="Legend"></a>Legend</h1><p>legend为echarts的图例组件，简单的🌰：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">legend: &#123;</span><br><span class="line">    data:[<span class="string">'支出'</span>,<span class="string">'收入'</span>]</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>展示效果图如：</p>
+<p><img src="/img/echarts/legend.png" alt="legend"></p>
+<p>legend分为两种：plain（平面）和scroll（可滚动），接下来我将分别讲解两种类型的legend是如何作用的。</p>
+<h2 id="Plain"><a href="#Plain" class="headerlink" title="Plain"></a>Plain</h2><p>legend.plain为平面的legend图例组件，主要包括LegendAction、LegendModel、LegendView文件。</p>
+<h3 id="LegendAction"><a href="#LegendAction" class="headerlink" title="LegendAction"></a>LegendAction</h3><p>legendAction文件中注册了legend对外API： legendToggleSelect、legendSelect以及legendUnSelect，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">echarts.registerAction(</span><br><span class="line">    <span class="string">'legendToggleSelect'</span>, <span class="string">'legendselectchanged'</span>,</span><br><span class="line">    zrUtil.curry(legendSelectActionHandler, <span class="string">'toggleSelected'</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">echarts.registerAction(</span><br><span class="line">    <span class="string">'legendSelect'</span>, <span class="string">'legendselected'</span>,</span><br><span class="line">    zrUtil.curry(legendSelectActionHandler, <span class="string">'select'</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">echarts.registerAction(</span><br><span class="line">    <span class="string">'legendUnSelect'</span>, <span class="string">'legendunselected'</span>,</span><br><span class="line">    zrUtil.curry(legendSelectActionHandler, <span class="string">'unSelect'</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="LegendFilter"><a href="#LegendFilter" class="headerlink" title="LegendFilter"></a>LegendFilter</h3><p>legendFilter文件中实现了数据过滤，也就是当legend的isSelected方法返回为false时，则与legend name相同的series的数据则不显示，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params">ecModel</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> legendModels = ecModel.findComponents(&#123;</span><br><span class="line">        mainType: <span class="string">'legend'</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">if</span> (legendModels &amp;&amp; legendModels.length) &#123;</span><br><span class="line">        ecModel.filterSeries(<span class="function"><span class="keyword">function</span> (<span class="params">series</span>) </span>&#123;</span><br><span class="line">            <span class="comment">// If in any legend component the status is not selected.</span></span><br><span class="line">            <span class="comment">// Because in legend series is assumed selected when it is not in the legend data.</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; legendModels.length; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!legendModels[i].isSelected(series.name)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="LegendModel"><a href="#LegendModel" class="headerlink" title="LegendModel"></a>LegendModel</h3><p>legendModel通过extendComponentModel方法扩展自Component Model，重写了<strong>defaultOption</strong>属性，重写了init方法，定义了select、unSelect、toggleSelected以及isSelected等方法。</p>
+<h3 id="LegendView"><a href="#LegendView" class="headerlink" title="LegendView"></a>LegendView</h3><p>legendView通过extendComponentView方法扩展自Component View，重写了init以及render方法对legend进行渲染，主要渲染的代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">legendModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// renderInner中调用了createItem方法创建Legend item</span></span><br><span class="line">    <span class="comment">// 并绑定了click、mouseover、mouseout等事件</span></span><br><span class="line">    <span class="keyword">this</span>.renderInner(itemAlign, legendModel, ecModel, api);</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br><span class="line">_createItem: <span class="function"><span class="keyword">function</span> (<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">    name, dataIndex, itemModel, legendModel,</span></span></span><br><span class="line"><span class="function"><span class="params">     legendSymbolType, symbolType,</span></span></span><br><span class="line"><span class="function"><span class="params">     itemAlign, color, selectMode</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 使用util/symbol导出的createSymbol方法，创建相应Type的Symbol图形</span></span><br><span class="line">    itemGroup.add(createSymbol(</span><br><span class="line">        legendSymbolType,</span><br><span class="line">        <span class="number">0</span>,</span><br><span class="line">        <span class="number">0</span>,</span><br><span class="line">        itemWidth,</span><br><span class="line">        itemHeight,</span><br><span class="line">        isSelected ? color : inactiveColor,</span><br><span class="line">        <span class="comment">// symbolKeepAspect default true for legend</span></span><br><span class="line">        symbolKeepAspect == <span class="literal">null</span> ? <span class="literal">true</span> : symbolKeepAspect</span><br><span class="line">    ));</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 渲染legend文本</span></span><br><span class="line">    itemGroup.add(<span class="keyword">new</span> graphic.Text(&#123;</span><br><span class="line">        style: graphic.setTextStyle(&#123;&#125;, textStyleModel, &#123;</span><br><span class="line">            text: content,</span><br><span class="line">            x: textX,</span><br><span class="line">            y: itemHeight / <span class="number">2</span>,</span><br><span class="line">            textFill: isSelected ? textStyleModel.getTextColor() : inactiveColor,</span><br><span class="line">            textAlign: textAlign,</span><br><span class="line">            textVerticalAlign: <span class="string">'middle'</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;));</span><br><span class="line"></span><br><span class="line">     <span class="comment">// Add a invisible rect to increase the area of mouse hover</span></span><br><span class="line">     <span class="comment">// 添加legend的tooltip效果</span></span><br><span class="line">     <span class="keyword">var</span> hitRect = <span class="keyword">new</span> graphic.Rect(&#123;</span><br><span class="line">         shape: itemGroup.getBoundingRect(),</span><br><span class="line">         invisible: <span class="literal">true</span>,</span><br><span class="line">         tooltip: tooltipModel.get(<span class="string">'show'</span>) ? zrUtil.extend(&#123;</span><br><span class="line">             content: name,</span><br><span class="line">             <span class="comment">// Defaul formatter</span></span><br><span class="line">             formatter: legendGlobalTooltipModel.get(<span class="string">'formatter'</span>, <span class="literal">true</span>) || <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                 <span class="keyword">return</span> name;</span><br><span class="line">             &#125;,</span><br><span class="line">             formatterParams: &#123;</span><br><span class="line">                 componentType: <span class="string">'legend'</span>,</span><br><span class="line">                 legendIndex: legendModel.componentIndex,</span><br><span class="line">                 name: name,</span><br><span class="line">                 $vars: [<span class="string">'name'</span>]</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;, tooltipModel.option) : <span class="literal">null</span></span><br><span class="line">      &#125;);</span><br><span class="line">      itemGroup.add(hitRect);</span><br><span class="line">        ...</span><br><span class="line">      <span class="keyword">this</span>.getContentGroup().add(itemGroup);</span><br><span class="line">      ...</span><br><span class="line">      <span class="keyword">return</span> itemGroup;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Scroll"><a href="#Scroll" class="headerlink" title="Scroll"></a>Scroll</h2><p>legend.scroll为可滚动的legend图例组件，主要包括ScrollableLegendAction、ScrollableLegendModel、ScrollableLegendView文件。</p>
+<h3 id="ScrollableLegendAction"><a href="#ScrollableLegendAction" class="headerlink" title="ScrollableLegendAction"></a>ScrollableLegendAction</h3><p>ScrollableLegendAction文件中注册了legend对外API：legendScroll，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">echarts.registerAction(</span><br><span class="line">    <span class="string">'legendScroll'</span>, <span class="string">'legendscroll'</span>,</span><br><span class="line">    <span class="function"><span class="keyword">function</span> (<span class="params">payload, ecModel</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> scrollDataIndex = payload.scrollDataIndex;</span><br><span class="line"></span><br><span class="line">        scrollDataIndex != <span class="literal">null</span> &amp;&amp; ecModel.eachComponent(</span><br><span class="line">            &#123;<span class="attr">mainType</span>: <span class="string">'legend'</span>, <span class="attr">subType</span>: <span class="string">'scroll'</span>, <span class="attr">query</span>: payload&#125;,</span><br><span class="line">            <span class="function"><span class="keyword">function</span> (<span class="params">legendModel</span>) </span>&#123;</span><br><span class="line">                legendModel.setScrollDataIndex(scrollDataIndex);</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="ScrollableLegendModel"><a href="#ScrollableLegendModel" class="headerlink" title="ScrollableLegendModel"></a>ScrollableLegendModel</h3><p>ScrollableLegendModel通过extend方法扩展自LegendMode，重写了<strong>defaultOption</strong>属性，重写了init方法，定义了setScrollDataIndex以及getOrient等方法。</p>
+<h3 id="ScrollableLegendView"><a href="#ScrollableLegendView" class="headerlink" title="ScrollableLegendView"></a>ScrollableLegendView</h3><p>ScrollableLegendView通过extend方法扩展自LegendView，重写了init以及renderInner方法对scrollable legend进行渲染，主要渲染的代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">renderInner: <span class="function"><span class="keyword">function</span> (<span class="params">itemAlign, legendModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> me = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Render content items.</span></span><br><span class="line">    <span class="comment">// 调用LegenView中renderInner渲染基本的legend视图</span></span><br><span class="line">    ScrollableLegendView.superCall(<span class="keyword">this</span>, <span class="string">'renderInner'</span>, itemAlign, legendModel, ecModel, api);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建分页器</span></span><br><span class="line">    <span class="keyword">var</span> controllerGroup = <span class="keyword">this</span>._controllerGroup;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// <span class="doctag">FIXME:</span> support be 'auto' adapt to size number text length,</span></span><br><span class="line">    <span class="comment">// e.g., '3/12345' should not overlap with the control arrow button.</span></span><br><span class="line">    <span class="keyword">var</span> pageIconSize = legendModel.get(<span class="string">'pageIconSize'</span>, <span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">if</span> (!zrUtil.isArray(pageIconSize)) &#123;</span><br><span class="line">        pageIconSize = [pageIconSize, pageIconSize];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    createPageButton(<span class="string">'pagePrev'</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> pageTextStyleModel = legendModel.getModel(<span class="string">'pageTextStyle'</span>);</span><br><span class="line">    controllerGroup.add(<span class="keyword">new</span> graphic.Text(&#123;</span><br><span class="line">        name: <span class="string">'pageText'</span>,</span><br><span class="line">        style: &#123;</span><br><span class="line">            textFill: pageTextStyleModel.getTextColor(),</span><br><span class="line">            font: pageTextStyleModel.getFont(),</span><br><span class="line">            textVerticalAlign: <span class="string">'middle'</span>,</span><br><span class="line">            textAlign: <span class="string">'center'</span></span><br><span class="line">        &#125;,</span><br><span class="line">        silent: <span class="literal">true</span></span><br><span class="line">    &#125;));</span><br><span class="line"></span><br><span class="line">    createPageButton(<span class="string">'pageNext'</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 创建prev&amp;next button</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">createPageButton</span>(<span class="params">name, iconIdx</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> pageDataIndexName = name + <span class="string">'DataIndex'</span>;</span><br><span class="line">        <span class="keyword">var</span> icon = graphic.createIcon(</span><br><span class="line">            legendModel.get(<span class="string">'pageIcons'</span>, <span class="literal">true</span>)[legendModel.getOrient().name][iconIdx],</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// Buttons will be created in each render, so we do not need</span></span><br><span class="line">                <span class="comment">// to worry about avoiding using legendModel kept in scope.</span></span><br><span class="line">                onclick: zrUtil.bind(</span><br><span class="line">                    me._pageGo, me, pageDataIndexName, legendModel, api</span><br><span class="line">                )</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                x: -pageIconSize[<span class="number">0</span>] / <span class="number">2</span>,</span><br><span class="line">                y: -pageIconSize[<span class="number">1</span>] / <span class="number">2</span>,</span><br><span class="line">                width: pageIconSize[<span class="number">0</span>],</span><br><span class="line">                height: pageIconSize[<span class="number">1</span>]</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line">        icon.name = name;</span><br><span class="line">        controllerGroup.add(icon);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="AxisPointer"><a href="#AxisPointer" class="headerlink" title="AxisPointer"></a>AxisPointer</h1><p>AxisPointer为echarts中的坐标指示器，包括直角坐标以及极坐标等。</p>
+<h2 id="AxisPointer-js"><a href="#AxisPointer-js" class="headerlink" title="AxisPointer.js"></a>AxisPointer.js</h2><p>axisPointer.js文件中注册了axisPointer对外api，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">echarts.registerAction(&#123;</span><br><span class="line">    type: <span class="string">'updateAxisPointer'</span>,</span><br><span class="line">    event: <span class="string">'updateAxisPointer'</span>,</span><br><span class="line">    update: <span class="string">':updateAxisPointer'</span></span><br><span class="line">&#125;, axisTrigger);</span><br></pre></td></tr></table></figure>
+<p>存储coordSysAxesInfo信息，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echarts.registerProcessor(echarts.PRIORITY.PROCESSOR.STATISTIC, <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Build axisPointerModel, mergin tooltip.axisPointer model for each axis.</span></span><br><span class="line">    <span class="comment">// allAxesInfo should be updated when setOption performed.</span></span><br><span class="line">    ecModel.getComponent(<span class="string">'axisPointer'</span>).coordSysAxesInfo</span><br><span class="line">        = axisPointerModelHelper.collect(ecModel, api);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="AxisPointerModel"><a href="#AxisPointerModel" class="headerlink" title="AxisPointerModel"></a>AxisPointerModel</h3><p>AxisPointerModel通过extendComponentModel方法扩展自Component Model，重写了<strong>defaultOption</strong>属性。</p>
+<h3 id="AxisPointerView"><a href="#AxisPointerView" class="headerlink" title="AxisPointerView"></a>AxisPointerView</h3><p>AxisPointerView过extendComponentModel方法扩展自Component View，重写了render、remove以及dispose方法。</p>
+<h3 id="BaseAxisPointer"><a href="#BaseAxisPointer" class="headerlink" title="BaseAxisPointer"></a>BaseAxisPointer</h3><p>BaseAxisPointer为CartesianAxisPointer、PolarAxisPointer等的基类，重写了render以及renderHandler等方法。renderHandler主要是定义move、drag等情况时视图更新方法。</p>
+<p>render主要代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">axisModel, axisPointerModel, api, forceRender</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">var</span> elOption = &#123;&#125;;</span><br><span class="line">    <span class="comment">// 调用子类的makeElOption方法</span></span><br><span class="line">    <span class="keyword">this</span>.makeElOption(elOption, value, axisModel, axisPointerModel, api);</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建pointer</span></span><br><span class="line">    <span class="keyword">this</span>.createPointerEl(group, elOption, axisModel, axisPointerModel);</span><br><span class="line">    <span class="comment">// 渲染label元素</span></span><br><span class="line">    <span class="keyword">this</span>.createLabelEl(group, elOption, axisModel, axisPointerModel);</span><br><span class="line">    ...</span><br><span class="line">    updateMandatoryProps(group, axisPointerModel, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 渲染handler</span></span><br><span class="line">    <span class="keyword">this</span>._renderHandle(value);</span><br><span class="line">&#125;</span><br><span class="line">createPointerEl: <span class="function"><span class="keyword">function</span> (<span class="params">group, elOption, axisModel, axisPointerModel</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> pointerOption = elOption.pointer;</span><br><span class="line">    <span class="keyword">if</span> (pointerOption) &#123;</span><br><span class="line">        <span class="comment">// 通过graphic创建</span></span><br><span class="line">        <span class="keyword">var</span> pointerEl = inner(group).pointerEl = <span class="keyword">new</span> graphic[pointerOption.type](</span><br><span class="line">            clone(elOption.pointer)</span><br><span class="line">        );</span><br><span class="line">        group.add(pointerEl);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">createLabelEl: <span class="function"><span class="keyword">function</span> (<span class="params">group, elOption, axisModel, axisPointerModel</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (elOption.label) &#123;</span><br><span class="line">        <span class="keyword">var</span> labelEl = inner(group).labelEl = <span class="keyword">new</span> graphic.Rect(</span><br><span class="line">            clone(elOption.label)</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        group.add(labelEl);</span><br><span class="line">        updateLabelShowHide(labelEl, axisPointerModel);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="CartesianAxisPointer"><a href="#CartesianAxisPointer" class="headerlink" title="CartesianAxisPointer"></a>CartesianAxisPointer</h3><p>CartesianAxisPointer使用extend方法扩展自BaseAxisPointer，重写了makeElOption、getHandleTransform以及updateHandleTransform方法。makeElOption主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">makeElOption: <span class="function"><span class="keyword">function</span> (<span class="params">elOption, value, axisModel, axisPointerModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> axis = axisModel.axis;</span><br><span class="line">    <span class="keyword">var</span> grid = axis.grid;</span><br><span class="line">    <span class="keyword">var</span> axisPointerType = axisPointerModel.get(<span class="string">'type'</span>);</span><br><span class="line">    <span class="keyword">var</span> otherExtent = getCartesian(grid, axis).getOtherAxis(axis).getGlobalExtent();</span><br><span class="line">    <span class="keyword">var</span> pixelValue = axis.toGlobalCoord(axis.dataToCoord(value, <span class="literal">true</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (axisPointerType &amp;&amp; axisPointerType !== <span class="string">'none'</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> elStyle = viewHelper.buildElStyle(axisPointerModel);</span><br><span class="line">        <span class="keyword">var</span> pointerOption = pointerShapeBuilder[axisPointerType](</span><br><span class="line">            axis, pixelValue, otherExtent, elStyle</span><br><span class="line">        );</span><br><span class="line">        pointerOption.style = elStyle;</span><br><span class="line">        elOption.graphicKey = pointerOption.type;</span><br><span class="line">        elOption.pointer = pointerOption;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> layoutInfo = cartesianAxisHelper.layout(grid.model, axisModel);</span><br><span class="line">    viewHelper.buildCartesianSingleLabelElOption(</span><br><span class="line">        value, elOption, layoutInfo, axisModel, axisPointerModel, api</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> pointerShapeBuilder = &#123;</span><br><span class="line">    line: <span class="function"><span class="keyword">function</span> (<span class="params">axis, pixelValue, otherExtent, elStyle</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> targetShape = viewHelper.makeLineShape(</span><br><span class="line">            [pixelValue, otherExtent[<span class="number">0</span>]],</span><br><span class="line">            [pixelValue, otherExtent[<span class="number">1</span>]],</span><br><span class="line">            getAxisDimIndex(axis)</span><br><span class="line">        );</span><br><span class="line">        graphic.subPixelOptimizeLine(&#123;</span><br><span class="line">            shape: targetShape,</span><br><span class="line">            style: elStyle</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            type: <span class="string">'Line'</span>,</span><br><span class="line">            shape: targetShape</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    shadow: <span class="function"><span class="keyword">function</span> (<span class="params">axis, pixelValue, otherExtent, elStyle</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> bandWidth = <span class="built_in">Math</span>.max(<span class="number">1</span>, axis.getBandWidth());</span><br><span class="line">        <span class="keyword">var</span> span = otherExtent[<span class="number">1</span>] - otherExtent[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            type: <span class="string">'Rect'</span>,</span><br><span class="line">            shape: viewHelper.makeRectShape(</span><br><span class="line">                [pixelValue - bandWidth / <span class="number">2</span>, otherExtent[<span class="number">0</span>]],</span><br><span class="line">                [bandWidth, span],</span><br><span class="line">                getAxisDimIndex(axis)</span><br><span class="line">            )</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="SingleAxisPointer"><a href="#SingleAxisPointer" class="headerlink" title="SingleAxisPointer"></a>SingleAxisPointer</h3><p>SingleAxisPointer同CartesianAxisPointer。</p>
+<h3 id="PolarAxisPointer"><a href="#PolarAxisPointer" class="headerlink" title="PolarAxisPointer"></a>PolarAxisPointer</h3><p>PolarAxisPointer使用extend扩展自BaseAxisPointer，重写了makeElOption方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">makeElOption: <span class="function"><span class="keyword">function</span> (<span class="params">elOption, value, axisModel, axisPointerModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> axis = axisModel.axis;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (axis.dim === <span class="string">'angle'</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.animationThreshold = <span class="built_in">Math</span>.PI / <span class="number">18</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> polar = axis.polar;</span><br><span class="line">    <span class="keyword">var</span> otherAxis = polar.getOtherAxis(axis);</span><br><span class="line">    <span class="keyword">var</span> otherExtent = otherAxis.getExtent();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> coordValue;</span><br><span class="line">    coordValue = axis[<span class="string">'dataTo'</span> + formatUtil.capitalFirst(axis.dim)](value);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> axisPointerType = axisPointerModel.get(<span class="string">'type'</span>);</span><br><span class="line">    <span class="keyword">if</span> (axisPointerType &amp;&amp; axisPointerType !== <span class="string">'none'</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> elStyle = viewHelper.buildElStyle(axisPointerModel);</span><br><span class="line">        <span class="keyword">var</span> pointerOption = pointerShapeBuilder[axisPointerType](</span><br><span class="line">            axis, polar, coordValue, otherExtent, elStyle</span><br><span class="line">        );</span><br><span class="line">        pointerOption.style = elStyle;</span><br><span class="line">        elOption.graphicKey = pointerOption.type;</span><br><span class="line">        elOption.pointer = pointerOption;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> labelMargin = axisPointerModel.get(<span class="string">'label.margin'</span>);</span><br><span class="line">    <span class="keyword">var</span> labelPos = getLabelPosition(value, axisModel, axisPointerModel, polar, labelMargin);</span><br><span class="line">    viewHelper.buildLabelElOption(elOption, axisModel, axisPointerModel, api, labelPos);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> pointerShapeBuilder = &#123;</span><br><span class="line"></span><br><span class="line">    line: <span class="function"><span class="keyword">function</span> (<span class="params">axis, polar, coordValue, otherExtent, elStyle</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> axis.dim === <span class="string">'angle'</span></span><br><span class="line">            ? &#123;</span><br><span class="line">                type: <span class="string">'Line'</span>,</span><br><span class="line">                shape: viewHelper.makeLineShape(</span><br><span class="line">                    polar.coordToPoint([otherExtent[<span class="number">0</span>], coordValue]),</span><br><span class="line">                    polar.coordToPoint([otherExtent[<span class="number">1</span>], coordValue])</span><br><span class="line">                )</span><br><span class="line">            &#125;</span><br><span class="line">            : &#123;</span><br><span class="line">                type: <span class="string">'Circle'</span>,</span><br><span class="line">                shape: &#123;</span><br><span class="line">                    cx: polar.cx,</span><br><span class="line">                    cy: polar.cy,</span><br><span class="line">                    r: coordValue</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    shadow: <span class="function"><span class="keyword">function</span> (<span class="params">axis, polar, coordValue, otherExtent, elStyle</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> bandWidth = <span class="built_in">Math</span>.max(<span class="number">1</span>, axis.getBandWidth());</span><br><span class="line">        <span class="keyword">var</span> radian = <span class="built_in">Math</span>.PI / <span class="number">180</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> axis.dim === <span class="string">'angle'</span></span><br><span class="line">            ? &#123;</span><br><span class="line">                type: <span class="string">'Sector'</span>,</span><br><span class="line">                shape: viewHelper.makeSectorShape(</span><br><span class="line">                    polar.cx, polar.cy,</span><br><span class="line">                    otherExtent[<span class="number">0</span>], otherExtent[<span class="number">1</span>],</span><br><span class="line">                    <span class="comment">// In ECharts y is negative if angle is positive</span></span><br><span class="line">                    (-coordValue - bandWidth / <span class="number">2</span>) * radian,</span><br><span class="line">                    (-coordValue + bandWidth / <span class="number">2</span>) * radian</span><br><span class="line">                )</span><br><span class="line">            &#125;</span><br><span class="line">            : &#123;</span><br><span class="line">                type: <span class="string">'Sector'</span>,</span><br><span class="line">                shape: viewHelper.makeSectorShape(</span><br><span class="line">                    polar.cx, polar.cy,</span><br><span class="line">                    coordValue - bandWidth / <span class="number">2</span>,</span><br><span class="line">                    coordValue + bandWidth / <span class="number">2</span>,</span><br><span class="line">                    <span class="number">0</span>, <span class="built_in">Math</span>.PI * <span class="number">2</span></span><br><span class="line">                )</span><br><span class="line">            &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="坐标轴"><a href="#坐标轴" class="headerlink" title="坐标轴"></a>坐标轴</h1><h2 id="公共文件"><a href="#公共文件" class="headerlink" title="公共文件"></a>公共文件</h2><p>在直角坐标系以及极坐标系等坐标轴组件中，存在着多个公共文件。</p>
+<h3 id="AxisView"><a href="#AxisView" class="headerlink" title="AxisView"></a>AxisView</h3><p>AxisView通过extendComponentView方法扩展自Component Model，重写了render、remove以及dispose方法，定义了updateAxisPointer方法。</p>
+<h3 id="AxisBuilder"><a href="#AxisBuilder" class="headerlink" title="AxisBuilder"></a>AxisBuilder</h3><p>AxisBuilder中定义了axisLine、axisTickLabel以及axisName的渲染方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> builders = &#123;</span><br><span class="line">    axisLine: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.group.add(<span class="keyword">new</span> graphic.Line(graphic.subPixelOptimizeLine(&#123;</span><br><span class="line">            <span class="comment">// Id for animation</span></span><br><span class="line">            anid: <span class="string">'line'</span>,</span><br><span class="line"></span><br><span class="line">            shape: &#123;</span><br><span class="line">                x1: pt1[<span class="number">0</span>],</span><br><span class="line">                y1: pt1[<span class="number">1</span>],</span><br><span class="line">                x2: pt2[<span class="number">0</span>],</span><br><span class="line">                y2: pt2[<span class="number">1</span>]</span><br><span class="line">            &#125;,</span><br><span class="line">            style: lineStyle,</span><br><span class="line">            strokeContainThreshold: opt.strokeContainThreshold || <span class="number">5</span>,</span><br><span class="line">            silent: <span class="literal">true</span>,</span><br><span class="line">            z2: <span class="number">1</span></span><br><span class="line">        &#125;)));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> arrows = axisModel.get(<span class="string">'axisLine.symbol'</span>);</span><br><span class="line">        <span class="keyword">var</span> arrowSize = axisModel.get(<span class="string">'axisLine.symbolSize'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> arrowOffset = axisModel.get(<span class="string">'axisLine.symbolOffset'</span>) || <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> arrowOffset === <span class="string">'number'</span>) &#123;</span><br><span class="line">            arrowOffset = [arrowOffset, arrowOffset];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (arrows != <span class="literal">null</span>) &#123;</span><br><span class="line">            ...</span><br><span class="line">            each([&#123;</span><br><span class="line">                rotate: opt.rotation + <span class="built_in">Math</span>.PI / <span class="number">2</span>,</span><br><span class="line">                offset: arrowOffset[<span class="number">0</span>],</span><br><span class="line">                r: <span class="number">0</span></span><br><span class="line">            &#125;, &#123;</span><br><span class="line">                rotate: opt.rotation - <span class="built_in">Math</span>.PI / <span class="number">2</span>,</span><br><span class="line">                offset: arrowOffset[<span class="number">1</span>],</span><br><span class="line">                r: <span class="built_in">Math</span>.sqrt((pt1[<span class="number">0</span>] - pt2[<span class="number">0</span>]) * (pt1[<span class="number">0</span>] - pt2[<span class="number">0</span>])</span><br><span class="line">                    + (pt1[<span class="number">1</span>] - pt2[<span class="number">1</span>]) * (pt1[<span class="number">1</span>] - pt2[<span class="number">1</span>]))</span><br><span class="line">            &#125;], <span class="function"><span class="keyword">function</span> (<span class="params">point, index</span>) </span>&#123;</span><br><span class="line">                <span class="comment">// 创建arrow symbole</span></span><br><span class="line">                <span class="keyword">if</span> (arrows[index] !== <span class="string">'none'</span> &amp;&amp; arrows[index] != <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">var</span> symbol = createSymbol(</span><br><span class="line">                        arrows[index],</span><br><span class="line">                        -symbolWidth / <span class="number">2</span>,</span><br><span class="line">                        -symbolHeight / <span class="number">2</span>,</span><br><span class="line">                        symbolWidth,</span><br><span class="line">                        symbolHeight,</span><br><span class="line">                        lineStyle.stroke,</span><br><span class="line">                        <span class="literal">true</span></span><br><span class="line">                    );</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Calculate arrow position with offset</span></span><br><span class="line">                    <span class="keyword">var</span> r = point.r + point.offset;</span><br><span class="line">                    <span class="keyword">var</span> pos = [</span><br><span class="line">                        pt1[<span class="number">0</span>] + r * <span class="built_in">Math</span>.cos(opt.rotation),</span><br><span class="line">                        pt1[<span class="number">1</span>] - r * <span class="built_in">Math</span>.sin(opt.rotation)</span><br><span class="line">                    ];</span><br><span class="line"></span><br><span class="line">                    symbol.attr(&#123;</span><br><span class="line">                        rotation: point.rotate,</span><br><span class="line">                        position: pos,</span><br><span class="line">                        silent: <span class="literal">true</span>,</span><br><span class="line">                        z2: <span class="number">11</span></span><br><span class="line">                    &#125;);</span><br><span class="line">                    <span class="keyword">this</span>.group.add(symbol);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;, <span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    axisTickLabel: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> axisModel = <span class="keyword">this</span>.axisModel;</span><br><span class="line">        <span class="keyword">var</span> opt = <span class="keyword">this</span>.opt;</span><br><span class="line">        <span class="comment">// 通过graphic.Line以及graphic.Text分别对tick及label进行渲染</span></span><br><span class="line">        <span class="keyword">var</span> tickEls = buildAxisTick(<span class="keyword">this</span>, axisModel, opt);</span><br><span class="line">        <span class="keyword">var</span> labelEls = buildAxisLabel(<span class="keyword">this</span>, axisModel, opt);</span><br><span class="line"></span><br><span class="line">        fixMinMaxLabelShow(axisModel, labelEls, tickEls);</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    axisName: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">var</span> textEl = <span class="keyword">new</span> graphic.Text(&#123;</span><br><span class="line">            <span class="comment">// Id for animation</span></span><br><span class="line">            anid: <span class="string">'name'</span>,</span><br><span class="line"></span><br><span class="line">            __fullText: name,</span><br><span class="line">            __truncatedText: truncatedText,</span><br><span class="line"></span><br><span class="line">            position: pos,</span><br><span class="line">            rotation: labelLayout.rotation,</span><br><span class="line">            silent: isSilent(axisModel),</span><br><span class="line">            z2: <span class="number">1</span>,</span><br><span class="line">            tooltip: (tooltipOpt &amp;&amp; tooltipOpt.show)</span><br><span class="line">                ? extend(&#123;</span><br><span class="line">                    content: name,</span><br><span class="line">                    formatter: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                        <span class="keyword">return</span> name;</span><br><span class="line">                    &#125;,</span><br><span class="line">                    formatterParams: formatterParams</span><br><span class="line">                &#125;, tooltipOpt)</span><br><span class="line">                : <span class="literal">null</span></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        graphic.setTextStyle(textEl.style, textStyleModel, &#123;</span><br><span class="line">            text: truncatedText,</span><br><span class="line">            textFont: textFont,</span><br><span class="line">            textFill: textStyleModel.getTextColor()</span><br><span class="line">                || axisModel.get(<span class="string">'axisLine.lineStyle.color'</span>),</span><br><span class="line">            textAlign: labelLayout.textAlign,</span><br><span class="line">            textVerticalAlign: labelLayout.textVerticalAlign</span><br><span class="line">        &#125;);</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">        <span class="comment">// FIXME</span></span><br><span class="line">        <span class="keyword">this</span>._dumbGroup.add(textEl);</span><br><span class="line">        textEl.updateTransform();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.group.add(textEl);</span><br><span class="line"></span><br><span class="line">        textEl.decomposeTransform();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="AxisModelCreator"><a href="#AxisModelCreator" class="headerlink" title="AxisModelCreator"></a>AxisModelCreator</h3><p>AxisModelCreator为生成AxisModel的方法，其在AxisModel的基础上扩展了getCategories、getOrdinalMeta、mergeDefaultAndTheme等方法，重写了defaultOption属性，并通过：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ComponentModel.registerSubTypeDefaulter(</span><br><span class="line">    axisName + <span class="string">'Axis'</span>,</span><br><span class="line">    zrUtil.curry(axisTypeDefaulter, axisName)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>来注册相应的Axis子类，如xAxis、yAxis、radiusAxis以及angleAxis等。</p>
+<h2 id="直角坐标轴-Axis"><a href="#直角坐标轴-Axis" class="headerlink" title="直角坐标轴 Axis"></a>直角坐标轴 Axis</h2><p>Axis为直角坐标系Grid中的坐标轴，包括xAxis（x轴）以及yAxis（y轴）。</p>
+<h3 id="AxisModel"><a href="#AxisModel" class="headerlink" title="AxisModel"></a>AxisModel</h3><p>AxisModel通过extend方法扩展自Component Model，重写了init、mergeOption、，并使用AxisModelCreator分别创建额xAxisModel以及yAxisModel，</p>
+<h3 id="CartesianAxisView"><a href="#CartesianAxisView" class="headerlink" title="CartesianAxisView"></a>CartesianAxisView</h3><p>CartesianAxisView通过extend方法扩展自AxisView，重写了render方法，定义了splitLine以及splitArea方法，并扩展了xAxis以及yAxis View。主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> CartesianAxisView = AxisView.extend(&#123;</span><br><span class="line">    type: <span class="string">'cartesianAxis'</span>,</span><br><span class="line">    axisPointerClass: <span class="string">'CartesianAxisPointer'</span>,</span><br><span class="line">    render: <span class="function"><span class="keyword">function</span> (<span class="params">axisModel, ecModel, api, payload</span>) </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">// 结合AxisBuilder</span></span><br><span class="line">        <span class="keyword">var</span> axisBuilder = <span class="keyword">new</span> AxisBuilder(axisModel, layout);</span><br><span class="line">        zrUtil.each(axisBuilderAttrs, axisBuilder.add, axisBuilder);</span><br><span class="line">        ...</span><br><span class="line">        CartesianAxisView.superCall(<span class="keyword">this</span>, <span class="string">'render'</span>, axisModel, ecModel, api, payload);</span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">    _splitLine: <span class="function"><span class="keyword">function</span> (<span class="params">axisModel, gridModel</span>) </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">// Simple optimization</span></span><br><span class="line">        <span class="comment">// Batching the lines if color are the same</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; ticksCoords.length; i++) &#123;</span><br><span class="line">            ...</span><br><span class="line">            <span class="keyword">this</span>._axisGroup.add(<span class="keyword">new</span> graphic.Line(graphic.subPixelOptimizeLine(&#123;</span><br><span class="line">                anid: tickValue != <span class="literal">null</span> ? <span class="string">'line_'</span> + ticksCoords[i].tickValue : <span class="literal">null</span>,</span><br><span class="line">                shape: &#123;</span><br><span class="line">                    x1: p1[<span class="number">0</span>],</span><br><span class="line">                    y1: p1[<span class="number">1</span>],</span><br><span class="line">                    x2: p2[<span class="number">0</span>],</span><br><span class="line">                    y2: p2[<span class="number">1</span>]</span><br><span class="line">                &#125;,</span><br><span class="line">                style: zrUtil.defaults(&#123;</span><br><span class="line">                    stroke: lineColors[colorIndex]</span><br><span class="line">                &#125;, lineStyle),</span><br><span class="line">                silent: <span class="literal">true</span></span><br><span class="line">            &#125;)));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    _splitArea: <span class="function"><span class="keyword">function</span> (<span class="params">axisModel, gridModel</span>) </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; ticksCoords.length; i++) &#123;</span><br><span class="line">            ...</span><br><span class="line">            <span class="keyword">this</span>._axisGroup.add(<span class="keyword">new</span> graphic.Rect(&#123;</span><br><span class="line">                anid: tickValue != <span class="literal">null</span> ? <span class="string">'area_'</span> + tickValue : <span class="literal">null</span>,</span><br><span class="line">                shape: &#123;</span><br><span class="line">                    x: x,</span><br><span class="line">                    y: y,</span><br><span class="line">                    width: width,</span><br><span class="line">                    height: height</span><br><span class="line">                &#125;,</span><br><span class="line">                style: zrUtil.defaults(&#123;</span><br><span class="line">                    fill: areaColors[colorIndex]</span><br><span class="line">                &#125;, areaStyle),</span><br><span class="line">                silent: <span class="literal">true</span></span><br><span class="line">            &#125;));</span><br><span class="line"></span><br><span class="line">            colorIndex = (colorIndex + <span class="number">1</span>) % areaColorsLen;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>._splitAreaColors = newSplitAreaColors;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">CartesianAxisView.extend(&#123;</span><br><span class="line">    type: <span class="string">'xAxis'</span></span><br><span class="line">&#125;);</span><br><span class="line">CartesianAxisView.extend(&#123;</span><br><span class="line">    type: <span class="string">'yAxis'</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="极坐标轴AngleAxis-amp-RadiusAxis"><a href="#极坐标轴AngleAxis-amp-RadiusAxis" class="headerlink" title="极坐标轴AngleAxis&amp;RadiusAxis"></a>极坐标轴AngleAxis&amp;RadiusAxis</h2><p>每一个极坐标都拥有一个角度轴AngleAxis和一个半径轴RadiusAxis。</p>
+<h3 id="公共文件-1"><a href="#公共文件-1" class="headerlink" title="公共文件"></a>公共文件</h3><h4 id="AxisModel-1"><a href="#AxisModel-1" class="headerlink" title="AxisModel"></a>AxisModel</h4><p>AxisModel通过extend方法扩展自Component Model，定义了getCoordSysModel方法，并根据不同option创建了angle和radius Model，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">axisModelCreator(<span class="string">'angle'</span>, PolarAxisModel, getAxisType, polarAxisDefaultExtendedOption.angle);</span><br><span class="line">axisModelCreator(<span class="string">'radius'</span>, PolarAxisModel, getAxisType, polarAxisDefaultExtendedOption.radius);</span><br></pre></td></tr></table></figure>
+<h3 id="AngleAxis"><a href="#AngleAxis" class="headerlink" title="AngleAxis"></a>AngleAxis</h3><p>AngleAxis为极坐标Polar中的角度轴，</p>
+<h4 id="AngleAxisView"><a href="#AngleAxisView" class="headerlink" title="AngleAxisView"></a>AngleAxisView</h4><p>AngleAxisView通过extend方法扩展自AxisView，重写了render方法，并定义了axisLine、axisTick、axisLabel、splitLine以及splitArea等方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">angleAxisModel, ecModel</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">var</span> angleAxis = angleAxisModel.axis;</span><br><span class="line">    <span class="keyword">var</span> polar = angleAxis.polar;</span><br><span class="line">    <span class="keyword">var</span> radiusExtent = polar.getRadiusAxis().getExtent();</span><br><span class="line">    <span class="keyword">var</span> ticksAngles = angleAxis.getTicksCoords();</span><br><span class="line">    <span class="keyword">var</span> labels = zrUtil.map(angleAxis.getViewLabels(), <span class="function"><span class="keyword">function</span> (<span class="params">labelItem</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> labelItem = zrUtil.clone(labelItem);</span><br><span class="line">        labelItem.coord = angleAxis.dataToCoord(labelItem.tickValue);</span><br><span class="line">        <span class="keyword">return</span> labelItem;</span><br><span class="line">    &#125;);</span><br><span class="line">    ...</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">_axisLine: <span class="function"><span class="keyword">function</span> (<span class="params">angleAxisModel, polar, ticksAngles, radiusExtent</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> lineStyleModel = angleAxisModel.getModel(<span class="string">'axisLine.lineStyle'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> circle = <span class="keyword">new</span> graphic.Circle(&#123;</span><br><span class="line">        shape: &#123;</span><br><span class="line">            cx: polar.cx,</span><br><span class="line">            cy: polar.cy,</span><br><span class="line">            r: radiusExtent[getRadiusIdx(polar)]</span><br><span class="line">        &#125;,</span><br><span class="line">        style: lineStyleModel.getLineStyle(),</span><br><span class="line">        z2: <span class="number">1</span>,</span><br><span class="line">        silent: <span class="literal">true</span></span><br><span class="line">    &#125;);</span><br><span class="line">    circle.style.fill = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.group.add(circle);</span><br><span class="line"> &#125;,</span><br><span class="line"> _axisTick: <span class="function"><span class="keyword">function</span> (<span class="params">angleAxisModel, polar, ticksAngles, radiusExtent</span>) </span>&#123;</span><br><span class="line">     <span class="keyword">var</span> tickModel = angleAxisModel.getModel(<span class="string">'axisTick'</span>);</span><br><span class="line"></span><br><span class="line">     <span class="keyword">var</span> tickLen = (tickModel.get(<span class="string">'inside'</span>) ? <span class="number">-1</span> : <span class="number">1</span>) * tickModel.get(<span class="string">'length'</span>);</span><br><span class="line">     <span class="keyword">var</span> radius = radiusExtent[getRadiusIdx(polar)];</span><br><span class="line"></span><br><span class="line">     <span class="keyword">var</span> lines = zrUtil.map(ticksAngles, <span class="function"><span class="keyword">function</span> (<span class="params">tickAngleItem</span>) </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">new</span> graphic.Line(&#123;</span><br><span class="line">             shape: getAxisLineShape(polar, [radius, radius + tickLen], tickAngleItem.coord)</span><br><span class="line">         &#125;);</span><br><span class="line">     &#125;);</span><br><span class="line">     <span class="keyword">this</span>.group.add(graphic.mergePath(</span><br><span class="line">         lines, &#123;</span><br><span class="line">             style: zrUtil.defaults(</span><br><span class="line">                 tickModel.getModel(<span class="string">'lineStyle'</span>).getLineStyle(),</span><br><span class="line">                 &#123;</span><br><span class="line">                     stroke: angleAxisModel.get(<span class="string">'axisLine.lineStyle.color'</span>)</span><br><span class="line">                 &#125;</span><br><span class="line">             )</span><br><span class="line">         &#125;</span><br><span class="line">     ));</span><br><span class="line"> &#125;,</span><br><span class="line"> _axisLabel: <span class="function"><span class="keyword">function</span> (<span class="params">angleAxisModel, polar, ticksAngles, radiusExtent, labels</span>) </span>&#123;</span><br><span class="line">     ...</span><br><span class="line">     <span class="comment">// Use length of ticksAngles because it may remove the last tick to avoid overlapping</span></span><br><span class="line">     zrUtil.each(labels, <span class="function"><span class="keyword">function</span> (<span class="params">labelItem, idx</span>) </span>&#123;</span><br><span class="line">         ...</span><br><span class="line">         <span class="keyword">var</span> textEl = <span class="keyword">new</span> graphic.Text(&#123;<span class="attr">silent</span>: <span class="literal">true</span>&#125;);</span><br><span class="line">         <span class="keyword">this</span>.group.add(textEl);</span><br><span class="line">         graphic.setTextStyle(textEl.style, labelModel, &#123;</span><br><span class="line">             x: p[<span class="number">0</span>],</span><br><span class="line">             y: p[<span class="number">1</span>],</span><br><span class="line">             textFill: labelModel.getTextColor() || angleAxisModel.get(<span class="string">'axisLine.lineStyle.color'</span>),</span><br><span class="line">             text: labelItem.formattedLabel,</span><br><span class="line">             textAlign: labelTextAlign,</span><br><span class="line">             textVerticalAlign: labelTextVerticalAlign</span><br><span class="line">         &#125;);</span><br><span class="line">     &#125;, <span class="keyword">this</span>);</span><br><span class="line"> &#125;,</span><br><span class="line"> _splitLine: <span class="function"><span class="keyword">function</span> (<span class="params">angleAxisModel, polar, ticksAngles, radiusExtent</span>) </span>&#123;</span><br><span class="line">     ...</span><br><span class="line">     <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; ticksAngles.length; i++) &#123;</span><br><span class="line">         <span class="keyword">var</span> colorIndex = (lineCount++) % lineColors.length;</span><br><span class="line">         splitLines[colorIndex] = splitLines[colorIndex] || [];</span><br><span class="line">         splitLines[colorIndex].push(<span class="keyword">new</span> graphic.Line(&#123;</span><br><span class="line">             shape: getAxisLineShape(polar, radiusExtent, ticksAngles[i].coord)</span><br><span class="line">         &#125;));</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// Simple optimization</span></span><br><span class="line">     <span class="comment">// Batching the lines if color are the same</span></span><br><span class="line">     <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; splitLines.length; i++) &#123;</span><br><span class="line">         <span class="keyword">this</span>.group.add(graphic.mergePath(splitLines[i], &#123;</span><br><span class="line">             style: zrUtil.defaults(&#123;</span><br><span class="line">                 stroke: lineColors[i % lineColors.length]</span><br><span class="line">             &#125;, lineStyleModel.getLineStyle()),</span><br><span class="line">             silent: <span class="literal">true</span>,</span><br><span class="line">             z: angleAxisModel.get(<span class="string">'z'</span>)</span><br><span class="line">         &#125;));</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;,</span><br><span class="line"> _splitArea: <span class="function"><span class="keyword">function</span> (<span class="params">angleAxisModel, polar, ticksAngles, radiusExtent</span>) </span>&#123;</span><br><span class="line">     ...</span><br><span class="line">     <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; ticksAngles.length; i++) &#123;</span><br><span class="line">         <span class="keyword">var</span> colorIndex = (lineCount++) % areaColors.length;</span><br><span class="line">         splitAreas[colorIndex] = splitAreas[colorIndex] || [];</span><br><span class="line">         splitAreas[colorIndex].push(<span class="keyword">new</span> graphic.Sector(&#123;</span><br><span class="line">             shape: &#123;</span><br><span class="line">                 cx: polar.cx,</span><br><span class="line">                 cy: polar.cy,</span><br><span class="line">                 r0: r0,</span><br><span class="line">                 r: r1,</span><br><span class="line">                 startAngle: prevAngle,</span><br><span class="line">                 endAngle: -ticksAngles[i].coord * RADIAN,</span><br><span class="line">                 clockwise: clockwise</span><br><span class="line">             &#125;,</span><br><span class="line">             silent: <span class="literal">true</span></span><br><span class="line">         &#125;));</span><br><span class="line">         prevAngle = -ticksAngles[i].coord * RADIAN;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// Simple optimization</span></span><br><span class="line">     <span class="comment">// Batching the lines if color are the same</span></span><br><span class="line">     <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; splitAreas.length; i++) &#123;</span><br><span class="line">         <span class="keyword">this</span>.group.add(graphic.mergePath(splitAreas[i], &#123;</span><br><span class="line">             style: zrUtil.defaults(&#123;</span><br><span class="line">                 fill: areaColors[i % areaColors.length]</span><br><span class="line">             &#125;, areaStyleModel.getAreaStyle()),</span><br><span class="line">             silent: <span class="literal">true</span></span><br><span class="line">         &#125;));</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="RadiusAxis"><a href="#RadiusAxis" class="headerlink" title="RadiusAxis"></a>RadiusAxis</h3><p>RadiusAxis为极坐标Polar中的半径轴。</p>
+<h4 id="RadiusAxisView"><a href="#RadiusAxisView" class="headerlink" title="RadiusAxisView"></a>RadiusAxisView</h4><p>RadiusAxisView通过extend方法扩展自AxisView，重写了render方法，并定义了splitLine、splitArea方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">_splitLine: <span class="function"><span class="keyword">function</span> (<span class="params">radiusAxisModel, polar, axisAngle, radiusExtent, ticksCoords</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; ticksCoords.length; i++) &#123;</span><br><span class="line">        <span class="keyword">var</span> colorIndex = (lineCount++) % lineColors.length;</span><br><span class="line">        splitLines[colorIndex] = splitLines[colorIndex] || [];</span><br><span class="line">        splitLines[colorIndex].push(<span class="keyword">new</span> graphic.Circle(&#123;</span><br><span class="line">            shape: &#123;</span><br><span class="line">                cx: polar.cx,</span><br><span class="line">                cy: polar.cy,</span><br><span class="line">                r: ticksCoords[i].coord</span><br><span class="line">            &#125;,</span><br><span class="line">            silent: <span class="literal">true</span></span><br><span class="line">        &#125;));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Simple optimization</span></span><br><span class="line">    <span class="comment">// Batching the lines if color are the same</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; splitLines.length; i++) &#123;</span><br><span class="line">        <span class="keyword">this</span>.group.add(graphic.mergePath(splitLines[i], &#123;</span><br><span class="line">            style: zrUtil.defaults(&#123;</span><br><span class="line">                stroke: lineColors[i % lineColors.length],</span><br><span class="line">                fill: <span class="literal">null</span></span><br><span class="line">            &#125;, lineStyleModel.getLineStyle()),</span><br><span class="line">            silent: <span class="literal">true</span></span><br><span class="line">        &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">_splitArea: <span class="function"><span class="keyword">function</span> (<span class="params">radiusAxisModel, polar, axisAngle, radiusExtent, ticksCoords</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; ticksCoords.length; i++) &#123;</span><br><span class="line">        <span class="keyword">var</span> colorIndex = (lineCount++) % areaColors.length;</span><br><span class="line">        splitAreas[colorIndex] = splitAreas[colorIndex] || [];</span><br><span class="line">        splitAreas[colorIndex].push(<span class="keyword">new</span> graphic.Sector(&#123;</span><br><span class="line">            shape: &#123;</span><br><span class="line">                cx: polar.cx,</span><br><span class="line">                cy: polar.cy,</span><br><span class="line">                r0: prevRadius,</span><br><span class="line">                r: ticksCoords[i].coord,</span><br><span class="line">                startAngle: <span class="number">0</span>,</span><br><span class="line">                endAngle: <span class="built_in">Math</span>.PI * <span class="number">2</span></span><br><span class="line">            &#125;,</span><br><span class="line">            silent: <span class="literal">true</span></span><br><span class="line">        &#125;));</span><br><span class="line">        prevRadius = ticksCoords[i].coord;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Simple optimization</span></span><br><span class="line">    <span class="comment">// Batching the lines if color are the same</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; splitAreas.length; i++) &#123;</span><br><span class="line">        <span class="keyword">this</span>.group.add(graphic.mergePath(splitAreas[i], &#123;</span><br><span class="line">            style: zrUtil.defaults(&#123;</span><br><span class="line">                fill: areaColors[i % areaColors.length]</span><br><span class="line">            &#125;, areaStyleModel.getAreaStyle()),</span><br><span class="line">            silent: <span class="literal">true</span></span><br><span class="line">        &#125;));</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="雷达坐标轴"><a href="#雷达坐标轴" class="headerlink" title="雷达坐标轴"></a>雷达坐标轴</h2><h3 id="RadarView"><a href="#RadarView" class="headerlink" title="RadarView"></a>RadarView</h3><p>RadarView通过extendComponentView方法扩展自Component View，重写了render方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">radarModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> group = <span class="keyword">this</span>.group;</span><br><span class="line">    group.removeAll();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._buildAxes(radarModel);</span><br><span class="line">    <span class="keyword">this</span>._buildSplitLineAndArea(radarModel);</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">_buildAxes: <span class="function"><span class="keyword">function</span> (<span class="params">radarModel</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> radar = radarModel.coordinateSystem;</span><br><span class="line">    <span class="keyword">var</span> indicatorAxes = radar.getIndicatorAxes();</span><br><span class="line">    <span class="keyword">var</span> axisBuilders = zrUtil.map(indicatorAxes, <span class="function"><span class="keyword">function</span> (<span class="params">indicatorAxis</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> axisBuilder = <span class="keyword">new</span> AxisBuilder(indicatorAxis.model, &#123;</span><br><span class="line">            position: [radar.cx, radar.cy],</span><br><span class="line">            rotation: indicatorAxis.angle,</span><br><span class="line">            labelDirection: <span class="number">-1</span>,</span><br><span class="line">            tickDirection: <span class="number">-1</span>,</span><br><span class="line">            nameDirection: <span class="number">1</span></span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> axisBuilder;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    zrUtil.each(axisBuilders, <span class="function"><span class="keyword">function</span> (<span class="params">axisBuilder</span>) </span>&#123;</span><br><span class="line">        zrUtil.each(axisBuilderAttrs, axisBuilder.add, axisBuilder);</span><br><span class="line">        <span class="keyword">this</span>.group.add(axisBuilder.getGroup());</span><br><span class="line">    &#125;, <span class="keyword">this</span>);</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">_buildSplitLineAndArea: <span class="function"><span class="keyword">function</span> (<span class="params">radarModel</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (shape === <span class="string">'circle'</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> ticksRadius = indicatorAxes[<span class="number">0</span>].getTicksCoords();</span><br><span class="line">        <span class="keyword">var</span> cx = radar.cx;</span><br><span class="line">        <span class="keyword">var</span> cy = radar.cy;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; ticksRadius.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (showSplitLine) &#123;</span><br><span class="line">                <span class="keyword">var</span> colorIndex = getColorIndex(splitLines, splitLineColors, i);</span><br><span class="line">                splitLines[colorIndex].push(<span class="keyword">new</span> graphic.Circle(&#123;</span><br><span class="line">                    shape: &#123;</span><br><span class="line">                        cx: cx,</span><br><span class="line">                        cy: cy,</span><br><span class="line">                        r: ticksRadius[i].coord</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (showSplitArea &amp;&amp; i &lt; ticksRadius.length - <span class="number">1</span>) &#123;</span><br><span class="line">                <span class="keyword">var</span> colorIndex = getColorIndex(splitAreas, splitAreaColors, i);</span><br><span class="line">                splitAreas[colorIndex].push(<span class="keyword">new</span> graphic.Ring(&#123;</span><br><span class="line">                    shape: &#123;</span><br><span class="line">                        cx: cx,</span><br><span class="line">                        cy: cy,</span><br><span class="line">                        r0: ticksRadius[i].coord,</span><br><span class="line">                        r: ticksRadius[i + <span class="number">1</span>].coord</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Polygon</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt;= realSplitNumber; i++) &#123;</span><br><span class="line">            ...</span><br><span class="line">            <span class="keyword">if</span> (showSplitLine) &#123;</span><br><span class="line">                <span class="keyword">var</span> colorIndex = getColorIndex(splitLines, splitLineColors, i);</span><br><span class="line">                splitLines[colorIndex].push(<span class="keyword">new</span> graphic.Polyline(&#123;</span><br><span class="line">                    shape: &#123;</span><br><span class="line">                        points: points</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (showSplitArea &amp;&amp; prevPoints) &#123;</span><br><span class="line">                <span class="keyword">var</span> colorIndex = getColorIndex(splitAreas, splitAreaColors, i - <span class="number">1</span>);</span><br><span class="line">                splitAreas[colorIndex].push(<span class="keyword">new</span> graphic.Polygon(&#123;</span><br><span class="line">                    shape: &#123;</span><br><span class="line">                        points: points.concat(prevPoints)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;));</span><br><span class="line">            &#125;</span><br><span class="line">            prevPoints = points.slice().reverse();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> lineStyle = lineStyleModel.getLineStyle();</span><br><span class="line">    <span class="keyword">var</span> areaStyle = areaStyleModel.getAreaStyle();</span><br><span class="line">    <span class="comment">// Add splitArea before splitLine</span></span><br><span class="line">    zrUtil.each(splitAreas, <span class="function"><span class="keyword">function</span> (<span class="params">splitAreas, idx</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.group.add(graphic.mergePath(</span><br><span class="line">            splitAreas, &#123;</span><br><span class="line">                style: zrUtil.defaults(&#123;</span><br><span class="line">                    stroke: <span class="string">'none'</span>,</span><br><span class="line">                    fill: splitAreaColors[idx % splitAreaColors.length]</span><br><span class="line">                &#125;, areaStyle),</span><br><span class="line">                silent: <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        ));</span><br><span class="line">    &#125;, <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    zrUtil.each(splitLines, <span class="function"><span class="keyword">function</span> (<span class="params">splitLines, idx</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.group.add(graphic.mergePath(</span><br><span class="line">            splitLines, &#123;</span><br><span class="line">                style: zrUtil.defaults(&#123;</span><br><span class="line">                    fill: <span class="string">'none'</span>,</span><br><span class="line">                    stroke: splitLineColors[idx % splitLineColors.length]</span><br><span class="line">                &#125;, lineStyle),</span><br><span class="line">                silent: <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        ));</span><br><span class="line">    &#125;, <span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="RadarModel"><a href="#RadarModel" class="headerlink" title="RadarModel"></a>RadarModel</h3><p>RadarModel通过extendComponentModel扩展自Component Model，重写了<strong>defaultOption</strong>属性以及optionUpdated方法。</p>
+<h1 id="坐标系"><a href="#坐标系" class="headerlink" title="坐标系"></a>坐标系</h1><p>在上一节中，我们介绍了直角坐标轴、极坐标轴以及雷达坐标轴，我们将在这节解读坐标轴是如何在坐标系中展示的。</p>
+<h2 id="公共文件-2"><a href="#公共文件-2" class="headerlink" title="公共文件"></a>公共文件</h2><h3 id="Axis"><a href="#Axis" class="headerlink" title="Axis"></a>Axis</h3><p>Axis对象中定义了scale、dim等属性以及contain、containData、getExtent、getTicksCoords、getViewLabels等方法。</p>
+<h2 id="Grid"><a href="#Grid" class="headerlink" title="Grid"></a>Grid</h2><p>Grid为echarts中的直角坐标系组件。</p>
+<h3 id="gridSimple"><a href="#gridSimple" class="headerlink" title="gridSimple"></a>gridSimple</h3><p>gridSimple通过extendComponentView扩展自Component View，重写了render方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">gridModel, ecModel</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.group.removeAll();</span><br><span class="line">    <span class="keyword">if</span> (gridModel.get(<span class="string">'show'</span>)) &#123;</span><br><span class="line">        <span class="keyword">this</span>.group.add(<span class="keyword">new</span> graphic.Rect(&#123;</span><br><span class="line">            shape: gridModel.coordinateSystem.getRect(),</span><br><span class="line">            style: zrUtil.defaults(&#123;</span><br><span class="line">                fill: gridModel.get(<span class="string">'backgroundColor'</span>)</span><br><span class="line">            &#125;, gridModel.getItemStyle()),</span><br><span class="line">            silent: <span class="literal">true</span>,</span><br><span class="line">            z2: <span class="number">-1</span></span><br><span class="line">        &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Grid-1"><a href="#Grid-1" class="headerlink" title="Grid"></a>Grid</h3><p>coord/cartesian/Grid.js，实现直角坐标系的渲染，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Grid</span>(<span class="params">gridModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">this</span>._initCartesian(gridModel, ecModel, api);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">gridProto._initCartesian = <span class="function"><span class="keyword">function</span> (<span class="params">gridModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> axisPositionUsed = &#123;</span><br><span class="line">        left: <span class="literal">false</span>,</span><br><span class="line">        right: <span class="literal">false</span>,</span><br><span class="line">        top: <span class="literal">false</span>,</span><br><span class="line">        bottom: <span class="literal">false</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">var</span> axesMap = &#123;</span><br><span class="line">        x: &#123;&#125;,</span><br><span class="line">        y: &#123;&#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">var</span> axesCount = &#123;</span><br><span class="line">        x: <span class="number">0</span>,</span><br><span class="line">        y: <span class="number">0</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Create axis</span></span><br><span class="line">    <span class="comment">// 创建x及y坐标轴</span></span><br><span class="line">    ecModel.eachComponent(<span class="string">'xAxis'</span>, createAxisCreator(<span class="string">'x'</span>), <span class="keyword">this</span>);</span><br><span class="line">    ecModel.eachComponent(<span class="string">'yAxis'</span>, createAxisCreator(<span class="string">'y'</span>), <span class="keyword">this</span>);</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">/// Create cartesian2d</span></span><br><span class="line">    <span class="comment">// 创建</span></span><br><span class="line">    each(axesMap.x, <span class="function"><span class="keyword">function</span> (<span class="params">xAxis, xAxisIndex</span>) </span>&#123;</span><br><span class="line">        each(axesMap.y, <span class="function"><span class="keyword">function</span> (<span class="params">yAxis, yAxisIndex</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> key = <span class="string">'x'</span> + xAxisIndex + <span class="string">'y'</span> + yAxisIndex;</span><br><span class="line">            <span class="keyword">var</span> cartesian = <span class="keyword">new</span> Cartesian2D(key);</span><br><span class="line"></span><br><span class="line">            cartesian.grid = <span class="keyword">this</span>;</span><br><span class="line">            cartesian.model = gridModel;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">this</span>._coordsMap[key] = cartesian;</span><br><span class="line">            <span class="keyword">this</span>._coordsList.push(cartesian);</span><br><span class="line"></span><br><span class="line">            cartesian.addAxis(xAxis);</span><br><span class="line">            cartesian.addAxis(yAxis);</span><br><span class="line">        &#125;, <span class="keyword">this</span>);</span><br><span class="line">    &#125;, <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">createAxisCreator</span>(<span class="params">axisType</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">axisModel, idx</span>) </span>&#123;</span><br><span class="line">            ...</span><br><span class="line">            <span class="comment">// 创建坐标轴</span></span><br><span class="line">            <span class="keyword">var</span> axis = <span class="keyword">new</span> Axis2D(</span><br><span class="line">                axisType, createScaleByModel(axisModel),</span><br><span class="line">                [<span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">                axisModel.get(<span class="string">'type'</span>),</span><br><span class="line">                axisPosition</span><br><span class="line">            );</span><br><span class="line">            ...</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="Polar"><a href="#Polar" class="headerlink" title="Polar"></a>Polar</h2><p>Polar为echarts中的极坐标系组件，每一个极坐标都拥有一个角度轴和一个半径轴。</p>
+<h3 id="Polar-1"><a href="#Polar-1" class="headerlink" title="Polar"></a>Polar</h3><p>Polar定义了angleAxis（new RadiusAxis()）、radiusAxis（new AngleAxis()）等属性以及containPoint、containData、getAxis、getAngleAxis、getRadiusAxis等方法。</p>
+<h3 id="PolarCreator"><a href="#PolarCreator" class="headerlink" title="PolarCreator"></a>PolarCreator</h3><p>PolarCreator用于创建极坐标系，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">create: <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> polarList = [];</span><br><span class="line">    ecModel.eachComponent(<span class="string">'polar'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">polarModel, idx</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> polar = <span class="keyword">new</span> Polar(idx);</span><br><span class="line">        <span class="comment">// Inject resize and update method</span></span><br><span class="line">        polar.update = updatePolarScale;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> radiusAxis = polar.getRadiusAxis();</span><br><span class="line">        <span class="keyword">var</span> angleAxis = polar.getAngleAxis();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> radiusAxisModel = polarModel.findAxisModel(<span class="string">'radiusAxis'</span>);</span><br><span class="line">        <span class="keyword">var</span> angleAxisModel = polarModel.findAxisModel(<span class="string">'angleAxis'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置角度轴和半径轴</span></span><br><span class="line">        setAxis(radiusAxis, radiusAxisModel);</span><br><span class="line">        setAxis(angleAxis, angleAxisModel);</span><br><span class="line"></span><br><span class="line">        resizePolar(polar, polarModel, api);</span><br><span class="line"></span><br><span class="line">        polarList.push(polar);</span><br><span class="line"></span><br><span class="line">        polarModel.coordinateSystem = polar;</span><br><span class="line">        polar.model = polarModel;</span><br><span class="line">    &#125;);</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> polarList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Radar"><a href="#Radar" class="headerlink" title="Radar"></a>Radar</h2><p>Radar为echarts中的雷达坐标系组件。</p>
+<p>###Radar</p>
+<p>Radar文件位于coord/radar目录下，定义了getIndicatorAxes、coordToPoint、dataToPoint等方法，并注册了雷达坐标信息，主要代码为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Radar</span>(<span class="params">radarModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">this</span>._indicatorAxes = zrUtil.map(radarModel.getIndicatorModels(), <span class="function"><span class="keyword">function</span> (<span class="params">indicatorModel, idx</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> dim = <span class="string">'indicator_'</span> + idx;</span><br><span class="line">        <span class="comment">// 创建雷达坐标轴</span></span><br><span class="line">        <span class="keyword">var</span> indicatorAxis = <span class="keyword">new</span> IndicatorAxis(dim, <span class="keyword">new</span> IntervalScale());</span><br><span class="line">        indicatorAxis.name = indicatorModel.get(<span class="string">'name'</span>);</span><br><span class="line">        <span class="comment">// Inject model and axis</span></span><br><span class="line">        indicatorAxis.model = indicatorModel;</span><br><span class="line">        indicatorModel.axis = indicatorAxis;</span><br><span class="line">        <span class="keyword">this</span>.dimensions.push(dim);</span><br><span class="line">        <span class="keyword">return</span> indicatorAxis;</span><br><span class="line">    &#125;, <span class="keyword">this</span>);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">Radar.create = <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> radarList = [];</span><br><span class="line">    ecModel.eachComponent(<span class="string">'radar'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">radarModel</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> radar = <span class="keyword">new</span> Radar(radarModel, ecModel, api);</span><br><span class="line">        radarList.push(radar);</span><br><span class="line">        radarModel.coordinateSystem = radar;</span><br><span class="line">    &#125;);</span><br><span class="line">    ecModel.eachSeriesByType(<span class="string">'radar'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">radarSeries</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (radarSeries.get(<span class="string">'coordinateSystem'</span>) === <span class="string">'radar'</span>) &#123;</span><br><span class="line">            <span class="comment">// Inject coordinate system</span></span><br><span class="line">            radarSeries.coordinateSystem = radarList[radarSeries.get(<span class="string">'radarIndex'</span>) || <span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> radarList;</span><br><span class="line">&#125;;</span><br><span class="line">CoordinateSystem.register(<span class="string">'radar'</span>, Radar);</span><br></pre></td></tr></table></figure>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>在解读的过程中，我们需要带着问题去思考源码的实现，在这里我们来解决<strong>echarts是如何渲染展示坐标轴上的label数据</strong>这个问题。</p>
+<h2 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h2><p>首先考虑label data的存储过程，以直角坐标系为🌰，data存储的调用链如下所示：</p>
+<ul>
+<li>echarts.setOption()</li>
+<li>Global.setOption()</li>
+<li>Global.mergeOption()</li>
+<li>Component.optionUpdated() （Model）</li>
+<li>AxisModelCreator.optionUpdated()，将OrdinalMeta.createByAxisModel()返回的数据保存在this.__ordinalMeta中</li>
+<li>OrdinalMeta.createByAxisModel()，主要代码如下：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">OrdinalMeta.createByAxisModel = <span class="function"><span class="keyword">function</span> (<span class="params">axisModel</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> option = axisModel.option;</span><br><span class="line">    <span class="keyword">var</span> data = option.data;</span><br><span class="line">    <span class="keyword">var</span> categories = data &amp;&amp; map(data, getName);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> OrdinalMeta(&#123;</span><br><span class="line">        categories: categories,</span><br><span class="line">        needCollect: !categories,</span><br><span class="line">        <span class="comment">// deduplication is default in axis.</span></span><br><span class="line">        deduplication: option.dedplication !== <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Grid.js中通过：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> axis = <span class="keyword">new</span> Axis2D(</span><br><span class="line">    axisType, createScaleByModel(axisModel),</span><br><span class="line">    [<span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">    axisModel.get(<span class="string">'type'</span>),</span><br><span class="line">    axisPosition</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>创建坐标轴，createScaleByModel方法获取保存在this.__ordinalMeta属性中的数据，并返回OrdinalScale对象，createScaleByModel方法主要代码如下所示：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createScaleByModel</span>(<span class="params">model, axisType</span>) </span>&#123;</span><br><span class="line">    axisType = axisType || model.get(<span class="string">'type'</span>);</span><br><span class="line">    <span class="keyword">if</span> (axisType) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (axisType) &#123;</span><br><span class="line">            <span class="comment">// Buildin scale</span></span><br><span class="line">            <span class="keyword">case</span> <span class="string">'category'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> OrdinalScale(</span><br><span class="line">                    model.getOrdinalMeta</span><br><span class="line">                        ? model.getOrdinalMeta()</span><br><span class="line">                        : model.getCategories(),</span><br><span class="line">                    [<span class="literal">Infinity</span>, -<span class="literal">Infinity</span>]</span><br><span class="line">                );</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'value'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> IntervalScale();</span><br><span class="line">            <span class="comment">// Extended scale, like time and log</span></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">return</span> (Scale.getClass(axisType) || IntervalScale).create(model);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Grid创建坐标轴时将返回的OrdinalScale对象数据作为<strong>scale</strong>属性保存在axis中，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Axis2D = <span class="function"><span class="keyword">function</span> (<span class="params">dim, scale, coordExtent, axisType, position</span>) </span>&#123;</span><br><span class="line">    Axis.call(<span class="keyword">this</span>, dim, scale, coordExtent);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> Axis = <span class="function"><span class="keyword">function</span> (<span class="params">dim, scale, extent</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">this</span>.scale = scale;</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="获取"><a href="#获取" class="headerlink" title="获取"></a>获取</h2><p>获取</p>
+<ul>
+<li>AxisBuilder axisTickLabel()</li>
+<li>AxisBuilder buildAxisLabel()</li>
+<li>labels = axis.getViewLabels() =&gt; coord/Axis.js getViewLabels()</li>
+<li>调用createAxisLabels()，返回result.labels</li>
+<li>axisTickLabelBuilder createAxisLabels()</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createAxisLabels</span>(<span class="params">axis</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Only ordinal scale support tick interval</span></span><br><span class="line">    <span class="keyword">return</span> axis.type === <span class="string">'category'</span></span><br><span class="line">        ? makeCategoryLabels(axis)</span><br><span class="line">        : makeRealNumberLabels(axis);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>axisTickLabelBuilder makeCategoryLabels()</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeCategoryLabels</span>(<span class="params">axis</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> labelModel = axis.getLabelModel();</span><br><span class="line">    <span class="keyword">var</span> result = makeCategoryLabelsActually(axis, labelModel);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (!labelModel.get(<span class="string">'show'</span>) || axis.scale.isBlank())</span><br><span class="line">        ? &#123;<span class="attr">labels</span>: [], <span class="attr">labelCategoryInterval</span>: result.labelCategoryInterval&#125;</span><br><span class="line">        : result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>axisTickLabelBuilder makeCategoryLabelsActually()</li>
+<li>axisTickLabelBuilder makeLabelsByCustomizedCategoryInterval()</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeLabelsByCustomizedCategoryInterval</span>(<span class="params">axis, categoryInterval, onlyTick</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// axis.scale是我们保存的OrdinalScale对象数据</span></span><br><span class="line">    <span class="keyword">var</span> ordinalScale = axis.scale;</span><br><span class="line">    <span class="keyword">var</span> labelFormatter = makeLabelFormatter(axis);</span><br><span class="line">    <span class="keyword">var</span> result = [];</span><br><span class="line"></span><br><span class="line">    zrUtil.each(ordinalScale.getTicks(), <span class="function"><span class="keyword">function</span> (<span class="params">tickValue</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> rawLabel = ordinalScale.getLabel(tickValue);</span><br><span class="line">        <span class="keyword">if</span> (categoryInterval(tickValue, rawLabel)) &#123;</span><br><span class="line">            result.push(onlyTick</span><br><span class="line">                ? tickValue</span><br><span class="line">                : &#123;</span><br><span class="line">                    formattedLabel: labelFormatter(tickValue),</span><br><span class="line">                    rawLabel: rawLabel,</span><br><span class="line">                    tickValue: tickValue</span><br><span class="line">                &#125;</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h2><p>AxisBuilder通过axis.getViewLabels()获取labels数据后通过graphic.Text进行渲染，通过graphic.setStyle设置文本样式，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">each(labels, <span class="function"><span class="keyword">function</span> (<span class="params">labelItem, index</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">var</span> textEl = <span class="keyword">new</span> graphic.Text(&#123;</span><br><span class="line">        <span class="comment">// Id for animation</span></span><br><span class="line">        anid: <span class="string">'label_'</span> + tickValue,</span><br><span class="line">        position: pos,</span><br><span class="line">        rotation: labelLayout.rotation,</span><br><span class="line">        silent: silent,</span><br><span class="line">        z2: <span class="number">10</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    graphic.setTextStyle(textEl.style, itemLabelModel, &#123;</span><br><span class="line">        text: formattedLabel,</span><br><span class="line">        textAlign: itemLabelModel.getShallow(<span class="string">'align'</span>, <span class="literal">true</span>)</span><br><span class="line">        || labelLayout.textAlign,</span><br><span class="line">        textVerticalAlign: itemLabelModel.getShallow(<span class="string">'verticalAlign'</span>, <span class="literal">true</span>)</span><br><span class="line">        || itemLabelModel.getShallow(<span class="string">'baseline'</span>, <span class="literal">true</span>)</span><br><span class="line">        || labelLayout.textVerticalAlign,</span><br><span class="line">        textFill: <span class="keyword">typeof</span> textColor === <span class="string">'function'</span></span><br><span class="line">        ? textColor(</span><br><span class="line">            axis.type === <span class="string">'category'</span></span><br><span class="line">            ? rawLabel</span><br><span class="line">            : axis.type === <span class="string">'value'</span></span><br><span class="line">            ? tickValue + <span class="string">''</span></span><br><span class="line">            : tickValue,</span><br><span class="line">            index</span><br><span class="line">        )</span><br><span class="line">        : textColor</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">    labelEls.push(textEl);</span><br><span class="line">    axisBuilder.group.add(textEl);</span><br><span class="line"></span><br><span class="line">    textEl.decomposeTransform();</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这篇博文很大，简单介绍了title、legend、axisPointer、坐标系以及坐标轴的渲染细节，也探讨了坐标轴上label 数据的存储、获取以及渲染的过程。</p>
+<p>希望能够跟小伙伴们一起进步呀！继续加油！！</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/05/22/echarts-3/">echarts源码解读《三》：echarts源码之Component分析</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 萌萌哒的邱邱邱邱 的个人博客">萌萌哒的邱邱邱邱</a></p>
+  <p><span>发布时间:</span>2019年05月22日 - 16:05</p>
+  <p><span>最后更新:</span>2019年05月23日 - 19:05</p>
+  <p><span>原始链接:</span><a href="/2019/05/22/echarts-3/" title="echarts源码解读《三》：echarts源码之Component分析">https://qiuruolin.github.io/2019/05/22/echarts-3/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2019/05/22/echarts-3/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+      
+    </div>
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-eye"></i>感谢您的阅读-------------</div>
+    
+</div>
+      </div>
+    
+    
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的支持</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/img/wechat.png" alt="萌萌哒的邱邱邱邱 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/img/alipay.png" alt="萌萌哒的邱邱邱邱 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/echarts源码解读/" rel="tag"># echarts源码解读</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/21/echarts-2/" rel="next" title="echarts源码解读《二》：echarts源码概要分析">
+                <i class="fa fa-chevron-left"></i> echarts源码解读《二》：echarts源码概要分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a795d51f3581934" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/img/avatar.png"
+                alt="萌萌哒的邱邱邱邱" />
+            
+              <p class="site-author-name" itemprop="name">萌萌哒的邱邱邱邱</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/qiuruolin" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1312492221@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/0725e9c8ea23" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://my.csdn.net" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Model层"><span class="nav-number">2.</span> <span class="nav-text">Model层</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View层"><span class="nav-number">3.</span> <span class="nav-text">View层</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速扩展"><span class="nav-number">4.</span> <span class="nav-text">快速扩展</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Title"><span class="nav-number">5.</span> <span class="nav-text">Title</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Legend"><span class="nav-number">6.</span> <span class="nav-text">Legend</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Plain"><span class="nav-number">6.1.</span> <span class="nav-text">Plain</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LegendAction"><span class="nav-number">6.1.1.</span> <span class="nav-text">LegendAction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LegendFilter"><span class="nav-number">6.1.2.</span> <span class="nav-text">LegendFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LegendModel"><span class="nav-number">6.1.3.</span> <span class="nav-text">LegendModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LegendView"><span class="nav-number">6.1.4.</span> <span class="nav-text">LegendView</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scroll"><span class="nav-number">6.2.</span> <span class="nav-text">Scroll</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ScrollableLegendAction"><span class="nav-number">6.2.1.</span> <span class="nav-text">ScrollableLegendAction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ScrollableLegendModel"><span class="nav-number">6.2.2.</span> <span class="nav-text">ScrollableLegendModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ScrollableLegendView"><span class="nav-number">6.2.3.</span> <span class="nav-text">ScrollableLegendView</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AxisPointer"><span class="nav-number">7.</span> <span class="nav-text">AxisPointer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AxisPointer-js"><span class="nav-number">7.1.</span> <span class="nav-text">AxisPointer.js</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AxisPointerModel"><span class="nav-number">7.1.1.</span> <span class="nav-text">AxisPointerModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AxisPointerView"><span class="nav-number">7.1.2.</span> <span class="nav-text">AxisPointerView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BaseAxisPointer"><span class="nav-number">7.1.3.</span> <span class="nav-text">BaseAxisPointer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CartesianAxisPointer"><span class="nav-number">7.1.4.</span> <span class="nav-text">CartesianAxisPointer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SingleAxisPointer"><span class="nav-number">7.1.5.</span> <span class="nav-text">SingleAxisPointer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PolarAxisPointer"><span class="nav-number">7.1.6.</span> <span class="nav-text">PolarAxisPointer</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#坐标轴"><span class="nav-number">8.</span> <span class="nav-text">坐标轴</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#公共文件"><span class="nav-number">8.1.</span> <span class="nav-text">公共文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AxisView"><span class="nav-number">8.1.1.</span> <span class="nav-text">AxisView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AxisBuilder"><span class="nav-number">8.1.2.</span> <span class="nav-text">AxisBuilder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AxisModelCreator"><span class="nav-number">8.1.3.</span> <span class="nav-text">AxisModelCreator</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直角坐标轴-Axis"><span class="nav-number">8.2.</span> <span class="nav-text">直角坐标轴 Axis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AxisModel"><span class="nav-number">8.2.1.</span> <span class="nav-text">AxisModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CartesianAxisView"><span class="nav-number">8.2.2.</span> <span class="nav-text">CartesianAxisView</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#极坐标轴AngleAxis-amp-RadiusAxis"><span class="nav-number">8.3.</span> <span class="nav-text">极坐标轴AngleAxis&amp;RadiusAxis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#公共文件-1"><span class="nav-number">8.3.1.</span> <span class="nav-text">公共文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AxisModel-1"><span class="nav-number">8.3.1.1.</span> <span class="nav-text">AxisModel</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AngleAxis"><span class="nav-number">8.3.2.</span> <span class="nav-text">AngleAxis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AngleAxisView"><span class="nav-number">8.3.2.1.</span> <span class="nav-text">AngleAxisView</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RadiusAxis"><span class="nav-number">8.3.3.</span> <span class="nav-text">RadiusAxis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RadiusAxisView"><span class="nav-number">8.3.3.1.</span> <span class="nav-text">RadiusAxisView</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#雷达坐标轴"><span class="nav-number">8.4.</span> <span class="nav-text">雷达坐标轴</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RadarView"><span class="nav-number">8.4.1.</span> <span class="nav-text">RadarView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RadarModel"><span class="nav-number">8.4.2.</span> <span class="nav-text">RadarModel</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#坐标系"><span class="nav-number">9.</span> <span class="nav-text">坐标系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#公共文件-2"><span class="nav-number">9.1.</span> <span class="nav-text">公共文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Axis"><span class="nav-number">9.1.1.</span> <span class="nav-text">Axis</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Grid"><span class="nav-number">9.2.</span> <span class="nav-text">Grid</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gridSimple"><span class="nav-number">9.2.1.</span> <span class="nav-text">gridSimple</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Grid-1"><span class="nav-number">9.2.2.</span> <span class="nav-text">Grid</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Polar"><span class="nav-number">9.3.</span> <span class="nav-text">Polar</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Polar-1"><span class="nav-number">9.3.1.</span> <span class="nav-text">Polar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PolarCreator"><span class="nav-number">9.3.2.</span> <span class="nav-text">PolarCreator</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Radar"><span class="nav-number">9.4.</span> <span class="nav-text">Radar</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">10.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#存储"><span class="nav-number">10.1.</span> <span class="nav-text">存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取"><span class="nav-number">10.2.</span> <span class="nav-text">获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#渲染"><span class="nav-number">10.3.</span> <span class="nav-text">渲染</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">11.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">萌萌哒的邱邱邱邱</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+     本页点击 <span id="busuanzi_value_page_pv"></span> 次
+  |  本站总点击 <span id="busuanzi_value_site_pv"></span> 次
+  |  您是第 <span id="busuanzi_value_site_uv"></span> 位访客
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://qiuruolin.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://qiuruolin.github.io/2019/05/22/echarts-3/';
+          this.page.identifier = '2019/05/22/echarts-3/';
+          this.page.title = 'echarts源码解读《三》：echarts源码之Component分析';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://qiuruolin.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  <script type="text/javascript" src="/js/src/particle.js" count="50" zindex="-2" opacity="1" color="0,104,183"></script>
+  <script type="text/javascript" src="/js/src/love.js"></script>
+  <script type="text/javascript" src="/js/src/dytitle.js"></script>
+</body>
+</html>

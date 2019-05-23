@@ -7,7 +7,15 @@
     </url>
 
     <url>
-        <loc>https://qiuruolin.github.io/2019/05/21/echart-2/</loc>
+        <loc>https://qiuruolin.github.io/2019/05/22/echarts-3/</loc>
+        <lastmod>2019-05-23T11:42:25.928Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://qiuruolin.github.io/2019/05/21/echarts-2/</loc>
         <lastmod>2019-05-22T07:53:43.686Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>

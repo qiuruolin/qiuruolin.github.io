@@ -4,7 +4,27 @@
 
     
   <url>
-    <loc>https://qiuruolin.github.io/2019/05/21/echart-2/</loc>
+    <loc>https://qiuruolin.github.io/2019/05/22/echarts-3/</loc>
+    <lastmod>2019-05-23T11:42:25.928Z</lastmod>
+    <data>
+        <display>
+        <title>echarts源码解读《三》：echarts源码之Component分析</title>
+        <pubTime>2019-05-22T08:17:18.000Z</pubTime>
+        
+        <tag>echarts源码解读</tag>
+         
+         
+           
+             
+              <breadCrumb title="echarts" url="https://qiuruolin.github.io/categories/echarts/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://qiuruolin.github.io/2019/05/21/echarts-2/</loc>
     <lastmod>2019-05-22T07:53:43.686Z</lastmod>
     <data>
         <display>
