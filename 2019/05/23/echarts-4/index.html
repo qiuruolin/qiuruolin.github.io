@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="echarts源码解读," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在本篇博文中，我们将继续Component源码解读，我将主要介绍各Component的渲染过程以及其使用的zrender graphic。希望和小伙伴们一起进步呀！！加油！！  前言echarts对Component的定义呢，可以认为是除Series外的其他配置项，在这篇博文中我们将探讨datazoom（区域缩放）、visualMap（视图映射）、tooltip（提示框组件）、toolbox（工">
+<meta name="keywords" content="echarts源码解读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="echarts源码解读《四》：echarts源码之Component分析">
+<meta property="og:url" content="https://qiuruolin.github.io/2019/05/23/echarts-4/index.html">
+<meta property="og:site_name" content="邱邱邱邱的个人博客">
+<meta property="og:description" content="在本篇博文中，我们将继续Component源码解读，我将主要介绍各Component的渲染过程以及其使用的zrender graphic。希望和小伙伴们一起进步呀！！加油！！  前言echarts对Component的定义呢，可以认为是除Series外的其他配置项，在这篇博文中我们将探讨datazoom（区域缩放）、visualMap（视图映射）、tooltip（提示框组件）、toolbox（工">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-06T06:08:36.831Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="echarts源码解读《四》：echarts源码之Component分析">
+<meta name="twitter:description" content="在本篇博文中，我们将继续Component源码解读，我将主要介绍各Component的渲染过程以及其使用的zrender graphic。希望和小伙伴们一起进步呀！！加油！！  前言echarts对Component的定义呢，可以认为是除Series外的其他配置项，在这篇博文中我们将探讨datazoom（区域缩放）、visualMap（视图映射）、tooltip（提示框组件）、toolbox（工">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://qiuruolin.github.io/2019/05/23/echarts-4/"/>
+
+
+
+
+
+  <title>echarts源码解读《四》：echarts源码之Component分析 | 邱邱邱邱的个人博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c6b7cb6722791755bb6aae172845cc92";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">邱邱邱邱的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://qiuruolin.github.io/2019/05/23/echarts-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="萌萌哒的邱邱邱邱">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="邱邱邱邱的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">echarts源码解读《四》：echarts源码之Component分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-23T19:44:31+08:00">
+                2019-05-23
+              </time>
+            
+
+            
+              <span id="busuanzi_container_page_pv">  |  阅读量 <span id="busuanzi_value_page_pv"></span> 次</span>
+            
+
+            
+
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/echarts/" itemprop="url" rel="index">
+                    <span itemprop="name">echarts</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/23/echarts-4/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/05/23/echarts-4/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>在本篇博文中，我们将继续Component源码解读，我将主要介绍各Component的渲染过程以及其使用的zrender graphic。希望和小伙伴们一起进步呀！！加油！！</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>echarts对Component的定义呢，可以认为是除Series外的其他配置项，在这篇博文中我们将探讨<strong>datazoom（区域缩放）、visualMap（视图映射）、tooltip（提示框组件）、toolbox（工具栏）、brush（区域选择组件）、timeline（时间轴）、graphic（原生图形组件）、dataset（数据集）、marker（包括markPoint（图标标注）、markLine（图表标线）、markArea（图表标域））</strong>这些Component。</p>
+<p>用户通过传递option对象来设置相应的Component。</p>
+<a id="more"></a>
+<h1 id="区域缩放-dataZoom"><a href="#区域缩放-dataZoom" class="headerlink" title="区域缩放 dataZoom"></a>区域缩放 dataZoom</h1><p>dataZoom分为inside和slider两种类型</p>
+<h2 id="公共文件"><a href="#公共文件" class="headerlink" title="公共文件"></a>公共文件</h2><h3 id="DataZoomModel"><a href="#DataZoomModel" class="headerlink" title="DataZoomModel"></a>DataZoomModel</h3><p>DataZoomModel通过extendComponentModel扩展自Component Model，重写了defaultOption属性以及init、mergeOption等方法。</p>
+<h3 id="DataZoomView"><a href="#DataZoomView" class="headerlink" title="DataZoomView"></a>DataZoomView</h3><p>DataZoomView通过extend扩展自Component View，重写了render方法并定义了getTargetCoordInfo方法。</p>
+<h3 id="DataZoomAction"><a href="#DataZoomAction" class="headerlink" title="DataZoomAction"></a>DataZoomAction</h3><p>DataZoomAction中注册了dataZoom action</p>
+<h2 id="Slider"><a href="#Slider" class="headerlink" title="Slider"></a>Slider</h2><h3 id="SliderZoomModel"><a href="#SliderZoomModel" class="headerlink" title="SliderZoomModel"></a>SliderZoomModel</h3><p>SliderZoomModel通过extend扩展自<strong>DataZoomModel</strong>，重写了<strong>defaultOption</strong>属性</p>
+<h3 id="SliderZoomView"><a href="#SliderZoomView" class="headerlink" title="SliderZoomView"></a>SliderZoomView</h3><p>SliderZoomView通过extend扩展自<strong>DataZoomView</strong>，重写了render、remove、dispose等方法，主要实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">dataZoomModel, ecModel, api, payload</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 调用DataZoomView中的render方法</span></span><br><span class="line">    SliderZoomView.superApply(<span class="keyword">this</span>, <span class="string">'render'</span>, <span class="built_in">arguments</span>);</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (!payload || payload.type !== <span class="string">'dataZoom'</span> || payload.from !== <span class="keyword">this</span>.uid) &#123;</span><br><span class="line">        <span class="comment">// 绘制</span></span><br><span class="line">        <span class="keyword">this</span>._buildView();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 更新</span></span><br><span class="line">    <span class="keyword">this</span>._updateView();</span><br><span class="line">&#125;</span><br><span class="line">_buildView: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> thisGroup = <span class="keyword">this</span>.group;</span><br><span class="line"></span><br><span class="line">    thisGroup.removeAll();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._resetLocation();</span><br><span class="line">    <span class="keyword">this</span>._resetInterval();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> barGroup = <span class="keyword">this</span>._displayables.barGroup = <span class="keyword">new</span> graphic.Group();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 绘制背景，通过graphic.Rect绘制背景，包括可视层以及Click panel</span></span><br><span class="line">    <span class="keyword">this</span>._renderBackground();</span><br><span class="line">    <span class="comment">// 绘制handle，通过graphic.Rect绘制选择的区域，并绑定拖拽相关以及mouseover、mouseout等事件处理器</span></span><br><span class="line">    <span class="comment">// 通过graphic.Rect绘制Frame border</span></span><br><span class="line">    <span class="comment">// 通过graphic.createIcon创建handler 图标，并绑定拖拽相关以及mouseover、mouseout等事件处理器</span></span><br><span class="line">    <span class="comment">// 通过graphic.Text绘制handle中的label数据</span></span><br><span class="line">    <span class="keyword">this</span>._renderHandle();</span><br><span class="line">    <span class="comment">// 通过graphic.Polyline及graphic.Polygon绘制出datazoom下的数据缩略图</span></span><br><span class="line">    <span class="keyword">this</span>._renderDataShadow();</span><br><span class="line"></span><br><span class="line">    thisGroup.add(barGroup);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._positionGroup();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Inside"><a href="#Inside" class="headerlink" title="Inside"></a>Inside</h2><h3 id="InsideZoomModel"><a href="#InsideZoomModel" class="headerlink" title="InsideZoomModel"></a>InsideZoomModel</h3><p>InsideZoomModel通过extend扩展自<strong>DataZoomModel</strong>，重写了defaultOption属性。</p>
+<h3 id="InsideZoomView"><a href="#InsideZoomView" class="headerlink" title="InsideZoomView"></a>InsideZoomView</h3><p>InsideZoomView通过extend扩展自<strong>DataZoomView</strong>，重写了init、render、dispose等方法，主要实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">dataZoomModel, ecModel, api, payload</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 调用DataZoomView中的render方法</span></span><br><span class="line">    InsideZoomView.superApply(<span class="keyword">this</span>, <span class="string">'render'</span>, <span class="built_in">arguments</span>);</span><br><span class="line">    <span class="keyword">this</span>._range = dataZoomModel.getPercentRange();</span><br><span class="line">    <span class="comment">// Reset controllers.</span></span><br><span class="line">    zrUtil.each(<span class="keyword">this</span>.getTargetCoordInfo(), <span class="function"><span class="keyword">function</span> (<span class="params">coordInfoList, coordSysName</span>) </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        zrUtil.each(coordInfoList, <span class="function"><span class="keyword">function</span> (<span class="params">coordInfo</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> coordModel = coordInfo.model;</span><br><span class="line">            <span class="keyword">var</span> getRange = &#123;&#125;;</span><br><span class="line">            <span class="comment">// 绑定pan、zoom、scrollMove事件处理器，roamHandlers中定义了相关类型的事件处理函数</span></span><br><span class="line">            zrUtil.each([<span class="string">'pan'</span>, <span class="string">'zoom'</span>, <span class="string">'scrollMove'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">eventName</span>) </span>&#123;</span><br><span class="line">                getRange[eventName] = bind(roamHandlers[eventName], <span class="keyword">this</span>, coordInfo, coordSysName);</span><br><span class="line">            &#125;, <span class="keyword">this</span>);</span><br><span class="line">            ...</span><br><span class="line">        &#125;, <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    &#125;, <span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="视图映射-VisualMap"><a href="#视图映射-VisualMap" class="headerlink" title="视图映射 VisualMap"></a>视图映射 VisualMap</h1><p>VisualMap分为<strong>continuous</strong>连续型及<strong>piecewise</strong>分段型两个类型</p>
+<h2 id="公共文件-1"><a href="#公共文件-1" class="headerlink" title="公共文件"></a>公共文件</h2><h3 id="VisualMapAction"><a href="#VisualMapAction" class="headerlink" title="VisualMapAction"></a>VisualMapAction</h3><p>VisualMapAction中注册了selectDataRange action</p>
+<h3 id="VisualMapModel"><a href="#VisualMapModel" class="headerlink" title="VisualMapModel"></a>VisualMapModel</h3><p>VisualMapModel通过extendComponentModel方法扩展自Component Model，重写了defaultOption属性以及init、optionUpdated等方法，并定义了resetVisual、formatValueText等方法。</p>
+<h3 id="VisualMapView"><a href="#VisualMapView" class="headerlink" title="VisualMapView"></a>VisualMapView</h3><p>VisualMapView通过extendComponentView方法扩展自Component View，重写了init、render等方法，定义了renderBackground方法，主要代码为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">visualMapModel, ecModel, api, payload</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 调用子类doRender方法</span></span><br><span class="line">    <span class="keyword">this</span>.doRender.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">&#125;</span><br><span class="line">renderBackground: <span class="function"><span class="keyword">function</span> (<span class="params">group</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> visualMapModel = <span class="keyword">this</span>.visualMapModel;</span><br><span class="line">    <span class="keyword">var</span> padding = formatUtil.normalizeCssArray(visualMapModel.get(<span class="string">'padding'</span>) || <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">var</span> rect = group.getBoundingRect();</span><br><span class="line">    <span class="comment">// 通过graphic.Rect渲染visualMap背景</span></span><br><span class="line">    group.add(<span class="keyword">new</span> graphic.Rect(&#123;</span><br><span class="line">        z2: <span class="number">-1</span>, <span class="comment">// Lay background rect on the lowest layer.</span></span><br><span class="line">        silent: <span class="literal">true</span>,</span><br><span class="line">        shape: &#123;</span><br><span class="line">            x: rect.x - padding[<span class="number">3</span>],</span><br><span class="line">            y: rect.y - padding[<span class="number">0</span>],</span><br><span class="line">            width: rect.width + padding[<span class="number">3</span>] + padding[<span class="number">1</span>],</span><br><span class="line">            height: rect.height + padding[<span class="number">0</span>] + padding[<span class="number">2</span>]</span><br><span class="line">        &#125;,</span><br><span class="line">        style: &#123;</span><br><span class="line">            fill: visualMapModel.get(<span class="string">'backgroundColor'</span>),</span><br><span class="line">            stroke: visualMapModel.get(<span class="string">'borderColor'</span>),</span><br><span class="line">            lineWidth: visualMapModel.get(<span class="string">'borderWidth'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Continuous"><a href="#Continuous" class="headerlink" title="Continuous"></a>Continuous</h2><h3 id="ContinuousModel"><a href="#ContinuousModel" class="headerlink" title="ContinuousModel"></a>ContinuousModel</h3><p>ContinuousModel通过extend方法扩展自VisualMapModel，重写了defaultOption属性以及optionUpdated、resetItemSize等方法，并定义了completeVisualOption、setSelected、getSelected、getValueState等方法。</p>
+<h3 id="ContinuousView"><a href="#ContinuousView" class="headerlink" title="ContinuousView"></a>ContinuousView</h3><p>ContinuousView通过extend方法扩展自VisualMapView，重写了init方法并定义了doRender方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">doRender: <span class="function"><span class="keyword">function</span> (<span class="params">visualMapModel, ecModel, api, payload</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!payload || payload.type !== <span class="string">'selectDataRange'</span> || payload.from !== <span class="keyword">this</span>.uid) &#123;</span><br><span class="line">        <span class="keyword">this</span>._buildView();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">_buildView: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.group.removeAll();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> visualMapModel = <span class="keyword">this</span>.visualMapModel;</span><br><span class="line">    <span class="keyword">var</span> thisGroup = <span class="keyword">this</span>.group;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._orient = visualMapModel.get(<span class="string">'orient'</span>);</span><br><span class="line">    <span class="keyword">this</span>._useHandle = visualMapModel.get(<span class="string">'calculable'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._resetInterval();</span><br><span class="line">    <span class="comment">// 绘制visualMap映射组件</span></span><br><span class="line">    <span class="comment">// 1）通过graphic.Polygon绘制inRange及outOfRange形状，并为inRange形状绑定drag相关事件处理器</span></span><br><span class="line">    <span class="comment">// 2）若userHandle为true，则通过graphic.Polygon绘制handler，graphic.Text绘制handler label</span></span><br><span class="line">    <span class="comment">//    并为handler绑定drag相关时间处理器</span></span><br><span class="line">    <span class="comment">// 3）通过graphic.Polygon绘制指示器，graphic.Text绘制指示器 label</span></span><br><span class="line">    <span class="keyword">this</span>._renderBar(thisGroup);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> dataRangeText = visualMapModel.get(<span class="string">'text'</span>);</span><br><span class="line">    <span class="comment">// 通过graphic.Text渲染visualMap首与尾处的label</span></span><br><span class="line">    <span class="keyword">this</span>._renderEndsText(thisGroup, dataRangeText, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">this</span>._renderEndsText(thisGroup, dataRangeText, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._updateView(<span class="literal">true</span>);</span><br><span class="line">    <span class="comment">// 调用VisualMapView中的renderBackground方法</span></span><br><span class="line">    <span class="keyword">this</span>.renderBackground(thisGroup);</span><br><span class="line">    <span class="comment">// 通过graphic.LinearGradient创建线性渐变</span></span><br><span class="line">    <span class="keyword">this</span>._updateView();</span><br><span class="line">    <span class="comment">// 绑定mouseover及mouseout相关的事件处理器</span></span><br><span class="line">    <span class="comment">// mouseover：showIndicator</span></span><br><span class="line">    <span class="comment">// mouseout：hideIndicator</span></span><br><span class="line">    <span class="keyword">this</span>._enableHoverLinkToSeries();</span><br><span class="line">    <span class="keyword">this</span>._enableHoverLinkFromSeries();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.positionGroup(thisGroup);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Piecewise"><a href="#Piecewise" class="headerlink" title="Piecewise"></a>Piecewise</h2><h3 id="PiecewiseModel"><a href="#PiecewiseModel" class="headerlink" title="PiecewiseModel"></a>PiecewiseModel</h3><p>PiecewiseModel通过extend方法扩展自VisualMapModel，重写了defaultOption属性以及optionUpdated等方法，并定义了getPieceList、getValueState、findTargetDataIndices等方法</p>
+<h3 id="PiecewiseView"><a href="#PiecewiseView" class="headerlink" title="PiecewiseView"></a>PiecewiseView</h3><p>PiecewiseView通过extend方法扩展自VisualMapView，定义了doRender方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">doRender: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 通过graphic.Text绘制</span></span><br><span class="line">    endsText &amp;&amp; <span class="keyword">this</span>._renderEndsText(</span><br><span class="line">        thisGroup, endsText[<span class="number">0</span>], itemSize, showLabel, itemAlign</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// viewPieceList数据处理的实现在PiecewiseModel中resetMethods</span></span><br><span class="line">    <span class="comment">// 遍历viewPieceList调用renderItem进行片段visual的绘制</span></span><br><span class="line">    zrUtil.each(viewData.viewPieceList, renderItem, <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    endsText &amp;&amp; <span class="keyword">this</span>._renderEndsText(</span><br><span class="line">        thisGroup, endsText[<span class="number">1</span>], itemSize, showLabel, itemAlign</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    layout.box(</span><br><span class="line">        visualMapModel.get(<span class="string">'orient'</span>), thisGroup, visualMapModel.get(<span class="string">'itemGap'</span>)</span><br><span class="line">    );</span><br><span class="line">    <span class="comment">// 调用VisualMapView中的renderBackground方法</span></span><br><span class="line">    <span class="keyword">this</span>.renderBackground(thisGroup);</span><br><span class="line">    <span class="keyword">this</span>.positionGroup(thisGroup);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">renderItem</span>(<span class="params">item</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> piece = item.piece;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> itemGroup = <span class="keyword">new</span> graphic.Group();</span><br><span class="line">        <span class="comment">// 绑定onclick时的事件处理器</span></span><br><span class="line">        itemGroup.onclick = zrUtil.bind(<span class="keyword">this</span>._onItemClick, <span class="keyword">this</span>, piece);</span><br><span class="line">        <span class="comment">// 绑定mouseover、mouseout相关的事件处理器</span></span><br><span class="line">        <span class="keyword">this</span>._enableHoverLink(itemGroup, item.indexInModelPieceList);</span><br><span class="line">        <span class="keyword">var</span> representValue = visualMapModel.getRepresentValue(piece);</span><br><span class="line">        <span class="comment">// 通过createSymbol方法创建symbol</span></span><br><span class="line">        <span class="keyword">this</span>._createItemSymbol(</span><br><span class="line">            itemGroup, representValue, [<span class="number">0</span>, <span class="number">0</span>, itemSize[<span class="number">0</span>], itemSize[<span class="number">1</span>]]</span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">if</span> (showLabel) &#123;</span><br><span class="line">            <span class="keyword">var</span> visualState = <span class="keyword">this</span>.visualMapModel.getValueState(representValue);</span><br><span class="line">            <span class="comment">// 渲染文本</span></span><br><span class="line">            itemGroup.add(<span class="keyword">new</span> graphic.Text(&#123;</span><br><span class="line">                style: &#123;</span><br><span class="line">                    x: itemAlign === <span class="string">'right'</span> ? -textGap : itemSize[<span class="number">0</span>] + textGap,</span><br><span class="line">                    y: itemSize[<span class="number">1</span>] / <span class="number">2</span>,</span><br><span class="line">                    text: piece.text,</span><br><span class="line">                    textVerticalAlign: <span class="string">'middle'</span>,</span><br><span class="line">                    textAlign: itemAlign,</span><br><span class="line">                    textFont: textFont,</span><br><span class="line">                    textFill: textFill,</span><br><span class="line">                    opacity: visualState === <span class="string">'outOfRange'</span> ? <span class="number">0.5</span> : <span class="number">1</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;));</span><br><span class="line">        &#125;</span><br><span class="line">        thisGroup.add(itemGroup);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="提示框-Tooltip"><a href="#提示框-Tooltip" class="headerlink" title="提示框 Tooltip"></a>提示框 Tooltip</h1><h2 id="Tooltip-js"><a href="#Tooltip-js" class="headerlink" title="Tooltip.js"></a>Tooltip.js</h2><p>Tooltip.js中注册了<strong>showTip及hideTip</strong> action，trigger处理器调用TooltipView中定义的<strong>manuallyShowTip及manuallyHideTip</strong>方法。代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">echarts.registerAction(</span><br><span class="line">    &#123;</span><br><span class="line">        type: <span class="string">'showTip'</span>,</span><br><span class="line">        event: <span class="string">'showTip'</span>,</span><br><span class="line">        update: <span class="string">'tooltip:manuallyShowTip'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">echarts.registerAction(</span><br><span class="line">    &#123;</span><br><span class="line">        type: <span class="string">'hideTip'</span>,</span><br><span class="line">        event: <span class="string">'hideTip'</span>,</span><br><span class="line">        update: <span class="string">'tooltip:manuallyHideTip'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="TooltipModel"><a href="#TooltipModel" class="headerlink" title="TooltipModel"></a>TooltipModel</h2><p>TooltipModel通过extendComponentModel扩展自Component Model，重写了defaultOption属性。</p>
+<h2 id="TooltipView"><a href="#TooltipView" class="headerlink" title="TooltipView"></a>TooltipView</h2><p>TooltipView通过extendComponentView扩展自Component View，重写了init、render等方法，并定义了manuallyShowTip、manuallyHideTip等方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">init: <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">var</span> tooltipModel = ecModel.getComponent(<span class="string">'tooltip'</span>);</span><br><span class="line">    <span class="keyword">var</span> renderMode = tooltipModel.get(<span class="string">'renderMode'</span>);</span><br><span class="line">    <span class="keyword">this</span>._renderMode = getTooltipRenderMode(renderMode);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> tooltipContent;</span><br><span class="line">    <span class="comment">// 设置TooltipContent内容</span></span><br><span class="line">    <span class="comment">// TooltipContent 中绑定了mouseenter、mousemove、mouseleave等事件处理器，</span></span><br><span class="line">    <span class="comment">// TooltipRichContent 中绑定了mouseover、mouseout等事件处理器</span></span><br><span class="line">    <span class="comment">// TooltipContent&amp;TooltipRichContent 定义了setContent、show、hide、update、getSize等方法</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>._renderMode === <span class="string">'html'</span>) &#123;</span><br><span class="line">        tooltipContent = <span class="keyword">new</span> TooltipContent(api.getDom(), api);</span><br><span class="line">        <span class="keyword">this</span>._newLine = <span class="string">'&lt;br/&gt;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        tooltipContent = <span class="keyword">new</span> TooltipRichContent(api);</span><br><span class="line">        <span class="keyword">this</span>._newLine = <span class="string">'\n'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._tooltipContent = tooltipContent;</span><br><span class="line">&#125;</span><br><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">tooltipModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">var</span> tooltipContent = <span class="keyword">this</span>._tooltipContent;</span><br><span class="line">    <span class="comment">// 调用tooltipContent的update方法</span></span><br><span class="line">    tooltipContent.update();</span><br><span class="line">    tooltipContent.setEnterable(tooltipModel.get(<span class="string">'enterable'</span>));</span><br><span class="line">    <span class="comment">// 初始化tooltip触发监听器 “triggerOn”</span></span><br><span class="line">    <span class="keyword">this</span>._initGlobalListener();</span><br><span class="line">    <span class="comment">// 调用manuallyShowTip展示tooltip</span></span><br><span class="line">    <span class="comment">// manuallyShowTip中调用了tryShow方法</span></span><br><span class="line">    <span class="keyword">this</span>._keepShow();</span><br><span class="line">&#125;</span><br><span class="line">_tryShow: <span class="function"><span class="keyword">function</span> (<span class="params">e, dispatchAction</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (dataByCoordSys &amp;&amp; dataByCoordSys.length) &#123;</span><br><span class="line">        <span class="comment">// 展示axis的tooltip信息</span></span><br><span class="line">        <span class="comment">// 调用formatTooltip方法渲染Tooltip中的展示内容，包括圆点和数据信息</span></span><br><span class="line">        <span class="keyword">this</span>._showAxisTooltip(dataByCoordSys, e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (el &amp;&amp; el.dataIndex != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 展示series tooltip信息</span></span><br><span class="line">        <span class="comment">// 调用formatTooltip方法渲染Tooltip中的展示内容，包括圆点和数据信息</span></span><br><span class="line">        <span class="keyword">this</span>._lastDataByCoordSys = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">this</span>._showSeriesItemTooltip(e, el, dispatchAction);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (el &amp;&amp; el.tooltip) &#123;</span><br><span class="line">        <span class="comment">// 展示Component下的tooltip信息</span></span><br><span class="line">        <span class="keyword">this</span>._lastDataByCoordSys = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">this</span>._showComponentItemTooltip(e, el, dispatchAction);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>._lastDataByCoordSys = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">this</span>._hide(dispatchAction);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="工具栏-toolbox"><a href="#工具栏-toolbox" class="headerlink" title="工具栏 toolbox"></a>工具栏 toolbox</h1><h2 id="ToolboxModel"><a href="#ToolboxModel" class="headerlink" title="ToolboxModel"></a>ToolboxModel</h2><p>ToolboxModel通过extendComponentModel方法扩展自Component Model，重写了defaultOption属性以及optionUpdated方法（merge feature下的option）</p>
+<h2 id="ToolboxView"><a href="#ToolboxView" class="headerlink" title="ToolboxView"></a>ToolboxView</h2><p>ToolboxView通过extendComponentView扩展自Component View，重写了render、remove以及dispose等方法，并定义了updateView方法（调用feature下的updateView）。主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">toolboxModel, ecModel, api, payload</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> group = <span class="keyword">this</span>.group;</span><br><span class="line">    group.removeAll();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!toolboxModel.get(<span class="string">'show'</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> itemSize = +toolboxModel.get(<span class="string">'itemSize'</span>);</span><br><span class="line">    <span class="keyword">var</span> featureOpts = toolboxModel.get(<span class="string">'feature'</span>) || &#123;&#125;;</span><br><span class="line">    <span class="keyword">var</span> features = <span class="keyword">this</span>._features || (<span class="keyword">this</span>._features = &#123;&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> featureNames = [];</span><br><span class="line">    zrUtil.each(featureOpts, <span class="function"><span class="keyword">function</span> (<span class="params">opt, name</span>) </span>&#123;</span><br><span class="line">        featureNames.push(name);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    (<span class="keyword">new</span> DataDiffer(<span class="keyword">this</span>._featureNames || [], featureNames))</span><br><span class="line">        .add(processFeature)</span><br><span class="line">        .update(processFeature)</span><br><span class="line">        .remove(zrUtil.curry(processFeature, <span class="literal">null</span>))</span><br><span class="line">        .execute();</span><br><span class="line">    <span class="keyword">this</span>._featureNames = featureNames;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">processFeature</span>(<span class="params">newIndex, oldIndex</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> featureName = featureNames[newIndex];</span><br><span class="line">        <span class="keyword">var</span> oldName = featureNames[oldIndex];</span><br><span class="line">        <span class="keyword">var</span> featureOpt = featureOpts[featureName];</span><br><span class="line">        <span class="keyword">var</span> featureModel = <span class="keyword">new</span> Model(featureOpt, toolboxModel, toolboxModel.ecModel);</span><br><span class="line">        <span class="keyword">var</span> feature;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (featureName &amp;&amp; !oldName) &#123; <span class="comment">// Create</span></span><br><span class="line">            <span class="keyword">if</span> (isUserFeatureName(featureName)) &#123;</span><br><span class="line">                feature = &#123;</span><br><span class="line">                    model: featureModel,</span><br><span class="line">                    onclick: featureModel.option.onclick,</span><br><span class="line">                    featureName: featureName</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">var</span> Feature = featureManager.get(featureName);</span><br><span class="line">                <span class="keyword">if</span> (!Feature) &#123;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                feature = <span class="keyword">new</span> Feature(featureModel, ecModel, api);</span><br><span class="line">            &#125;</span><br><span class="line">            features[featureName] = feature;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            feature = features[oldName];</span><br><span class="line">            <span class="comment">// If feature does not exsit.</span></span><br><span class="line">            <span class="keyword">if</span> (!feature) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            feature.model = featureModel;</span><br><span class="line">            feature.ecModel = ecModel;</span><br><span class="line">            feature.api = api;</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">// 通过graphic.createIcon创建工具图标，绑定mouseover、mouseout及click事件处理器</span></span><br><span class="line">        createIconPaths(featureModel, feature, featureName);</span><br><span class="line"></span><br><span class="line">        featureModel.setIconStatus = <span class="function"><span class="keyword">function</span> (<span class="params">iconName, status</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> option = <span class="keyword">this</span>.option;</span><br><span class="line">            <span class="keyword">var</span> iconPaths = <span class="keyword">this</span>.iconPaths;</span><br><span class="line">            option.iconStatus = option.iconStatus || &#123;&#125;;</span><br><span class="line">            option.iconStatus[iconName] = status;</span><br><span class="line">            <span class="comment">// FIXME</span></span><br><span class="line">            iconPaths[iconName] &amp;&amp; iconPaths[iconName].trigger(status);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (feature.render) &#123;</span><br><span class="line">            <span class="comment">// 调用相应feature的render方法</span></span><br><span class="line">            feature.render(featureModel, ecModel, api, payload);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    listComponentHelper.layout(group, toolboxModel, api);</span><br><span class="line">    <span class="comment">// 渲染背景</span></span><br><span class="line">    group.add(listComponentHelper.makeBackground(group.getBoundingRect(), toolboxModel));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理icon title的位置，避免title溢出屏幕</span></span><br><span class="line">    group.eachChild(<span class="function"><span class="keyword">function</span> (<span class="params">icon</span>) </span>&#123;</span><br><span class="line">       ...</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Feature"><a href="#Feature" class="headerlink" title="Feature"></a>Feature</h2><p>featureManager中定义了注册以及获取feature的方法，实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">register</span>(<span class="params">name, ctor</span>) </span>&#123;</span><br><span class="line">    features[name] = ctor;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> features[name];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="SaveAsImage"><a href="#SaveAsImage" class="headerlink" title="SaveAsImage"></a>SaveAsImage</h3><p>SaveAsImage（保存为图片）定义了defaultOption属性以及onclick事件处理器，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> proto = SaveAsImage.prototype;</span><br><span class="line"></span><br><span class="line">proto.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> model = <span class="keyword">this</span>.model;</span><br><span class="line">    <span class="keyword">var</span> title = model.get(<span class="string">'name'</span>) || ecModel.get(<span class="string">'title.0.text'</span>) || <span class="string">'echarts'</span>;</span><br><span class="line">    <span class="keyword">var</span> $a = <span class="built_in">document</span>.createElement(<span class="string">'a'</span>);</span><br><span class="line">    <span class="keyword">var</span> type = model.get(<span class="string">'type'</span>, <span class="literal">true</span>) || <span class="string">'png'</span>;</span><br><span class="line">    $a.download = title + <span class="string">'.'</span> + type;</span><br><span class="line">    $a.target = <span class="string">'_blank'</span>;</span><br><span class="line">    <span class="keyword">var</span> url = api.getConnectedDataURL(&#123;</span><br><span class="line">        type: type,</span><br><span class="line">        backgroundColor: model.get(<span class="string">'backgroundColor'</span>, <span class="literal">true</span>)</span><br><span class="line">            || ecModel.get(<span class="string">'backgroundColor'</span>) || <span class="string">'#fff'</span>,</span><br><span class="line">        excludeComponents: model.get(<span class="string">'excludeComponents'</span>),</span><br><span class="line">        pixelRatio: model.get(<span class="string">'pixelRatio'</span>)</span><br><span class="line">    &#125;);</span><br><span class="line">    $a.href = url;</span><br><span class="line">    <span class="comment">// Chrome and Firefox</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> MouseEvent === <span class="string">'function'</span> &amp;&amp; !env.browser.ie &amp;&amp; !env.browser.edge) &#123;</span><br><span class="line">        <span class="keyword">var</span> evt = <span class="keyword">new</span> MouseEvent(<span class="string">'click'</span>, &#123;</span><br><span class="line">            view: <span class="built_in">window</span>,</span><br><span class="line">            bubbles: <span class="literal">true</span>,</span><br><span class="line">            cancelable: <span class="literal">false</span></span><br><span class="line">        &#125;);</span><br><span class="line">        $a.dispatchEvent(evt);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// IE浏览器</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">window</span>.navigator.msSaveOrOpenBlob) &#123;</span><br><span class="line">            <span class="keyword">var</span> bstr = atob(url.split(<span class="string">','</span>)[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">var</span> n = bstr.length;</span><br><span class="line">            <span class="keyword">var</span> u8arr = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(n);</span><br><span class="line">            <span class="keyword">while</span> (n--) &#123;</span><br><span class="line">                u8arr[n] = bstr.charCodeAt(n);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">var</span> blob = <span class="keyword">new</span> Blob([u8arr]);</span><br><span class="line">            <span class="built_in">window</span>.navigator.msSaveOrOpenBlob(blob, title + <span class="string">'.'</span> + type);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">var</span> lang = model.get(<span class="string">'lang'</span>);</span><br><span class="line">            <span class="keyword">var</span> html = <span class="string">''</span></span><br><span class="line">                + <span class="string">'&lt;body style="margin:0;"&gt;'</span></span><br><span class="line">                + <span class="string">'&lt;img src="'</span> + url + <span class="string">'" style="max-width:100%;" title="'</span> + ((lang &amp;&amp; lang[<span class="number">0</span>]) || <span class="string">''</span>) + <span class="string">'" /&gt;'</span></span><br><span class="line">                + <span class="string">'&lt;/body&gt;'</span>;</span><br><span class="line">            <span class="keyword">var</span> tab = <span class="built_in">window</span>.open();</span><br><span class="line">            tab.document.write(html);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="MagicType"><a href="#MagicType" class="headerlink" title="MagicType"></a>MagicType</h3><p>MagicType（动态类型切换）定义了defaultOption属性，以及getIcons、onclick方法，并注册了changeMagicType action，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> proto = MagicType.prototype;</span><br><span class="line"></span><br><span class="line">proto.getIcons = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> model = <span class="keyword">this</span>.model;</span><br><span class="line">    <span class="keyword">var</span> availableIcons = model.get(<span class="string">'icon'</span>);</span><br><span class="line">    <span class="keyword">var</span> icons = &#123;&#125;;</span><br><span class="line">    zrUtil.each(model.get(<span class="string">'type'</span>), <span class="function"><span class="keyword">function</span> (<span class="params">type</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (availableIcons[type]) &#123;</span><br><span class="line">            icons[type] = availableIcons[type];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> icons;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// series option生成器</span></span><br><span class="line"><span class="keyword">var</span> seriesOptGenreator = &#123;</span><br><span class="line">    <span class="string">'line'</span>: <span class="function"><span class="keyword">function</span> (<span class="params">seriesType, seriesId, seriesModel, model</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (seriesType === <span class="string">'bar'</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> zrUtil.merge(&#123;</span><br><span class="line">                id: seriesId,</span><br><span class="line">                type: <span class="string">'line'</span>,</span><br><span class="line">                <span class="comment">// Preserve data related option</span></span><br><span class="line">                data: seriesModel.get(<span class="string">'data'</span>),</span><br><span class="line">                stack: seriesModel.get(<span class="string">'stack'</span>),</span><br><span class="line">                markPoint: seriesModel.get(<span class="string">'markPoint'</span>),</span><br><span class="line">                markLine: seriesModel.get(<span class="string">'markLine'</span>)</span><br><span class="line">            &#125;, model.get(<span class="string">'option.line'</span>) || &#123;&#125;, <span class="literal">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'bar'</span>: <span class="function"><span class="keyword">function</span> (<span class="params">seriesType, seriesId, seriesModel, model</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (seriesType === <span class="string">'line'</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> zrUtil.merge(&#123;</span><br><span class="line">                id: seriesId,</span><br><span class="line">                type: <span class="string">'bar'</span>,</span><br><span class="line">                <span class="comment">// Preserve data related option</span></span><br><span class="line">                data: seriesModel.get(<span class="string">'data'</span>),</span><br><span class="line">                stack: seriesModel.get(<span class="string">'stack'</span>),</span><br><span class="line">                markPoint: seriesModel.get(<span class="string">'markPoint'</span>),</span><br><span class="line">                markLine: seriesModel.get(<span class="string">'markLine'</span>)</span><br><span class="line">            &#125;, model.get(<span class="string">'option.bar'</span>) || &#123;&#125;, <span class="literal">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'stack'</span>: <span class="function"><span class="keyword">function</span> (<span class="params">seriesType, seriesId, seriesModel, model</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (seriesType === <span class="string">'line'</span> || seriesType === <span class="string">'bar'</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> zrUtil.merge(&#123;</span><br><span class="line">                id: seriesId,</span><br><span class="line">                stack: <span class="string">'__ec_magicType_stack__'</span></span><br><span class="line">            &#125;, model.get(<span class="string">'option.stack'</span>) || &#123;&#125;, <span class="literal">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'tiled'</span>: <span class="function"><span class="keyword">function</span> (<span class="params">seriesType, seriesId, seriesModel, model</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (seriesType === <span class="string">'line'</span> || seriesType === <span class="string">'bar'</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> zrUtil.merge(&#123;</span><br><span class="line">                id: seriesId,</span><br><span class="line">                stack: <span class="string">''</span></span><br><span class="line">            &#125;, model.get(<span class="string">'option.tiled'</span>) || &#123;&#125;, <span class="literal">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> radioTypes = [</span><br><span class="line">    [<span class="string">'line'</span>, <span class="string">'bar'</span>],</span><br><span class="line">    [<span class="string">'stack'</span>, <span class="string">'tiled'</span>]</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">proto.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api, type</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> model = <span class="keyword">this</span>.model;</span><br><span class="line">    <span class="keyword">var</span> seriesIndex = model.get(<span class="string">'seriesIndex.'</span> + type);</span><br><span class="line">    <span class="comment">// Not supported magicType</span></span><br><span class="line">    <span class="keyword">if</span> (!seriesOptGenreator[type]) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> newOption = &#123;</span><br><span class="line">        series: []</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">// 生成新类型的series</span></span><br><span class="line">    <span class="keyword">var</span> generateNewSeriesTypes = <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> seriesType = seriesModel.subType;</span><br><span class="line">        <span class="keyword">var</span> seriesId = seriesModel.id;</span><br><span class="line">        <span class="keyword">var</span> newSeriesOpt = seriesOptGenreator[type](</span><br><span class="line">            seriesType, seriesId, seriesModel, model</span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">if</span> (newSeriesOpt) &#123;</span><br><span class="line">            <span class="comment">// PENDING If merge original option?</span></span><br><span class="line">            zrUtil.defaults(newSeriesOpt, seriesModel.option);</span><br><span class="line">            newOption.series.push(newSeriesOpt);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// Modify boundaryGap</span></span><br><span class="line">        <span class="keyword">var</span> coordSys = seriesModel.coordinateSystem;</span><br><span class="line">        <span class="keyword">if</span> (coordSys &amp;&amp; coordSys.type === <span class="string">'cartesian2d'</span> &amp;&amp; (type === <span class="string">'line'</span> || type === <span class="string">'bar'</span>)) &#123;</span><br><span class="line">            <span class="keyword">var</span> categoryAxis = coordSys.getAxesByScale(<span class="string">'ordinal'</span>)[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">if</span> (categoryAxis) &#123;</span><br><span class="line">                <span class="keyword">var</span> axisDim = categoryAxis.dim;</span><br><span class="line">                <span class="keyword">var</span> axisType = axisDim + <span class="string">'Axis'</span>;</span><br><span class="line">                <span class="keyword">var</span> axisModel = ecModel.queryComponents(&#123;</span><br><span class="line">                    mainType: axisType,</span><br><span class="line">                    index: seriesModel.get(name + <span class="string">'Index'</span>),</span><br><span class="line">                    id: seriesModel.get(name + <span class="string">'Id'</span>)</span><br><span class="line">                &#125;)[<span class="number">0</span>];</span><br><span class="line">                <span class="keyword">var</span> axisIndex = axisModel.componentIndex;</span><br><span class="line"></span><br><span class="line">                newOption[axisType] = newOption[axisType] || [];</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt;= axisIndex; i++) &#123;</span><br><span class="line">                    newOption[axisType][axisIndex] = newOption[axisType][axisIndex] || &#123;&#125;;</span><br><span class="line">                &#125;</span><br><span class="line">                newOption[axisType][axisIndex].boundaryGap = type === <span class="string">'bar'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    zrUtil.each(radioTypes, <span class="function"><span class="keyword">function</span> (<span class="params">radio</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (zrUtil.indexOf(radio, type) &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            zrUtil.each(radio, <span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</span><br><span class="line">                model.setIconStatus(item, <span class="string">'normal'</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置icon的状态</span></span><br><span class="line">    model.setIconStatus(type, <span class="string">'emphasis'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 为每个series生成新option</span></span><br><span class="line">    ecModel.eachComponent(</span><br><span class="line">        &#123;</span><br><span class="line">            mainType: <span class="string">'series'</span>,</span><br><span class="line">            query: seriesIndex == <span class="literal">null</span> ? <span class="literal">null</span> : &#123;</span><br><span class="line">                seriesIndex: seriesIndex</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, generateNewSeriesTypes</span><br><span class="line">    );</span><br><span class="line">    api.dispatchAction(&#123;</span><br><span class="line">        type: <span class="string">'changeMagicType'</span>,</span><br><span class="line">        currentType: type,</span><br><span class="line">        newOption: newOption</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">echarts.registerAction(&#123;</span><br><span class="line">    type: <span class="string">'changeMagicType'</span>,</span><br><span class="line">    event: <span class="string">'magicTypeChanged'</span>,</span><br><span class="line">    update: <span class="string">'prepareAndUpdate'</span></span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">payload, ecModel</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 合并option</span></span><br><span class="line">    ecModel.mergeOption(payload.newOption);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="DataView"><a href="#DataView" class="headerlink" title="DataView"></a>DataView</h3><p>DataView（数据视图工具）定义了defaultOption属性及onclick、remove、dispose方法，并注册了changeDataView action，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DataView</span>.prototype.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> container = api.getDom();</span><br><span class="line">    <span class="keyword">var</span> model = <span class="keyword">this</span>.model;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>._dom) &#123;</span><br><span class="line">        container.removeChild(<span class="keyword">this</span>._dom);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> root = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">    root.style.cssText = <span class="string">'position:absolute;left:5px;top:5px;bottom:5px;right:5px;'</span>;</span><br><span class="line">    root.style.backgroundColor = model.get(<span class="string">'backgroundColor'</span>) || <span class="string">'#fff'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建element</span></span><br><span class="line">    <span class="keyword">var</span> header = <span class="built_in">document</span>.createElement(<span class="string">'h4'</span>);</span><br><span class="line">    <span class="keyword">var</span> lang = model.get(<span class="string">'lang'</span>) || [];</span><br><span class="line">    header.innerHTML = lang[<span class="number">0</span>] || model.get(<span class="string">'title'</span>);</span><br><span class="line">    header.style.cssText = <span class="string">'margin: 10px 20px;'</span>;</span><br><span class="line">    header.style.color = model.get(<span class="string">'textColor'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> viewMain = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">    <span class="keyword">var</span> textarea = <span class="built_in">document</span>.createElement(<span class="string">'textarea'</span>);</span><br><span class="line">    viewMain.style.cssText = <span class="string">'display:block;width:100%;overflow:auto;'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> optionToContent = model.get(<span class="string">'optionToContent'</span>);</span><br><span class="line">    <span class="keyword">var</span> contentToOption = model.get(<span class="string">'contentToOption'</span>);</span><br><span class="line">    <span class="comment">// 获取数据</span></span><br><span class="line">    <span class="keyword">var</span> result = getContentFromModel(ecModel);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> optionToContent === <span class="string">'function'</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> htmlOrDom = optionToContent(api.getOption());</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> htmlOrDom === <span class="string">'string'</span>) &#123;</span><br><span class="line">            viewMain.innerHTML = htmlOrDom;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (zrUtil.isDom(htmlOrDom)) &#123;</span><br><span class="line">            viewMain.appendChild(htmlOrDom);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 默认使用textarea</span></span><br><span class="line">        viewMain.appendChild(textarea);</span><br><span class="line">        textarea.readOnly = model.get(<span class="string">'readOnly'</span>);</span><br><span class="line">        textarea.style.cssText = <span class="string">'width:100%;height:100%;font-family:monospace;font-size:14px;line-height:1.6rem;'</span>;</span><br><span class="line">        textarea.style.color = model.get(<span class="string">'textColor'</span>);</span><br><span class="line">        textarea.style.borderColor = model.get(<span class="string">'textareaBorderColor'</span>);</span><br><span class="line">        textarea.style.backgroundColor = model.get(<span class="string">'textareaColor'</span>);</span><br><span class="line">        textarea.value = result.value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> blockMetaList = result.meta;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建按钮容器</span></span><br><span class="line">    <span class="keyword">var</span> buttonContainer = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">    buttonContainer.style.cssText = <span class="string">'position:absolute;bottom:0;left:0;right:0;'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> buttonStyle = <span class="string">'float:right;margin-right:20px;border:none;'</span></span><br><span class="line">        + <span class="string">'cursor:pointer;padding:2px 5px;font-size:12px;border-radius:3px'</span>;</span><br><span class="line">    <span class="comment">// 创建关闭以及刷新按钮</span></span><br><span class="line">    <span class="keyword">var</span> closeButton = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">    <span class="keyword">var</span> refreshButton = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line"></span><br><span class="line">    buttonStyle += <span class="string">';background-color:'</span> + model.get(<span class="string">'buttonColor'</span>);</span><br><span class="line">    buttonStyle += <span class="string">';color:'</span> + model.get(<span class="string">'buttonTextColor'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 添加click事件处理器</span></span><br><span class="line">    eventTool.addEventListener(closeButton, <span class="string">'click'</span>, close);</span><br><span class="line">    eventTool.addEventListener(refreshButton, <span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> newOption;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> contentToOption === <span class="string">'function'</span>) &#123;</span><br><span class="line">                newOption = contentToOption(viewMain, api.getOption());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                newOption = parseContents(textarea.value, blockMetaList);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">            close();</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Data view format error '</span> + e);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (newOption) &#123;</span><br><span class="line">            api.dispatchAction(&#123;</span><br><span class="line">                type: <span class="string">'changeDataView'</span>,</span><br><span class="line">                newOption: newOption</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        close();</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    closeButton.innerHTML = lang[<span class="number">1</span>];</span><br><span class="line">    refreshButton.innerHTML = lang[<span class="number">2</span>];</span><br><span class="line">    refreshButton.style.cssText = buttonStyle;</span><br><span class="line">    closeButton.style.cssText = buttonStyle;</span><br><span class="line"></span><br><span class="line">    !model.get(<span class="string">'readOnly'</span>) &amp;&amp; buttonContainer.appendChild(refreshButton);</span><br><span class="line">    buttonContainer.appendChild(closeButton);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用tab键进行数据分割</span></span><br><span class="line">    eventTool.addEventListener(textarea, <span class="string">'keydown'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ((e.keyCode || e.which) === <span class="number">9</span>) &#123;</span><br><span class="line">            <span class="keyword">var</span> val = <span class="keyword">this</span>.value;</span><br><span class="line">            <span class="keyword">var</span> start = <span class="keyword">this</span>.selectionStart;</span><br><span class="line">            <span class="keyword">var</span> end = <span class="keyword">this</span>.selectionEnd;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// set textarea value to: text before caret + tab + text after caret</span></span><br><span class="line">            <span class="keyword">this</span>.value = val.substring(<span class="number">0</span>, start) + ITEM_SPLITER + val.substring(end);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// put caret at right position again</span></span><br><span class="line">            <span class="keyword">this</span>.selectionStart = <span class="keyword">this</span>.selectionEnd = start + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// prevent the focus lose</span></span><br><span class="line">            eventTool.stop(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    root.appendChild(header);</span><br><span class="line">    root.appendChild(viewMain);</span><br><span class="line">    root.appendChild(buttonContainer);</span><br><span class="line"></span><br><span class="line">    viewMain.style.height = (container.clientHeight - <span class="number">80</span>) + <span class="string">'px'</span>;</span><br><span class="line"></span><br><span class="line">    container.appendChild(root);</span><br><span class="line">    <span class="keyword">this</span>._dom = root;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">DataView</span>.prototype.remove = <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>._dom &amp;&amp; api.getDom().removeChild(<span class="keyword">this</span>._dom);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">DataView</span>.prototype.dispose = <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.remove(ecModel, api);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="DataZoom"><a href="#DataZoom" class="headerlink" title="DataZoom"></a>DataZoom</h3><p>DataZoom（数据区域缩放）设置defaultOption属性，定义了render、onclick、remove以及dispose等方法。主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">proto.render = <span class="function"><span class="keyword">function</span> (<span class="params">featureModel, ecModel, api, payload</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.model = featureModel;</span><br><span class="line">    <span class="keyword">this</span>.ecModel = ecModel;</span><br><span class="line">    <span class="keyword">this</span>.api = api;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用BrushTargetManager管理区域选择</span></span><br><span class="line">    updateZoomBtnStatus(featureModel, ecModel, <span class="keyword">this</span>, payload, api);</span><br><span class="line">    <span class="comment">// 渲染还原按钮的iconStatus</span></span><br><span class="line">    updateBackBtnStatus(featureModel, ecModel);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">proto.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api, type</span>) </span>&#123;</span><br><span class="line">    handlers[type].call(<span class="keyword">this</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> handlers = &#123;</span><br><span class="line"></span><br><span class="line">    zoom: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> nextActive = !<span class="keyword">this</span>._isZoomActive;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.api.dispatchAction(&#123;</span><br><span class="line">            type: <span class="string">'takeGlobalCursor'</span>,</span><br><span class="line">            key: <span class="string">'dataZoomSelect'</span>,</span><br><span class="line">            dataZoomSelectActive: nextActive</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    back: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>._dispatchZoomAction(history.pop(<span class="keyword">this</span>.ecModel));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="Restore"><a href="#Restore" class="headerlink" title="Restore"></a>Restore</h3><p>Restore（配置项还原）定义了defaultOption属性以及onclick方法，并注册了restore action，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> proto = Restore.prototype;</span><br><span class="line"></span><br><span class="line">proto.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api, type</span>) </span>&#123;</span><br><span class="line">    history.clear(ecModel);</span><br><span class="line"></span><br><span class="line">    api.dispatchAction(&#123;</span><br><span class="line">        type: <span class="string">'restore'</span>,</span><br><span class="line">        <span class="keyword">from</span>: <span class="keyword">this</span>.uid</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="Brush"><a href="#Brush" class="headerlink" title="Brush"></a>Brush</h3><p>brush（选框组件的控制按钮）定义了defaultOption属性以及onclick、updateView、getIcons等方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> proto = Brush.prototype;</span><br><span class="line">proto.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api, type</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> brushType = <span class="keyword">this</span>._brushType;</span><br><span class="line">    <span class="keyword">var</span> brushMode = <span class="keyword">this</span>._brushMode;</span><br><span class="line">    <span class="keyword">if</span> (type === <span class="string">'clear'</span>) &#123;</span><br><span class="line">        api.dispatchAction(&#123;</span><br><span class="line">            type: <span class="string">'axisAreaSelect'</span>,</span><br><span class="line">            intervals: []</span><br><span class="line">        &#125;);</span><br><span class="line">        api.dispatchAction(&#123;</span><br><span class="line">            type: <span class="string">'brush'</span>,</span><br><span class="line">            command: <span class="string">'clear'</span>,</span><br><span class="line">            areas: []</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        api.dispatchAction(&#123;</span><br><span class="line">            type: <span class="string">'takeGlobalCursor'</span>,</span><br><span class="line">            key: <span class="string">'brush'</span>,</span><br><span class="line">            brushOption: &#123;</span><br><span class="line">                brushType: type === <span class="string">'keep'</span></span><br><span class="line">                    ? brushType</span><br><span class="line">                    : (brushType === type ? <span class="literal">false</span> : type),</span><br><span class="line">                brushMode: type === <span class="string">'keep'</span></span><br><span class="line">                    ? (brushMode === <span class="string">'multiple'</span> ? <span class="string">'single'</span> : <span class="string">'multiple'</span>)</span><br><span class="line">                    : brushMode</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="区域选择组件-brush"><a href="#区域选择组件-brush" class="headerlink" title="区域选择组件 brush"></a>区域选择组件 brush</h1><h2 id="BrushModel"><a href="#BrushModel" class="headerlink" title="BrushModel"></a>BrushModel</h2><p>BrushModel通过extendComponentModel方法扩展自Component Model，重写了defaultOption属性以及optionUpdated方法，并定义了setAreas、setBrushOption等方法。</p>
+<h2 id="BrushView"><a href="#BrushView" class="headerlink" title="BrushView"></a>BrushView</h2><p>BrushView通过extendComponentView方法扩展自Component View，重写了init、render、dispose等方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">init: <span class="function"><span class="keyword">function</span> (<span class="params">ecModel, api</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 绑定_onBrush事件</span></span><br><span class="line">    (<span class="keyword">this</span>._brushController = <span class="keyword">new</span> BrushController(api.getZr()))</span><br><span class="line">        .on(<span class="string">'brush'</span>, zrUtil.bind(<span class="keyword">this</span>._onBrush, <span class="keyword">this</span>))</span><br><span class="line">        .mount();</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">brushModel</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.model = brushModel;</span><br><span class="line">    <span class="keyword">return</span> updateController.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h2 id="BrushAction"><a href="#BrushAction" class="headerlink" title="BrushAction"></a>BrushAction</h2><p>BrushAction注册了brush、brushSelect等action</p>
+<h2 id="Brush-js"><a href="#Brush-js" class="headerlink" title="Brush.js"></a>Brush.js</h2><p>Brush.js即toolbox中Brush的内容</p>
+<h1 id="时间轴-Timeline"><a href="#时间轴-Timeline" class="headerlink" title="时间轴 Timeline"></a>时间轴 Timeline</h1><p>默认为slider类型</p>
+<h2 id="TimelineAction"><a href="#TimelineAction" class="headerlink" title="TimelineAction"></a>TimelineAction</h2><p>TimelineAction注册了timelineChange、timelinePlayChange等action</p>
+<h2 id="TimelineModel"><a href="#TimelineModel" class="headerlink" title="TimelineModel"></a>TimelineModel</h2><p>TimelineModel通过extend方法扩展自Component Model，重写了defaultOption属性以及init方法，并定义了setCurrentIndex、getCurrentIndex、    setPlayState、getPlayState等方法</p>
+<h2 id="TimelineView"><a href="#TimelineView" class="headerlink" title="TimelineView"></a>TimelineView</h2><p>TimelineView通过extend方法扩展自Component Model。</p>
+<h2 id="SliderTimelineModel"><a href="#SliderTimelineModel" class="headerlink" title="SliderTimelineModel"></a>SliderTimelineModel</h2><p>SliderTimelineModel通过extend方法扩展自TimelineModel，重写了defaultOption属性</p>
+<h2 id="SliderTimelineView"><a href="#SliderTimelineView" class="headerlink" title="SliderTimelineView"></a>SliderTimelineView</h2><p>SliderTimelineView通过extend方法扩展自TimelineView，重写了init、render方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">timelineModel, ecModel, api, payload</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.model = timelineModel;</span><br><span class="line">    <span class="keyword">this</span>.api = api;</span><br><span class="line">    <span class="keyword">this</span>.ecModel = ecModel;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.group.removeAll();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (timelineModel.get(<span class="string">'show'</span>, <span class="literal">true</span>)) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取布局信息</span></span><br><span class="line">        <span class="keyword">var</span> layoutInfo = <span class="keyword">this</span>._layout(timelineModel, api);</span><br><span class="line">        <span class="comment">// 通过graphic.Group创建组</span></span><br><span class="line">        <span class="keyword">var</span> mainGroup = <span class="keyword">this</span>._createGroup(<span class="string">'mainGroup'</span>);</span><br><span class="line">        <span class="keyword">var</span> labelGroup = <span class="keyword">this</span>._createGroup(<span class="string">'labelGroup'</span>);</span><br><span class="line">        <span class="comment">// 新建new TimelineAxis对象实例</span></span><br><span class="line">        <span class="keyword">var</span> axis = <span class="keyword">this</span>._axis = <span class="keyword">this</span>._createAxis(layoutInfo, timelineModel);</span><br><span class="line"></span><br><span class="line">        timelineModel.formatTooltip = <span class="function"><span class="keyword">function</span> (<span class="params">dataIndex</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> encodeHTML(axis.scale.getLabel(dataIndex));</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用_renderAxisLine：通过graphic.Line绘制轴线</span></span><br><span class="line">        <span class="comment">// 调用_renderAxisTick：通过createSymbol创建symbol</span></span><br><span class="line">        <span class="comment">// 调用_renderControl：通过new BoundingRect来创建control btn，包括prev、next、play及stop</span></span><br><span class="line">        <span class="comment">// 调用_renderCurrentPointer：通过createSymbol创建pointer symbol</span></span><br><span class="line">        each(</span><br><span class="line">            [<span class="string">'AxisLine'</span>, <span class="string">'AxisTick'</span>, <span class="string">'Control'</span>, <span class="string">'CurrentPointer'</span>],</span><br><span class="line">            <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">this</span>[<span class="string">'_render'</span> + name](layoutInfo, mainGroup, axis, timelineModel);</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="keyword">this</span></span><br><span class="line">        );</span><br><span class="line">        <span class="comment">// 通过graphic.Text渲染axis label</span></span><br><span class="line">        <span class="keyword">this</span>._renderAxisLabel(layoutInfo, labelGroup, axis, timelineModel);</span><br><span class="line">        <span class="keyword">this</span>._position(layoutInfo, timelineModel);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 设置定时器，实现时间轴自动播放效果</span></span><br><span class="line">    <span class="keyword">this</span>._doPlayStop();</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h1 id="原生图形组件-Graphic"><a href="#原生图形组件-Graphic" class="headerlink" title="原生图形组件 Graphic"></a>原生图形组件 Graphic</h1><h2 id="graphic-js"><a href="#graphic-js" class="headerlink" title="graphic.js"></a>graphic.js</h2><p>graphic.js文件中定义了GraphicModel以及GraphicView</p>
+<h3 id="GraphicModel"><a href="#GraphicModel" class="headerlink" title="GraphicModel"></a>GraphicModel</h3><p>GraphicModel通过extendComponentModel扩展自Component Model，重写了defaultOption属性以及mergeOption、optionUpdated等方法</p>
+<h3 id="GraphicView"><a href="#GraphicView" class="headerlink" title="GraphicView"></a>GraphicView</h3><p>GraphicView通过extendComponentView扩展自Component View，重写了init、render方法。主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">graphicModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (graphicModel !== <span class="keyword">this</span>._lastGraphicModel) &#123;</span><br><span class="line">        <span class="keyword">this</span>._clear();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>._lastGraphicModel = graphicModel;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._updateElements(graphicModel);</span><br><span class="line">    <span class="keyword">this</span>._relocate(graphicModel, api);</span><br><span class="line">&#125;</span><br><span class="line">_updateElements: <span class="function"><span class="keyword">function</span> (<span class="params">graphicModel</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> elOptionsToUpdate = graphicModel.useElOptionsToUpdate();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!elOptionsToUpdate) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> elMap = <span class="keyword">this</span>._elMap;</span><br><span class="line">    <span class="keyword">var</span> rootGroup = <span class="keyword">this</span>.group;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Top-down tranverse to assign graphic settings to each elements.</span></span><br><span class="line">    zrUtil.each(elOptionsToUpdate, <span class="function"><span class="keyword">function</span> (<span class="params">elOption</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> $action = elOption.$action;</span><br><span class="line">        <span class="keyword">var</span> id = elOption.id;</span><br><span class="line">        <span class="keyword">var</span> existEl = elMap.get(id);</span><br><span class="line">        <span class="keyword">var</span> parentId = elOption.parentId;</span><br><span class="line">        <span class="keyword">var</span> targetElParent = parentId != <span class="literal">null</span> ? elMap.get(parentId) : rootGroup;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> elOptionStyle = elOption.style;</span><br><span class="line">        <span class="keyword">if</span> (elOption.type === <span class="string">'text'</span> &amp;&amp; elOptionStyle) &#123;</span><br><span class="line">            <span class="comment">// In top/bottom mode, textVerticalAlign should not be used, which cause</span></span><br><span class="line">            <span class="comment">// inaccurately locating.</span></span><br><span class="line">            <span class="keyword">if</span> (elOption.hv &amp;&amp; elOption.hv[<span class="number">1</span>]) &#123;</span><br><span class="line">                elOptionStyle.textVerticalAlign = elOptionStyle.textBaseline = <span class="literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Compatible with previous setting: both support fill and textFill,</span></span><br><span class="line">            <span class="comment">// stroke and textStroke.</span></span><br><span class="line">            !elOptionStyle.hasOwnProperty(<span class="string">'textFill'</span>) &amp;&amp; elOptionStyle.fill &amp;&amp; (</span><br><span class="line">                elOptionStyle.textFill = elOptionStyle.fill</span><br><span class="line">            );</span><br><span class="line">            !elOptionStyle.hasOwnProperty(<span class="string">'textStroke'</span>) &amp;&amp; elOptionStyle.stroke &amp;&amp; (</span><br><span class="line">                elOptionStyle.textStroke = elOptionStyle.stroke</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Remove unnecessary props to avoid potential problems.</span></span><br><span class="line">        <span class="keyword">var</span> elOptionCleaned = getCleanedElOption(elOption);</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">// createEl：根据graphicType创建元素</span></span><br><span class="line">        <span class="keyword">if</span> (!$action || $action === <span class="string">'merge'</span>) &#123;</span><br><span class="line">            existEl</span><br><span class="line">                ? existEl.attr(elOptionCleaned)</span><br><span class="line">            : createEl(id, targetElParent, elOptionCleaned, elMap);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ($action === <span class="string">'replace'</span>) &#123;</span><br><span class="line">            removeEl(existEl, elMap);</span><br><span class="line">            createEl(id, targetElParent, elOptionCleaned, elMap);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ($action === <span class="string">'remove'</span>) &#123;</span><br><span class="line">            removeEl(existEl, elMap);</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="数据集-Dataset"><a href="#数据集-Dataset" class="headerlink" title="数据集 Dataset"></a>数据集 Dataset</h1><h2 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h2><p>dataset中定义了Model&amp;View</p>
+<ul>
+<li>Model： 通过extend方法扩展自Component Model，重写了defaultOption属性以及optionUpdated方法</li>
+<li>View： 通过extend方法扩展自Component View</li>
+</ul>
+<h1 id="图表标识-Marker"><a href="#图表标识-Marker" class="headerlink" title="图表标识 Marker"></a>图表标识 Marker</h1><h2 id="公共文件-2"><a href="#公共文件-2" class="headerlink" title="公共文件"></a>公共文件</h2><h3 id="MarkerModel"><a href="#MarkerModel" class="headerlink" title="MarkerModel"></a>MarkerModel</h3><p>MarkerModel通过extendComponentModel方法扩展自Component Model，重写了init、mergeOption、formatTooltip、getData及setData等方法</p>
+<h3 id="MarkerView"><a href="#MarkerView" class="headerlink" title="MarkerView"></a>MarkerView</h3><p>MarkerView通过extendComponentView方法扩展自Component View，重写了init、render等方法并定义了renderSeries方法（子类中重写），主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">markerModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> markerGroupMap = <span class="keyword">this</span>.markerGroupMap;</span><br><span class="line">    markerGroupMap.each(<span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</span><br><span class="line">        item.__keep = <span class="literal">false</span>;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> markerModelKey = <span class="keyword">this</span>.type + <span class="string">'Model'</span>;</span><br><span class="line">    <span class="comment">// 调用子类的renderSeries方法</span></span><br><span class="line">    ecModel.eachSeries(<span class="function"><span class="keyword">function</span> (<span class="params">seriesModel</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> markerModel = seriesModel[markerModelKey];</span><br><span class="line">        markerModel &amp;&amp; <span class="keyword">this</span>.renderSeries(seriesModel, markerModel, ecModel, api);</span><br><span class="line">    &#125;, <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    markerGroupMap.each(<span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</span><br><span class="line">        !item.__keep &amp;&amp; <span class="keyword">this</span>.group.remove(item.group);</span><br><span class="line">    &#125;, <span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="图表标线-MarkLine"><a href="#图表标线-MarkLine" class="headerlink" title="图表标线 MarkLine"></a>图表标线 MarkLine</h2><h3 id="MarkLineModel"><a href="#MarkLineModel" class="headerlink" title="MarkLineModel"></a>MarkLineModel</h3><p>MarkLineModel通过extend方法扩展自MarkerModel，重写了defaultOption属性</p>
+<h3 id="MarkLineView"><a href="#MarkLineView" class="headerlink" title="MarkLineView"></a>MarkLineView</h3><p>MarkLineView通过extend方法扩展自MarkerView，重写了renderSeries方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">renderSeries: <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel, mlModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> coordSys = seriesModel.coordinateSystem;</span><br><span class="line">    <span class="keyword">var</span> seriesId = seriesModel.id;</span><br><span class="line">    <span class="keyword">var</span> seriesData = seriesModel.getData();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> lineDrawMap = <span class="keyword">this</span>.markerGroupMap;</span><br><span class="line">    <span class="comment">// 创建LineDraw对象（绘制line）实例</span></span><br><span class="line">    <span class="keyword">var</span> lineDraw = lineDrawMap.get(seriesId)</span><br><span class="line">    || lineDrawMap.set(seriesId, <span class="keyword">new</span> LineDraw());</span><br><span class="line">    <span class="keyword">this</span>.group.add(lineDraw.group);</span><br><span class="line">    <span class="comment">// 处理data数据，并返回</span></span><br><span class="line">    <span class="keyword">var</span> mlData = createList(coordSys, seriesModel, mlModel);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> fromData = mlData.from;</span><br><span class="line">    <span class="keyword">var</span> toData = mlData.to;</span><br><span class="line">    <span class="keyword">var</span> lineData = mlData.line;</span><br><span class="line"></span><br><span class="line">    mlModel.__from = fromData;</span><br><span class="line">    mlModel.__to = toData;</span><br><span class="line">    <span class="comment">// Line data for tooltip and formatter</span></span><br><span class="line">    mlModel.setData(lineData);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> symbolType = mlModel.get(<span class="string">'symbol'</span>);</span><br><span class="line">    <span class="keyword">var</span> symbolSize = mlModel.get(<span class="string">'symbolSize'</span>);</span><br><span class="line">    <span class="keyword">if</span> (!zrUtil.isArray(symbolType)) &#123;</span><br><span class="line">        symbolType = [symbolType, symbolType];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> symbolSize === <span class="string">'number'</span>) &#123;</span><br><span class="line">        symbolSize = [symbolSize, symbolSize];</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Update visual and layout of line</span></span><br><span class="line">    lineData.each(<span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> lineColor = lineData.getItemModel(idx).get(<span class="string">'lineStyle.color'</span>);</span><br><span class="line">        lineData.setItemVisual(idx, &#123;</span><br><span class="line">            color: lineColor || fromData.getItemVisual(idx, <span class="string">'color'</span>)</span><br><span class="line">        &#125;);</span><br><span class="line">        lineData.setItemLayout(idx, [</span><br><span class="line">            fromData.getItemLayout(idx),</span><br><span class="line">            toData.getItemLayout(idx)</span><br><span class="line">        ]);</span><br><span class="line"></span><br><span class="line">        lineData.setItemVisual(idx, &#123;</span><br><span class="line">            <span class="string">'fromSymbolSize'</span>: fromData.getItemVisual(idx, <span class="string">'symbolSize'</span>),</span><br><span class="line">            <span class="string">'fromSymbol'</span>: fromData.getItemVisual(idx, <span class="string">'symbol'</span>),</span><br><span class="line">            <span class="string">'toSymbolSize'</span>: toData.getItemVisual(idx, <span class="string">'symbolSize'</span>),</span><br><span class="line">            <span class="string">'toSymbol'</span>: toData.getItemVisual(idx, <span class="string">'symbol'</span>)</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// 根据lineData绘制line</span></span><br><span class="line">    lineDraw.updateData(lineData);</span><br><span class="line">    ...</span><br><span class="line">    lineDraw.__keep = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    lineDraw.group.silent = mlModel.get(<span class="string">'silent'</span>) || seriesModel.get(<span class="string">'silent'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="图标标注-MarkPoint"><a href="#图标标注-MarkPoint" class="headerlink" title="图标标注 MarkPoint"></a>图标标注 MarkPoint</h2><h3 id="MarkPointModel"><a href="#MarkPointModel" class="headerlink" title="MarkPointModel"></a>MarkPointModel</h3><p>MarkPointModel通过extend方法扩展自MarkerModel，重写了defaultOption属性</p>
+<h3 id="MarkPointView"><a href="#MarkPointView" class="headerlink" title="MarkPointView"></a>MarkPointView</h3><p>MarkPointView通过extend方法扩展自MarkerView，重写了renderSeries方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">renderSeries: <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel, mpModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> coordSys = seriesModel.coordinateSystem;</span><br><span class="line">    <span class="keyword">var</span> seriesId = seriesModel.id;</span><br><span class="line">    <span class="keyword">var</span> seriesData = seriesModel.getData();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> symbolDrawMap = <span class="keyword">this</span>.markerGroupMap;</span><br><span class="line">    <span class="comment">// 创建SymbolDraw对象（绘制Symbol）实例</span></span><br><span class="line">    <span class="keyword">var</span> symbolDraw = symbolDrawMap.get(seriesId)</span><br><span class="line">    || symbolDrawMap.set(seriesId, <span class="keyword">new</span> SymbolDraw());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> mpData = createList(coordSys, seriesModel, mpModel);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// FIXME</span></span><br><span class="line">    mpModel.setData(mpData);</span><br><span class="line"></span><br><span class="line">    updateMarkerLayout(mpModel.getData(), seriesModel, api);</span><br><span class="line"></span><br><span class="line">    mpData.each(<span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> itemModel = mpData.getItemModel(idx);</span><br><span class="line">        <span class="keyword">var</span> symbolSize = itemModel.getShallow(<span class="string">'symbolSize'</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> symbolSize === <span class="string">'function'</span>) &#123;</span><br><span class="line">            <span class="comment">// FIXME 这里不兼容 ECharts 2.x，2.x 貌似参数是整个数据？</span></span><br><span class="line">            symbolSize = symbolSize(</span><br><span class="line">                mpModel.getRawValue(idx), mpModel.getDataParams(idx)</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">        mpData.setItemVisual(idx, &#123;</span><br><span class="line">            symbolSize: symbolSize,</span><br><span class="line">            color: itemModel.get(<span class="string">'itemStyle.color'</span>)</span><br><span class="line">            || seriesData.getVisual(<span class="string">'color'</span>),</span><br><span class="line">            symbol: itemModel.getShallow(<span class="string">'symbol'</span>)</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// mpData绘制Symbol</span></span><br><span class="line">    symbolDraw.updateData(mpData);</span><br><span class="line">    <span class="keyword">this</span>.group.add(symbolDraw.group);</span><br><span class="line">    ...</span><br><span class="line">    symbolDraw.__keep = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    symbolDraw.group.silent = mpModel.get(<span class="string">'silent'</span>) || seriesModel.get(<span class="string">'silent'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="图表标域-MarkArea"><a href="#图表标域-MarkArea" class="headerlink" title="图表标域 MarkArea"></a>图表标域 MarkArea</h2><h3 id="MarkAreaModel"><a href="#MarkAreaModel" class="headerlink" title="MarkAreaModel"></a>MarkAreaModel</h3><p>MarkAreaModel通过extend方法扩展自MarkerModel，重写了defaultOption属性</p>
+<h3 id="MarkAreaView"><a href="#MarkAreaView" class="headerlink" title="MarkAreaView"></a>MarkAreaView</h3><p>MarkAreaView通过extend方法扩展自MarkerView，重写了renderSeries方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">renderSeries: <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel, maModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> coordSys = seriesModel.coordinateSystem;</span><br><span class="line">    <span class="keyword">var</span> seriesId = seriesModel.id;</span><br><span class="line">    <span class="keyword">var</span> seriesData = seriesModel.getData();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> areaGroupMap = <span class="keyword">this</span>.markerGroupMap;</span><br><span class="line">    <span class="comment">// 创建group</span></span><br><span class="line">    <span class="keyword">var</span> polygonGroup = areaGroupMap.get(seriesId)</span><br><span class="line">    || areaGroupMap.set(seriesId, &#123;<span class="attr">group</span>: <span class="keyword">new</span> graphic.Group()&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.group.add(polygonGroup.group);</span><br><span class="line">    polygonGroup.__keep = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理数据</span></span><br><span class="line">    <span class="keyword">var</span> areaData = createList(coordSys, seriesModel, maModel);</span><br><span class="line">    ...</span><br><span class="line">    areaData.diff(polygonGroup.__data)</span><br><span class="line">        .add(<span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 通过graphic.Polygon创建元素</span></span><br><span class="line">        <span class="keyword">var</span> polygon = <span class="keyword">new</span> graphic.Polygon(&#123;</span><br><span class="line">            shape: &#123;</span><br><span class="line">                points: areaData.getItemLayout(idx)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        areaData.setItemGraphicEl(idx, polygon);</span><br><span class="line">        polygonGroup.group.add(polygon);</span><br><span class="line">    &#125;)</span><br><span class="line">        .update(<span class="function"><span class="keyword">function</span> (<span class="params">newIdx, oldIdx</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 更新</span></span><br><span class="line">        <span class="keyword">var</span> polygon = polygonGroup.__data.getItemGraphicEl(oldIdx);</span><br><span class="line">        graphic.updateProps(polygon, &#123;</span><br><span class="line">            shape: &#123;</span><br><span class="line">                points: areaData.getItemLayout(newIdx)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, maModel, newIdx);</span><br><span class="line">        polygonGroup.group.add(polygon);</span><br><span class="line">        areaData.setItemGraphicEl(newIdx, polygon);</span><br><span class="line">    &#125;)</span><br><span class="line">        .remove(<span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> polygon = polygonGroup.__data.getItemGraphicEl(idx);</span><br><span class="line">        polygonGroup.group.remove(polygon);</span><br><span class="line">    &#125;)</span><br><span class="line">        .execute();</span><br><span class="line"></span><br><span class="line">    areaData.eachItemGraphicEl(<span class="function"><span class="keyword">function</span> (<span class="params">polygon, idx</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 设置样式</span></span><br><span class="line">        <span class="keyword">var</span> itemModel = areaData.getItemModel(idx);</span><br><span class="line">        <span class="keyword">var</span> labelModel = itemModel.getModel(<span class="string">'label'</span>);</span><br><span class="line">        <span class="keyword">var</span> labelHoverModel = itemModel.getModel(<span class="string">'emphasis.label'</span>);</span><br><span class="line">        <span class="keyword">var</span> color = areaData.getItemVisual(idx, <span class="string">'color'</span>);</span><br><span class="line">        polygon.useStyle(</span><br><span class="line">            zrUtil.defaults(</span><br><span class="line">                itemModel.getModel(<span class="string">'itemStyle'</span>).getItemStyle(),</span><br><span class="line">                &#123;</span><br><span class="line">                    fill: colorUtil.modifyAlpha(color, <span class="number">0.4</span>),</span><br><span class="line">                    stroke: color</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        polygon.hoverStyle = itemModel.getModel(<span class="string">'emphasis.itemStyle'</span>).getItemStyle();</span><br><span class="line"></span><br><span class="line">        graphic.setLabelStyle(</span><br><span class="line">            polygon.style, polygon.hoverStyle, labelModel, labelHoverModel,</span><br><span class="line">            &#123;</span><br><span class="line">                labelFetcher: maModel,</span><br><span class="line">                labelDataIndex: idx,</span><br><span class="line">                defaultText: areaData.getName(idx) || <span class="string">''</span>,</span><br><span class="line">                isRectText: <span class="literal">true</span>,</span><br><span class="line">                autoColor: color</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        graphic.setHoverStyle(polygon, &#123;&#125;);</span><br><span class="line"></span><br><span class="line">        polygon.dataModel = maModel;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    polygonGroup.__data = areaData;</span><br><span class="line"></span><br><span class="line">    polygonGroup.group.silent = maModel.get(<span class="string">'silent'</span>) || seriesModel.get(<span class="string">'silent'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这篇博文简单介绍了DataZoom、VisualMap、Tooltip、Toolbox、Brush、Timeline、Graphic以及Marker等组件的渲染细节，到这里我们对于Echarts组件的渲染分析已经告一段落了，接下来我们将进入Series即图表的渲染过程分析阶段。</p>
+<p>希望能够跟小伙伴们一起进步呀！继续加油！！</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/05/23/echarts-4/">echarts源码解读《四》：echarts源码之Component分析</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 萌萌哒的邱邱邱邱 的个人博客">萌萌哒的邱邱邱邱</a></p>
+  <p><span>发布时间:</span>2019年05月23日 - 19:05</p>
+  <p><span>最后更新:</span>2019年06月06日 - 14:06</p>
+  <p><span>原始链接:</span><a href="/2019/05/23/echarts-4/" title="echarts源码解读《四》：echarts源码之Component分析">https://qiuruolin.github.io/2019/05/23/echarts-4/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2019/05/23/echarts-4/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+      
+    </div>
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-eye"></i>感谢您的阅读-------------</div>
+    
+</div>
+      </div>
+    
+    
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的支持</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/img/wechat.png" alt="萌萌哒的邱邱邱邱 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/img/alipay.png" alt="萌萌哒的邱邱邱邱 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/echarts源码解读/" rel="tag"># echarts源码解读</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/22/echarts-3/" rel="next" title="echarts源码解读《三》：echarts源码之Component分析">
+                <i class="fa fa-chevron-left"></i> echarts源码解读《三》：echarts源码之Component分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a795d51f3581934" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/img/avatar.png"
+                alt="萌萌哒的邱邱邱邱" />
+            
+              <p class="site-author-name" itemprop="name">萌萌哒的邱邱邱邱</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/qiuruolin" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1312492221@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/0725e9c8ea23" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://my.csdn.net" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#区域缩放-dataZoom"><span class="nav-number">2.</span> <span class="nav-text">区域缩放 dataZoom</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#公共文件"><span class="nav-number">2.1.</span> <span class="nav-text">公共文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DataZoomModel"><span class="nav-number">2.1.1.</span> <span class="nav-text">DataZoomModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DataZoomView"><span class="nav-number">2.1.2.</span> <span class="nav-text">DataZoomView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DataZoomAction"><span class="nav-number">2.1.3.</span> <span class="nav-text">DataZoomAction</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Slider"><span class="nav-number">2.2.</span> <span class="nav-text">Slider</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SliderZoomModel"><span class="nav-number">2.2.1.</span> <span class="nav-text">SliderZoomModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SliderZoomView"><span class="nav-number">2.2.2.</span> <span class="nav-text">SliderZoomView</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inside"><span class="nav-number">2.3.</span> <span class="nav-text">Inside</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#InsideZoomModel"><span class="nav-number">2.3.1.</span> <span class="nav-text">InsideZoomModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#InsideZoomView"><span class="nav-number">2.3.2.</span> <span class="nav-text">InsideZoomView</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#视图映射-VisualMap"><span class="nav-number">3.</span> <span class="nav-text">视图映射 VisualMap</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#公共文件-1"><span class="nav-number">3.1.</span> <span class="nav-text">公共文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VisualMapAction"><span class="nav-number">3.1.1.</span> <span class="nav-text">VisualMapAction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VisualMapModel"><span class="nav-number">3.1.2.</span> <span class="nav-text">VisualMapModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VisualMapView"><span class="nav-number">3.1.3.</span> <span class="nav-text">VisualMapView</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Continuous"><span class="nav-number">3.2.</span> <span class="nav-text">Continuous</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ContinuousModel"><span class="nav-number">3.2.1.</span> <span class="nav-text">ContinuousModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ContinuousView"><span class="nav-number">3.2.2.</span> <span class="nav-text">ContinuousView</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Piecewise"><span class="nav-number">3.3.</span> <span class="nav-text">Piecewise</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PiecewiseModel"><span class="nav-number">3.3.1.</span> <span class="nav-text">PiecewiseModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PiecewiseView"><span class="nav-number">3.3.2.</span> <span class="nav-text">PiecewiseView</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提示框-Tooltip"><span class="nav-number">4.</span> <span class="nav-text">提示框 Tooltip</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tooltip-js"><span class="nav-number">4.1.</span> <span class="nav-text">Tooltip.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TooltipModel"><span class="nav-number">4.2.</span> <span class="nav-text">TooltipModel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TooltipView"><span class="nav-number">4.3.</span> <span class="nav-text">TooltipView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工具栏-toolbox"><span class="nav-number">5.</span> <span class="nav-text">工具栏 toolbox</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ToolboxModel"><span class="nav-number">5.1.</span> <span class="nav-text">ToolboxModel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ToolboxView"><span class="nav-number">5.2.</span> <span class="nav-text">ToolboxView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Feature"><span class="nav-number">5.3.</span> <span class="nav-text">Feature</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SaveAsImage"><span class="nav-number">5.3.1.</span> <span class="nav-text">SaveAsImage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MagicType"><span class="nav-number">5.3.2.</span> <span class="nav-text">MagicType</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DataView"><span class="nav-number">5.3.3.</span> <span class="nav-text">DataView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DataZoom"><span class="nav-number">5.3.4.</span> <span class="nav-text">DataZoom</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Restore"><span class="nav-number">5.3.5.</span> <span class="nav-text">Restore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Brush"><span class="nav-number">5.3.6.</span> <span class="nav-text">Brush</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#区域选择组件-brush"><span class="nav-number">6.</span> <span class="nav-text">区域选择组件 brush</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BrushModel"><span class="nav-number">6.1.</span> <span class="nav-text">BrushModel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BrushView"><span class="nav-number">6.2.</span> <span class="nav-text">BrushView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BrushAction"><span class="nav-number">6.3.</span> <span class="nav-text">BrushAction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Brush-js"><span class="nav-number">6.4.</span> <span class="nav-text">Brush.js</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#时间轴-Timeline"><span class="nav-number">7.</span> <span class="nav-text">时间轴 Timeline</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TimelineAction"><span class="nav-number">7.1.</span> <span class="nav-text">TimelineAction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TimelineModel"><span class="nav-number">7.2.</span> <span class="nav-text">TimelineModel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TimelineView"><span class="nav-number">7.3.</span> <span class="nav-text">TimelineView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SliderTimelineModel"><span class="nav-number">7.4.</span> <span class="nav-text">SliderTimelineModel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SliderTimelineView"><span class="nav-number">7.5.</span> <span class="nav-text">SliderTimelineView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原生图形组件-Graphic"><span class="nav-number">8.</span> <span class="nav-text">原生图形组件 Graphic</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#graphic-js"><span class="nav-number">8.1.</span> <span class="nav-text">graphic.js</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GraphicModel"><span class="nav-number">8.1.1.</span> <span class="nav-text">GraphicModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GraphicView"><span class="nav-number">8.1.2.</span> <span class="nav-text">GraphicView</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据集-Dataset"><span class="nav-number">9.</span> <span class="nav-text">数据集 Dataset</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dataset"><span class="nav-number">9.1.</span> <span class="nav-text">dataset</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图表标识-Marker"><span class="nav-number">10.</span> <span class="nav-text">图表标识 Marker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#公共文件-2"><span class="nav-number">10.1.</span> <span class="nav-text">公共文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MarkerModel"><span class="nav-number">10.1.1.</span> <span class="nav-text">MarkerModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MarkerView"><span class="nav-number">10.1.2.</span> <span class="nav-text">MarkerView</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图表标线-MarkLine"><span class="nav-number">10.2.</span> <span class="nav-text">图表标线 MarkLine</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MarkLineModel"><span class="nav-number">10.2.1.</span> <span class="nav-text">MarkLineModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MarkLineView"><span class="nav-number">10.2.2.</span> <span class="nav-text">MarkLineView</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图标标注-MarkPoint"><span class="nav-number">10.3.</span> <span class="nav-text">图标标注 MarkPoint</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MarkPointModel"><span class="nav-number">10.3.1.</span> <span class="nav-text">MarkPointModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MarkPointView"><span class="nav-number">10.3.2.</span> <span class="nav-text">MarkPointView</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图表标域-MarkArea"><span class="nav-number">10.4.</span> <span class="nav-text">图表标域 MarkArea</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MarkAreaModel"><span class="nav-number">10.4.1.</span> <span class="nav-text">MarkAreaModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MarkAreaView"><span class="nav-number">10.4.2.</span> <span class="nav-text">MarkAreaView</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">11.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">萌萌哒的邱邱邱邱</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+     本页点击 <span id="busuanzi_value_page_pv"></span> 次
+  |  本站总点击 <span id="busuanzi_value_site_pv"></span> 次
+  |  您是第 <span id="busuanzi_value_site_uv"></span> 位访客
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://qiuruolin.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://qiuruolin.github.io/2019/05/23/echarts-4/';
+          this.page.identifier = '2019/05/23/echarts-4/';
+          this.page.title = 'echarts源码解读《四》：echarts源码之Component分析';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://qiuruolin.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  <script type="text/javascript" src="/js/src/particle.js" count="50" zindex="-2" opacity="1" color="0,104,183"></script>
+  <script type="text/javascript" src="/js/src/love.js"></script>
+  <script type="text/javascript" src="/js/src/dytitle.js"></script>
+</body>
+</html>
