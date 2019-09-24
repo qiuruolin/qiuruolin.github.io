@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="echarts源码解读," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在分析完echarts Component渲染过程之后，我们便开始进行echarts Series渲染过程的分析。 希望和小伙伴们一起进步呀！！加油！！  前言在这篇博文中我们将探讨line（折线图）、bar（柱状图）、pie（饼图）等Series。 用户通过传递option对象来设置相应的Series。 在这部分中echarts采用了Model以及View的架构来管理Series：  Mode">
+<meta name="keywords" content="echarts源码解读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="echarts源码解读《五》：echarts源码之Series分析">
+<meta property="og:url" content="https://qiuruolin.github.io/2019/06/06/echarts-5/index.html">
+<meta property="og:site_name" content="邱邱邱邱的学习记录">
+<meta property="og:description" content="在分析完echarts Component渲染过程之后，我们便开始进行echarts Series渲染过程的分析。 希望和小伙伴们一起进步呀！！加油！！  前言在这篇博文中我们将探讨line（折线图）、bar（柱状图）、pie（饼图）等Series。 用户通过传递option对象来设置相应的Series。 在这部分中echarts采用了Model以及View的架构来管理Series：  Mode">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-01T12:50:16.709Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="echarts源码解读《五》：echarts源码之Series分析">
+<meta name="twitter:description" content="在分析完echarts Component渲染过程之后，我们便开始进行echarts Series渲染过程的分析。 希望和小伙伴们一起进步呀！！加油！！  前言在这篇博文中我们将探讨line（折线图）、bar（柱状图）、pie（饼图）等Series。 用户通过传递option对象来设置相应的Series。 在这部分中echarts采用了Model以及View的架构来管理Series：  Mode">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://qiuruolin.github.io/2019/06/06/echarts-5/"/>
+
+
+
+
+
+  <title>echarts源码解读《五》：echarts源码之Series分析 | 邱邱邱邱的学习记录</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c6b7cb6722791755bb6aae172845cc92";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">邱邱邱邱的学习记录</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://qiuruolin.github.io/2019/06/06/echarts-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="萌萌哒的邱邱邱邱">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="邱邱邱邱的学习记录">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">echarts源码解读《五》：echarts源码之Series分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-06T14:11:13+08:00">
+                2019-06-06
+              </time>
+            
+
+            
+              <span id="busuanzi_container_page_pv">  |  阅读量 <span id="busuanzi_value_page_pv"></span> 次</span>
+            
+
+            
+
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/echarts/" itemprop="url" rel="index">
+                    <span itemprop="name">echarts</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/06/echarts-5/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/06/06/echarts-5/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>在分析完echarts Component渲染过程之后，我们便开始进行echarts Series渲染过程的分析。</p>
+<p>希望和小伙伴们一起进步呀！！加油！！</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在这篇博文中我们将探讨<strong>line（折线图）、bar（柱状图）、pie（饼图）</strong>等Series。</p>
+<p>用户通过传递option对象来设置相应的Series。</p>
+<p>在这部分中echarts采用了Model以及View的架构来管理Series：</p>
+<ul>
+<li>Model：model/Series.js 管理Series数据。</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li>View：view/Charts.js 负责渲染Chart视图，定义了init、render、highlight、downplay、remove等方法</li>
+</ul>
+<h1 id="Model层"><a href="#Model层" class="headerlink" title="Model层"></a>Model层</h1><p><strong>model/Series.js</strong>。Series通过extend方法扩展自Component Model，重写了init等方法，并定义了getData、setData、getSource、getBaseAxis等方法。</p>
+<h1 id="View层"><a href="#View层" class="headerlink" title="View层"></a>View层</h1><p><strong>view/Charts.js</strong>。Charts中定义了init、render、highlight、downplay、remove等方法。</p>
+<h1 id="Line-折线图"><a href="#Line-折线图" class="headerlink" title="Line 折线图"></a>Line 折线图</h1><h2 id="LineSeries"><a href="#LineSeries" class="headerlink" title="LineSeries"></a>LineSeries</h2><p>LineSeries通过extend方法扩展自Series Model，重写了defaultOption属性以及getInitialData方法。</p>
+<h2 id="LineView"><a href="#LineView" class="headerlink" title="LineView"></a>LineView</h2><p>LineView通过extend方法扩展自Chart View，重写了init、render、highlight及downplay等方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">init: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> lineGroup = <span class="keyword">new</span> graphic.Group();</span><br><span class="line">    <span class="comment">// 使用SymbolDraw绘制Symbol</span></span><br><span class="line">    <span class="keyword">var</span> symbolDraw = <span class="keyword">new</span> SymbolDraw();</span><br><span class="line">    <span class="keyword">this</span>.group.add(symbolDraw.group);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._symbolDraw = symbolDraw;</span><br><span class="line">    <span class="keyword">this</span>._lineGroup = lineGroup;</span><br><span class="line">&#125;,</span><br><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">        !(polyline &amp;&amp; prevCoordSys.type === coordSys.type &amp;&amp; step === <span class="keyword">this</span>._step)</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="comment">// 折线图</span></span><br><span class="line">        <span class="comment">// symbolDraw绘制symbol</span></span><br><span class="line">        showSymbol &amp;&amp; symbolDraw.updateData(data, &#123;</span><br><span class="line">            isIgnore: isIgnoreFunc,</span><br><span class="line">            <span class="comment">// createClipShape创建方法分为极坐标createPolarClipShape以及直角坐标createGridClipShape</span></span><br><span class="line">            <span class="comment">// createPolarClipShape：通过graphic.Sector创建Clip区域</span></span><br><span class="line">            <span class="comment">// createGridClipShape：通过graphic.Rect创建Clip区域</span></span><br><span class="line">            clipShape: createClipShape(coordSys, <span class="literal">false</span>, <span class="literal">true</span>, seriesModel)</span><br><span class="line">        &#125;);</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">// 通过zrender Polyline绘制折线图</span></span><br><span class="line">        polyline = <span class="keyword">this</span>._newPolyline(points, coordSys, hasAnimation);</span><br><span class="line">        <span class="keyword">if</span> (isAreaChart) &#123;</span><br><span class="line">            <span class="comment">// 通过zrender Polygon绘制折线区域</span></span><br><span class="line">            polygon = <span class="keyword">this</span>._newPolygon(</span><br><span class="line">                points, stackedOnPoints,</span><br><span class="line">                coordSys, hasAnimation</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">        lineGroup.setClipPath(createClipShape(coordSys, <span class="literal">true</span>, <span class="literal">false</span>, seriesModel));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (isAreaChart &amp;&amp; !polygon) &#123;</span><br><span class="line">            polygon = <span class="keyword">this</span>._newPolygon(</span><br><span class="line">                points, stackedOnPoints,</span><br><span class="line">                coordSys, hasAnimation</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (polygon &amp;&amp; !isAreaChart) &#123;</span><br><span class="line">            <span class="comment">// If areaStyle is removed</span></span><br><span class="line">            lineGroup.remove(polygon);</span><br><span class="line">            polygon = <span class="keyword">this</span>._polygon = <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Update clipPath</span></span><br><span class="line">        lineGroup.setClipPath(createClipShape(coordSys, <span class="literal">false</span>, <span class="literal">false</span>, seriesModel));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Always update, or it is wrong in the case turning on legend</span></span><br><span class="line">        <span class="comment">// because points are not changed</span></span><br><span class="line">        showSymbol &amp;&amp; symbolDraw.updateData(data, &#123;</span><br><span class="line">            isIgnore: isIgnoreFunc,</span><br><span class="line">            clipShape: createClipShape(coordSys, <span class="literal">false</span>, <span class="literal">true</span>, seriesModel)</span><br><span class="line">        &#125;);</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Bar-柱状图"><a href="#Bar-柱状图" class="headerlink" title="Bar 柱状图"></a>Bar 柱状图</h1><h2 id="BaseBarSeries"><a href="#BaseBarSeries" class="headerlink" title="BaseBarSeries"></a>BaseBarSeries</h2><p>BaseBarSeries通过extend方法扩展自Series Model，重写了defaultOption属性，以及getMarkerPosition和getInitialData方法。</p>
+<h2 id="BarSeries"><a href="#BarSeries" class="headerlink" title="BarSeries"></a>BarSeries</h2><p>BarSeries通过extend方法扩展自BaseBarSeries，重写了getProgressive等方法。</p>
+<h2 id="BarView"><a href="#BarView" class="headerlink" title="BarView"></a>BarView</h2><p>BarView通过extendChartView方法扩展自Chart View，重写了render等方法，主要代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 更新绘制模式</span></span><br><span class="line">    <span class="keyword">this</span>._updateDrawMode(seriesModel);</span><br><span class="line">    <span class="keyword">var</span> coordinateSystemType = seriesModel.get(<span class="string">'coordinateSystem'</span>);</span><br><span class="line">    <span class="comment">// 支持笛卡尔坐标系以及极坐标系</span></span><br><span class="line">    <span class="keyword">if</span> (coordinateSystemType === <span class="string">'cartesian2d'</span></span><br><span class="line">        || coordinateSystemType === <span class="string">'polar'</span></span><br><span class="line">       ) &#123;</span><br><span class="line">        <span class="comment">// 绘制</span></span><br><span class="line">        <span class="keyword">this</span>._isLargeDraw</span><br><span class="line">            ? <span class="keyword">this</span>._renderLarge(seriesModel, ecModel, api)</span><br><span class="line">        : <span class="keyword">this</span>._renderNormal(seriesModel, ecModel, api);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">        <span class="built_in">console</span>.warn(<span class="string">'Only cartesian2d and polar supported for bar.'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.group;</span><br><span class="line">&#125;</span><br><span class="line">_renderNormal: <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    data.diff(oldData)</span><br><span class="line">        .add(<span class="function"><span class="keyword">function</span> (<span class="params">dataIndex</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (!data.hasValue(dataIndex)) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">var</span> itemModel = data.getItemModel(dataIndex);</span><br><span class="line">        	<span class="comment">// 返回layout信息</span></span><br><span class="line">            <span class="keyword">var</span> layout = getLayout[coord.type](data, dataIndex, itemModel);</span><br><span class="line">        	<span class="comment">// 创建元素</span></span><br><span class="line">        	<span class="comment">// 通过graphic.Rect（笛卡尔坐标系）/ graphic.Sector（极坐标系）绘制柱形图</span></span><br><span class="line">            <span class="keyword">var</span> el = elementCreator[coord.type](</span><br><span class="line">                data, dataIndex, itemModel, layout, isHorizontalOrRadial, animationModel</span><br><span class="line">            );</span><br><span class="line">            data.setItemGraphicEl(dataIndex, el);</span><br><span class="line">            group.add(el);</span><br><span class="line">            updateStyle(</span><br><span class="line">                el, data, dataIndex, itemModel, layout,</span><br><span class="line">                seriesModel, isHorizontalOrRadial, coord.type === <span class="string">'polar'</span></span><br><span class="line">            );</span><br><span class="line">    	&#125;)</span><br><span class="line">        .update(<span class="function"><span class="keyword">function</span> (<span class="params">newIndex, oldIndex</span>) </span>&#123;</span><br><span class="line">        	<span class="comment">// 更新元素</span></span><br><span class="line">            <span class="keyword">var</span> el = oldData.getItemGraphicEl(oldIndex);</span><br><span class="line">        	...</span><br><span class="line">            <span class="keyword">if</span> (el) &#123;</span><br><span class="line">                graphic.updateProps(el, &#123;<span class="attr">shape</span>: layout&#125;, animationModel, newIndex);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                el = elementCreator[coord.type](</span><br><span class="line">                    data, newIndex, itemModel, layout, isHorizontalOrRadial, animationModel, <span class="literal">true</span></span><br><span class="line">                );</span><br><span class="line">            &#125;</span><br><span class="line">        	...</span><br><span class="line">    	&#125;)</span><br><span class="line">        .remove(<span class="function"><span class="keyword">function</span> (<span class="params">dataIndex</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> el = oldData.getItemGraphicEl(dataIndex);</span><br><span class="line">            <span class="keyword">if</span> (coord.type === <span class="string">'cartesian2d'</span>) &#123;</span><br><span class="line">                el &amp;&amp; removeRect(dataIndex, animationModel, el);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                el &amp;&amp; removeSector(dataIndex, animationModel, el);</span><br><span class="line">            &#125;</span><br><span class="line">    	&#125;)</span><br><span class="line">        .execute();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._data = data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Pie-饼图"><a href="#Pie-饼图" class="headerlink" title="Pie 饼图"></a>Pie 饼图</h1><h2 id="Pie-js"><a href="#Pie-js" class="headerlink" title="Pie.js"></a>Pie.js</h2><p>pie.js中注册了pieToggleSelect、pieSelect、pieUnSelect等Action</p>
+<h2 id="PieSeries"><a href="#PieSeries" class="headerlink" title="PieSeries"></a>PieSeries</h2><p>PieSeries通过extendSeriesModel方法扩展自Series Model，重写了defaultOption属性，以及init、mergeOption、getInitialData等方法。</p>
+<h2 id="PieView"><a href="#PieView" class="headerlink" title="PieView"></a>PieView</h2><p>PieView通过extend方法扩展自Chart View，重写了init、render等方法，主要实现如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel, ecModel, api, payload</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">var</span> onSectorClick = zrUtil.curry(</span><br><span class="line">        updateDataSelected, <span class="keyword">this</span>.uid, seriesModel, hasAnimation, api</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> selectedMode = seriesModel.get(<span class="string">'selectedMode'</span>);</span><br><span class="line"></span><br><span class="line">    data.diff(oldData)</span><br><span class="line">        .add(<span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">        	<span class="comment">// 添加</span></span><br><span class="line">        	<span class="comment">// PiePiece通过graphic.Sector、graphic.Polyline及graphic.Text绘制饼图的每一块扇形</span></span><br><span class="line">        	<span class="comment">// 并绑定了emphasis、mouseover、mouseout等处理器</span></span><br><span class="line">            <span class="keyword">var</span> piePiece = <span class="keyword">new</span> PiePiece(data, idx);</span><br><span class="line">            <span class="comment">// Default expansion animation</span></span><br><span class="line">            <span class="keyword">if</span> (isFirstRender &amp;&amp; animationType !== <span class="string">'scale'</span>) &#123;</span><br><span class="line">                piePiece.eachChild(<span class="function"><span class="keyword">function</span> (<span class="params">child</span>) </span>&#123;</span><br><span class="line">                    child.stopAnimation(<span class="literal">true</span>);</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        	<span class="comment">// 绑定点击事件处理器</span></span><br><span class="line">            selectedMode &amp;&amp; piePiece.on(<span class="string">'click'</span>, onSectorClick);</span><br><span class="line"></span><br><span class="line">            data.setItemGraphicEl(idx, piePiece);</span><br><span class="line"></span><br><span class="line">            group.add(piePiece);</span><br><span class="line">    	&#125;)</span><br><span class="line">        .update(<span class="function"><span class="keyword">function</span> (<span class="params">newIdx, oldIdx</span>) </span>&#123;</span><br><span class="line">        	<span class="comment">// 更新</span></span><br><span class="line">            <span class="keyword">var</span> piePiece = oldData.getItemGraphicEl(oldIdx);</span><br><span class="line"></span><br><span class="line">            piePiece.updateData(data, newIdx);</span><br><span class="line"></span><br><span class="line">            piePiece.off(<span class="string">'click'</span>);</span><br><span class="line">            selectedMode &amp;&amp; piePiece.on(<span class="string">'click'</span>, onSectorClick);</span><br><span class="line">            group.add(piePiece);</span><br><span class="line">            data.setItemGraphicEl(newIdx, piePiece);</span><br><span class="line">        &#125;)</span><br><span class="line">        .remove(<span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> piePiece = oldData.getItemGraphicEl(idx);</span><br><span class="line">            group.remove(piePiece);</span><br><span class="line">        &#125;)</span><br><span class="line">        .execute();</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">this</span>._data = data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="PieLayout"><a href="#PieLayout" class="headerlink" title="PieLayout"></a>PieLayout</h2><p>PieLayout为饼图的布局文件，通过setItemLayout方法来设置每个Sector绘制的属性信息，包括angle、startAngle、endAngle、cx、cy等。</p>
+<h2 id="LabelLayout"><a href="#LabelLayout" class="headerlink" title="LabelLayout"></a>LabelLayout</h2><p>LabelLayout用于设置饼图中每个Sector的label属性信息，包括x、y、position、height等。</p>
+<h1 id="Scatter-散点图"><a href="#Scatter-散点图" class="headerlink" title="Scatter 散点图"></a>Scatter 散点图</h1><h2 id="ScatterSeries"><a href="#ScatterSeries" class="headerlink" title="ScatterSeries"></a>ScatterSeries</h2><p>ScatterSeries通过extend方法扩展自Series Model，重写了defaultOption属性以及getInitialData等方法。</p>
+<h2 id="ScatterView"><a href="#ScatterView" class="headerlink" title="ScatterView"></a>ScatterView</h2><p>ScatterView通过extendChartView方法扩展自Chart View，重写了render、updateTransform等方法，主要实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> data = seriesModel.getData();</span><br><span class="line">    <span class="comment">// 绘制散点图symbol</span></span><br><span class="line">    <span class="comment">// 通过SymbolDraw/LargeSymbolDraw绘制</span></span><br><span class="line">    <span class="keyword">var</span> symbolDraw = <span class="keyword">this</span>._updateSymbolDraw(data, seriesModel);</span><br><span class="line">    symbolDraw.updateData(data);</span><br><span class="line">    <span class="keyword">this</span>._finished = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line">_updateSymbolDraw: <span class="function"><span class="keyword">function</span> (<span class="params">data, seriesModel</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> symbolDraw = <span class="keyword">this</span>._symbolDraw;</span><br><span class="line">    <span class="keyword">var</span> pipelineContext = seriesModel.pipelineContext;</span><br><span class="line">    <span class="keyword">var</span> isLargeDraw = pipelineContext.large;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!symbolDraw || isLargeDraw !== <span class="keyword">this</span>._isLargeDraw) &#123;</span><br><span class="line">        symbolDraw &amp;&amp; symbolDraw.remove();</span><br><span class="line">        symbolDraw = <span class="keyword">this</span>._symbolDraw = isLargeDraw</span><br><span class="line">            ? <span class="keyword">new</span> LargeSymbolDraw()</span><br><span class="line">        : <span class="keyword">new</span> SymbolDraw();</span><br><span class="line">        <span class="keyword">this</span>._isLargeDraw = isLargeDraw;</span><br><span class="line">        <span class="keyword">this</span>.group.removeAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.group.add(symbolDraw.group);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> symbolDraw;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="EffectScatter-带涟漪效果的散点图"><a href="#EffectScatter-带涟漪效果的散点图" class="headerlink" title="EffectScatter 带涟漪效果的散点图"></a>EffectScatter 带涟漪效果的散点图</h1><h2 id="EffectScatterSeries"><a href="#EffectScatterSeries" class="headerlink" title="EffectScatterSeries"></a>EffectScatterSeries</h2><p>EffectScatterSeries通过extend方法扩展自Series Model，重写了defaultOption属性以及getInitialData方法。</p>
+<h2 id="EffectScatterView"><a href="#EffectScatterView" class="headerlink" title="EffectScatterView"></a>EffectScatterView</h2><p>EffectScatterView通过extendChartView方法扩展自Chart View，重写了init、render等方法，主要实现如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> data = seriesModel.getData();</span><br><span class="line">    <span class="comment">// 通过SymbolDraw绘制symbol</span></span><br><span class="line">    <span class="keyword">var</span> effectSymbolDraw = <span class="keyword">this</span>._symbolDraw;</span><br><span class="line">    <span class="comment">// SymbolCtr为EffectSymbol对象实例</span></span><br><span class="line">    effectSymbolDraw.updateData(data);</span><br><span class="line">    <span class="keyword">this</span>.group.add(effectSymbolDraw.group);</span><br><span class="line">&#125;</span><br><span class="line">effectSymbolProto.updateData = <span class="function"><span class="keyword">function</span> (<span class="params">data, idx</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">var</span> effectCfg = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    effectCfg.showEffectOn = seriesModel.get(<span class="string">'showEffectOn'</span>);</span><br><span class="line">    effectCfg.rippleScale = itemModel.get(<span class="string">'rippleEffect.scale'</span>);</span><br><span class="line">    effectCfg.brushType = itemModel.get(<span class="string">'rippleEffect.brushType'</span>);</span><br><span class="line">    effectCfg.period = itemModel.get(<span class="string">'rippleEffect.period'</span>) * <span class="number">1000</span>;</span><br><span class="line">    effectCfg.effectOffset = idx / data.count();</span><br><span class="line">    effectCfg.z = itemModel.getShallow(<span class="string">'z'</span>) || <span class="number">0</span>;</span><br><span class="line">    effectCfg.zlevel = itemModel.getShallow(<span class="string">'zlevel'</span>) || <span class="number">0</span>;</span><br><span class="line">    effectCfg.symbolType = symbolType;</span><br><span class="line">    effectCfg.color = color;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.off(<span class="string">'mouseover'</span>).off(<span class="string">'mouseout'</span>).off(<span class="string">'emphasis'</span>).off(<span class="string">'normal'</span>);</span><br><span class="line">    <span class="comment">// 设置或更新effectScatter 动画</span></span><br><span class="line">    <span class="comment">// 通过util中的crateSymbol创建symbol以及scale缩放来实现涟漪效果</span></span><br><span class="line">    <span class="keyword">if</span> (effectCfg.showEffectOn === <span class="string">'render'</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>._effectCfg</span><br><span class="line">            ? <span class="keyword">this</span>.updateEffectAnimation(effectCfg)</span><br><span class="line">            : <span class="keyword">this</span>.startEffectAnimation(effectCfg);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>._effectCfg = effectCfg;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">this</span>._effectCfg = effectCfg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Radar-雷达图"><a href="#Radar-雷达图" class="headerlink" title="Radar 雷达图"></a>Radar 雷达图</h1><h2 id="RadarSeries"><a href="#RadarSeries" class="headerlink" title="RadarSeries"></a>RadarSeries</h2><p>RadarSeries通过extend方法扩展自Series Model，重写了defaultOption属性以及init、getInitialData、formatTooltip方法。</p>
+<h2 id="RadarView"><a href="#RadarView" class="headerlink" title="RadarView"></a>RadarView</h2><p>RadarView通过extendChartView方法扩展自Chart View，重写了render方法，主要实现如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel, ecModel, api</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    data.diff(oldData)</span><br><span class="line">        .add(<span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> points = data.getItemLayout(idx);</span><br><span class="line">            <span class="keyword">if</span> (!points) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">var</span> polygon = <span class="keyword">new</span> graphic.Polygon();</span><br><span class="line">            <span class="keyword">var</span> polyline = <span class="keyword">new</span> graphic.Polyline();</span><br><span class="line">            <span class="keyword">var</span> target = &#123;</span><br><span class="line">                shape: &#123;</span><br><span class="line">                    points: points</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            polygon.shape.points = getInitialPoints(points);</span><br><span class="line">            polyline.shape.points = getInitialPoints(points);</span><br><span class="line">            graphic.initProps(polygon, target, seriesModel, idx);</span><br><span class="line">            graphic.initProps(polyline, target, seriesModel, idx);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> itemGroup = <span class="keyword">new</span> graphic.Group();</span><br><span class="line">            <span class="keyword">var</span> symbolGroup = <span class="keyword">new</span> graphic.Group();</span><br><span class="line">            itemGroup.add(polyline);</span><br><span class="line">            itemGroup.add(polygon);</span><br><span class="line">            itemGroup.add(symbolGroup);</span><br><span class="line">        	<span class="comment">// 更新symbol</span></span><br><span class="line">        	<span class="comment">// 通过symbolUtil.createSymbol创建symbol</span></span><br><span class="line">            updateSymbols(</span><br><span class="line">                polyline.shape.points, points, symbolGroup, data, idx, <span class="literal">true</span></span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">            data.setItemGraphicEl(idx, itemGroup);</span><br><span class="line">        &#125;)</span><br><span class="line">        .update(<span class="function"><span class="keyword">function</span> (<span class="params">newIdx, oldIdx</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> itemGroup = oldData.getItemGraphicEl(oldIdx);</span><br><span class="line">            <span class="keyword">var</span> polyline = itemGroup.childAt(<span class="number">0</span>);</span><br><span class="line">            <span class="keyword">var</span> polygon = itemGroup.childAt(<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">var</span> symbolGroup = itemGroup.childAt(<span class="number">2</span>);</span><br><span class="line">            <span class="keyword">var</span> target = &#123;</span><br><span class="line">                shape: &#123;</span><br><span class="line">                    points: data.getItemLayout(newIdx)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="keyword">if</span> (!target.shape.points) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            updateSymbols(</span><br><span class="line">                polyline.shape.points, target.shape.points, symbolGroup, data, newIdx, <span class="literal">false</span></span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">            graphic.updateProps(polyline, target, seriesModel);</span><br><span class="line">            graphic.updateProps(polygon, target, seriesModel);</span><br><span class="line"></span><br><span class="line">            data.setItemGraphicEl(newIdx, itemGroup);</span><br><span class="line">        &#125;)</span><br><span class="line">        .remove(<span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">            group.remove(oldData.getItemGraphicEl(idx));</span><br><span class="line">        &#125;)</span><br><span class="line">        .execute();</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._data = data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="RadarLayout"><a href="#RadarLayout" class="headerlink" title="RadarLayout"></a>RadarLayout</h2><p>RadarLayout主要用于处理data数据，返回坐标信息。</p>
+<h1 id="Tree-树图"><a href="#Tree-树图" class="headerlink" title="Tree 树图"></a>Tree 树图</h1><h2 id="TreeAction"><a href="#TreeAction" class="headerlink" title="TreeAction"></a>TreeAction</h2><p>TreeAction注册了treeRoam及treeExpandAndCollapse等Action。</p>
+<h2 id="TreeSeries"><a href="#TreeSeries" class="headerlink" title="TreeSeries"></a>TreeSeries</h2><p>TreeSeries通过extend方法扩展自Series Model，重写了defaultOption属性以及getInitialData、getOrient、setZoom、setCenter、formatTooltip等方法。</p>
+<h2 id="TreeLayout"><a href="#TreeLayout" class="headerlink" title="TreeLayout"></a>TreeLayout</h2><p>TreeLayout处理data数据，返回layout属性信息。</p>
+<h2 id="TreeView"><a href="#TreeView" class="headerlink" title="TreeView"></a>TreeView</h2><p>TreeView通过extendChartView方法扩展自Chart View，重写了init、render等方法，主要实现如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel, ecModel, api, payload</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 更新坐标系以及控制器</span></span><br><span class="line">    <span class="keyword">this</span>._updateViewCoordSys(seriesModel);</span><br><span class="line">    <span class="keyword">this</span>._updateController(seriesModel, ecModel, api);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> oldData = <span class="keyword">this</span>._data;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> seriesScope = &#123;</span><br><span class="line">        expandAndCollapse: seriesModel.get(<span class="string">'expandAndCollapse'</span>),</span><br><span class="line">        layout: layout,</span><br><span class="line">        orient: seriesModel.getOrient(),</span><br><span class="line">        curvature: seriesModel.get(<span class="string">'lineStyle.curveness'</span>),</span><br><span class="line">        symbolRotate: seriesModel.get(<span class="string">'symbolRotate'</span>),</span><br><span class="line">        symbolOffset: seriesModel.get(<span class="string">'symbolOffset'</span>),</span><br><span class="line">        hoverAnimation: seriesModel.get(<span class="string">'hoverAnimation'</span>),</span><br><span class="line">        useNameLabel: <span class="literal">true</span>,</span><br><span class="line">        fadeIn: <span class="literal">true</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    data.diff(oldData)</span><br><span class="line">        .add(<span class="function"><span class="keyword">function</span> (<span class="params">newIdx</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (symbolNeedsDraw(data, newIdx)) &#123;</span><br><span class="line">                <span class="comment">// 创建节点以及连线</span></span><br><span class="line">                <span class="comment">// 通过SymbolCtr来绘制symbol</span></span><br><span class="line">                <span class="comment">// 通过graphic.BezierCurve来绘制节点间的连线</span></span><br><span class="line">                updateNode(data, newIdx, <span class="literal">null</span>, group, seriesModel, seriesScope);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .update(<span class="function"><span class="keyword">function</span> (<span class="params">newIdx, oldIdx</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> symbolEl = oldData.getItemGraphicEl(oldIdx);</span><br><span class="line">            <span class="keyword">if</span> (!symbolNeedsDraw(data, newIdx)) &#123;</span><br><span class="line">                symbolEl &amp;&amp; removeNode(oldData, oldIdx, symbolEl, group, seriesModel, seriesScope);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 更新</span></span><br><span class="line">            updateNode(data, newIdx, symbolEl, group, seriesModel, seriesScope);</span><br><span class="line">        &#125;)</span><br><span class="line">        .remove(<span class="function"><span class="keyword">function</span> (<span class="params">oldIdx</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> symbolEl = oldData.getItemGraphicEl(oldIdx);</span><br><span class="line">            <span class="keyword">if</span> (symbolEl) &#123;</span><br><span class="line">                removeNode(oldData, oldIdx, symbolEl, group, seriesModel, seriesScope);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .execute();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._nodeScaleRatio = seriesModel.get(<span class="string">'nodeScaleRatio'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>._updateNodeAndLinkScale(seriesModel);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 绑定节点click事件处理器，实现节点展开/收起效果</span></span><br><span class="line">    <span class="keyword">if</span> (seriesScope.expandAndCollapse === <span class="literal">true</span>) &#123;</span><br><span class="line">        data.eachItemGraphicEl(<span class="function"><span class="keyword">function</span> (<span class="params">el, dataIndex</span>) </span>&#123;</span><br><span class="line">            el.off(<span class="string">'click'</span>).on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                api.dispatchAction(&#123;</span><br><span class="line">                    type: <span class="string">'treeExpandAndCollapse'</span>,</span><br><span class="line">                    seriesId: seriesModel.id,</span><br><span class="line">                    dataIndex: dataIndex</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>._data = data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="TreeMap-面积树状图"><a href="#TreeMap-面积树状图" class="headerlink" title="TreeMap 面积树状图"></a>TreeMap 面积树状图</h1><h2 id="TreemapAction"><a href="#TreemapAction" class="headerlink" title="TreemapAction"></a>TreemapAction</h2><p>TreemapAction注册了treemapZoomToNode、treemapRender、treemapMove、treemapRootToNode等Action。</p>
+<h2 id="TreemapSeries"><a href="#TreemapSeries" class="headerlink" title="TreemapSeries"></a>TreemapSeries</h2><p>TreemapSeries通过extend方法扩展自Series Model，重写了defaultOption属性以及getInitialData、formatTooltip等方法。</p>
+<h2 id="TreemapView"><a href="#TreemapView" class="headerlink" title="TreemapView"></a>TreemapView</h2><p>TreemapView通过extendChartView方法扩展自Chart View，重写了init、render等方法，主要实现如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">seriesModel, ecModel, api, payload</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">var</span> renderResult = <span class="keyword">this</span>._doRender(containerGroup, seriesModel, reRoot);</span><br><span class="line">    (</span><br><span class="line">        !isInit &amp;&amp; (</span><br><span class="line">            !payloadType</span><br><span class="line">            || payloadType === <span class="string">'treemapZoomToNode'</span></span><br><span class="line">            || payloadType === <span class="string">'treemapRootToNode'</span></span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">_doRender: <span class="function"><span class="keyword">function</span> (<span class="params">containerGroup, seriesModel, reRoot</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> thisTree = seriesModel.getData().tree;</span><br><span class="line">    <span class="keyword">var</span> oldTree = <span class="keyword">this</span>._oldTree;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> lastsForAnimation = createStorage();</span><br><span class="line">    <span class="keyword">var</span> thisStorage = createStorage();</span><br><span class="line">    <span class="keyword">var</span> oldStorage = <span class="keyword">this</span>._storage;</span><br><span class="line">    <span class="keyword">var</span> willInvisibleEls = [];</span><br><span class="line">    <span class="comment">// renderNode创建Node</span></span><br><span class="line">    <span class="comment">// 通过graphic.Rect绘制</span></span><br><span class="line">    <span class="keyword">var</span> doRenderNode = zrUtil.curry(</span><br><span class="line">        renderNode, seriesModel,</span><br><span class="line">        thisStorage, oldStorage, reRoot,</span><br><span class="line">        lastsForAnimation, willInvisibleEls</span><br><span class="line">    );</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        lastsForAnimation: lastsForAnimation,</span><br><span class="line">        willDeleteEls: willDeleteEls,</span><br><span class="line">        renderFinally: renderFinally</span><br><span class="line">    &#125;;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/06/06/echarts-5/">echarts源码解读《五》：echarts源码之Series分析</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 萌萌哒的邱邱邱邱 的个人博客">萌萌哒的邱邱邱邱</a></p>
+  <p><span>发布时间:</span>2019年06月06日 - 14:06</p>
+  <p><span>最后更新:</span>2019年07月01日 - 20:07</p>
+  <p><span>原始链接:</span><a href="/2019/06/06/echarts-5/" title="echarts源码解读《五》：echarts源码之Series分析">https://qiuruolin.github.io/2019/06/06/echarts-5/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://qiuruolin.github.io/2019/06/06/echarts-5/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+      
+    </div>
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-eye"></i>感谢您的阅读-------------</div>
+    
+</div>
+      </div>
+    
+    
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的支持</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/img/wechat.png" alt="萌萌哒的邱邱邱邱 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/img/alipay.png" alt="萌萌哒的邱邱邱邱 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/echarts源码解读/" rel="tag"># echarts源码解读</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/23/echarts-4/" rel="next" title="echarts源码解读《四》：echarts源码之Component分析">
+                <i class="fa fa-chevron-left"></i> echarts源码解读《四》：echarts源码之Component分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a795d51f3581934" async = "async" ></script>
+</div>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/img/avatar.png"
+                alt="萌萌哒的邱邱邱邱" />
+            
+              <p class="site-author-name" itemprop="name">萌萌哒的邱邱邱邱</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/qiuruolin" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1312492221@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/0725e9c8ea23" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://my.csdn.net" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Model层"><span class="nav-number">2.</span> <span class="nav-text">Model层</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View层"><span class="nav-number">3.</span> <span class="nav-text">View层</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Line-折线图"><span class="nav-number">4.</span> <span class="nav-text">Line 折线图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LineSeries"><span class="nav-number">4.1.</span> <span class="nav-text">LineSeries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LineView"><span class="nav-number">4.2.</span> <span class="nav-text">LineView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bar-柱状图"><span class="nav-number">5.</span> <span class="nav-text">Bar 柱状图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BaseBarSeries"><span class="nav-number">5.1.</span> <span class="nav-text">BaseBarSeries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BarSeries"><span class="nav-number">5.2.</span> <span class="nav-text">BarSeries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BarView"><span class="nav-number">5.3.</span> <span class="nav-text">BarView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pie-饼图"><span class="nav-number">6.</span> <span class="nav-text">Pie 饼图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pie-js"><span class="nav-number">6.1.</span> <span class="nav-text">Pie.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PieSeries"><span class="nav-number">6.2.</span> <span class="nav-text">PieSeries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PieView"><span class="nav-number">6.3.</span> <span class="nav-text">PieView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PieLayout"><span class="nav-number">6.4.</span> <span class="nav-text">PieLayout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LabelLayout"><span class="nav-number">6.5.</span> <span class="nav-text">LabelLayout</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Scatter-散点图"><span class="nav-number">7.</span> <span class="nav-text">Scatter 散点图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ScatterSeries"><span class="nav-number">7.1.</span> <span class="nav-text">ScatterSeries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ScatterView"><span class="nav-number">7.2.</span> <span class="nav-text">ScatterView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EffectScatter-带涟漪效果的散点图"><span class="nav-number">8.</span> <span class="nav-text">EffectScatter 带涟漪效果的散点图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#EffectScatterSeries"><span class="nav-number">8.1.</span> <span class="nav-text">EffectScatterSeries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EffectScatterView"><span class="nav-number">8.2.</span> <span class="nav-text">EffectScatterView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Radar-雷达图"><span class="nav-number">9.</span> <span class="nav-text">Radar 雷达图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RadarSeries"><span class="nav-number">9.1.</span> <span class="nav-text">RadarSeries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RadarView"><span class="nav-number">9.2.</span> <span class="nav-text">RadarView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RadarLayout"><span class="nav-number">9.3.</span> <span class="nav-text">RadarLayout</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tree-树图"><span class="nav-number">10.</span> <span class="nav-text">Tree 树图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TreeAction"><span class="nav-number">10.1.</span> <span class="nav-text">TreeAction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TreeSeries"><span class="nav-number">10.2.</span> <span class="nav-text">TreeSeries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TreeLayout"><span class="nav-number">10.3.</span> <span class="nav-text">TreeLayout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TreeView"><span class="nav-number">10.4.</span> <span class="nav-text">TreeView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeMap-面积树状图"><span class="nav-number">11.</span> <span class="nav-text">TreeMap 面积树状图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TreemapAction"><span class="nav-number">11.1.</span> <span class="nav-text">TreemapAction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TreemapSeries"><span class="nav-number">11.2.</span> <span class="nav-text">TreemapSeries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TreemapView"><span class="nav-number">11.3.</span> <span class="nav-text">TreemapView</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">萌萌哒的邱邱邱邱</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+     本页点击 <span id="busuanzi_value_page_pv"></span> 次
+  |  本站总点击 <span id="busuanzi_value_site_pv"></span> 次
+  |  您是第 <span id="busuanzi_value_site_uv"></span> 位访客
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+</script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://qiuruolin.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://qiuruolin.github.io/2019/06/06/echarts-5/';
+          this.page.identifier = '2019/06/06/echarts-5/';
+          this.page.title = 'echarts源码解读《五》：echarts源码之Series分析';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://qiuruolin.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+
+  <script type="text/javascript" src="/js/src/particle.js" count="50" zindex="-2" opacity="1" color="0,104,183"></script>
+  <script type="text/javascript" src="/js/src/love.js"></script>
+  <script type="text/javascript" src="/js/src/dytitle.js"></script>
+</body>
+</html>
